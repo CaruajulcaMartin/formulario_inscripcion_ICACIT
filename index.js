@@ -31,7 +31,7 @@ function updateProgress(index) {
 }
 
 // Inicializar la primera sección visible
-// showSection(currentSection);
+showSection(currentSection);
 
 //funciones para generar vista previa y envio de datos
 // document.getElementById("registrationForm").addEventListener("submit", function(event) {
