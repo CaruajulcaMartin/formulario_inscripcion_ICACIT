@@ -99,3 +99,42 @@ function eliminarFila(boton) {
     let fila = boton.parentElement.parentElement;
     fila.remove();
 }
+
+//script para mostrar los cursos o seminarios agregados
+function agregarCursos() {
+    //obtener los datos
+    let año = document.getElementById("añoCertificado").value;
+    let institucion = document.getElementById("institucion").value;
+    let cursoSeminario = document.getElementById("cursoSeminario").value;
+    let duracion = document.getElementById("duracion").value;
+
+    //validar que los campos esten llenos
+    if (año === "" || institucion === "" || cursoSeminario === "" || duracion === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaCursos");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${año}</td>
+        <td>${institucion}</td>
+        <td>${cursoSeminario}</td>
+        <td>${duracion}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("añoCertificado").value = "";
+    document.getElementById("institucion").value = "";
+    document.getElementById("cursoSeminario").value = "";
+    document.getElementById("duracion").value = "";
+}
+
+function eliminarFila(boton) {
+    let fila = boton.parentElement.parentElement;
+    fila.remove();
+}

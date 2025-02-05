@@ -177,10 +177,11 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Institución Educativa:</label>
-                        <input type="text" class="form-control" name="institucionEducativa" id="institucionEducativa" required>
+                        <input type="text" class="form-control" name="institucionEducativa" id="institucionEducativa"
+                            required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label" >País:</label>
+                        <label class="form-label">País:</label>
                         <input type="text" class="form-control" name="pais" id="pais" required>
                     </div>
                     <div class="col-md-3">
@@ -191,11 +192,13 @@
                         <label class="form-label">Grado Obtenido:</label>
                         <input type="text" class="form-control" name="gradoOtenido" id="gradoObtenido" required>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="form-label">Año de Graduación:</label>
-                        <input type="number" class="form-control" name="añoGraduacion" id="añoGraduacion" min="1900" max="2099" step="1"
-                            required>
+                        <input type="number" class="form-control" name="añoGraduacion" id="añoGraduacion" min="1900"
+                            max="2099" step="1" required>
                     </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
                         <button type="button" class="btn btn-success" onclick="agregarFormacion()"><i
                                 class="fa-solid fa-plus"></i></button>
@@ -260,6 +263,8 @@
                             <option>Avanzado</option>
                         </select>
                     </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
                         <button type="button" class="btn btn-success" onclick="agregarIdioma()"><i
                                 class="fa-solid fa-plus"></i></button>
@@ -280,6 +285,57 @@
                     </tbody>
                 </table>
 
+
+                <div class="section-title">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <h4>Cursos y Seminarios</h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-2">
+                        <label class="form-label">Año:<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="añoCertificado" id="añoCertificado" min="1900"
+                            max="2099" step="1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Institución:</label>
+                        <input type="text" class="form-control" name="institucion" id="institucion" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Nombre del Curso o Seminario:</label>
+                        <input type="text" class="form-control" name="cursoSeminario" id="cursoSeminario" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Duración:</label>
+                        <input type="number" class="form-control" name="duracion" id="duracion" min="8"
+                            max="360" step="1" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarCursos()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+
+                    <div class="form-text">
+                        <b>Nota:</b> En este seccion se agregaran los cursos y seminarios relacionados a su Campo Profesional, Ámbito Academico y Ámbito de Evaluacion con fines de Acreditación.
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Año</th>
+                            <th scope="col">Institución</th>
+                            <th scope="col">Curso o Seminario</th>
+                            <th scope="col">Duración</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCursos">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
                 <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
             </div>
@@ -288,7 +344,6 @@
     </main>
     <script src="/scripts/index.js"></script>
     <script src="/scripts/formFunctions.js"></script>
-    <script src="/services/servicios.js"></script>
 </body>
 
 </html>
