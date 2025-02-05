@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+
+* {
+    font-family: "nunito", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.header {
+    /*display: flex;
+    justify-content: space-around;
+    align-items: center;*/
+    padding: 20px;
+
+    h1{
+        font-size: 40px;
+        font-weight: 600;
+        text-align: center;
+        color: #002060;
+        margin-bottom: 20px;
+    }
+}
+
+.section-title{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #c2e3f5;
+    border-radius: 15px;
+    padding: 8px;
+    font-size: 20px;
+    color: #002060;
+
+    h2{
+        margin: 0;
+        font-size: 20px;
+    }
+}
+
+.formulario{
+    padding-top: 20px;
+}
