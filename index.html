@@ -36,7 +36,7 @@
                     <h2>Información Personal</h2>
                 </div>
 
-                <form class="row g-3 formulario">
+                <form action="#" class="row g-3 formulario">
                     <div class="col-md-4">
                         <label class="form-label">Nombre Completo:</label>
                         <input type="text" class="form-control" name="nombres" required>
@@ -102,6 +102,49 @@
                         <input type="file" name="foto" accept="image/*" class="form-control">
                     </div>
                 </form>
+
+                <div class="section-title">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h2>Datos Domiciliarios</h2>
+                </div>
+
+                <form action="#" class="row g-3 formulario">
+                    <div class="input-group grupo">
+                        <div class="col-md-2">
+                            <label class="form-label">Tipo de Dirección:</label>
+                            <select class="form-select">
+                                <option selected>--Seleccionar--</option>
+                                <option>Avenida</option>
+                                <option>Calle</option>
+                                <option>Jiron</option>
+                                <option>Pasaje</option>
+                                <option>otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Dirección:</label>
+                            <input type="text" class="form-control" name="nombres" required>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label class="form-label">País:</label>
+                        <input type="text" class="form-control" name="nombres" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Región:</label>
+                        <input type="text" class="form-control" name="nombres" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Provincia:</label>
+                        <input type="text" class="form-control" name="nombres" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Distrito:</label>
+                        <input type="text" class="form-control" name="nombres" required>
+                    </div>
+                </form>
+
                 <button type="button" class="btn btn-primary mt-3" onclick="nextSection()">Siguiente</button>
             </div>
 
