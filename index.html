@@ -16,19 +16,21 @@
 
 <body>
     <header class="container header">
+        <img src="/ICACIT_2025.jpg" alt="">
         <h1 class="title">Formulario de Inscripción - Evaluador ICACIT</h1>
+    </header>
+
+    <main class="container main">
         <!-- Barra de progreso -->
         <div class="progress mb-4">
             <div id="progressBar" class="progress-bar" role="progressbar" style="width: 14%" aria-valuenow="14"
                 aria-valuemin="0" aria-valuemax="100">Paso 1 de 7</div>
         </div>
-    </header>
 
-    <main class="container main">
         <section class="formSection">
 
             <!-- seccion 1: informacion personal -->
-            <div class="form-section active">
+            <div class="form-section">
                 <div class="section-title">
                     <i class="fa-regular fa-address-card"></i>
                     <h2>Información Personal</h2>
@@ -58,17 +60,17 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Numero de Identidad:</label>
-                        <input type="text" name="num_doc" class="form-control"  required>
+                        <input type="text" name="num_doc" class="form-control" required>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Nacionalidad:</label>
-                        <input type="text" name="num_doc" class="form-control"  required>
+                        <input type="text" name="num_doc" class="form-control" required>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <label class="form-label">Fecha de Nacimiento:</label>
-                        <input type="date" name="num_doc" class="form-control"  required>
+                        <input type="date" name="num_doc" class="form-control" required>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Estado Civil:</label>
@@ -91,16 +93,20 @@
                         <label class="form-label">Teléfono:</label>
                         <input type="text" class="form-control" required>
                     </div>
-                    
-                    
+                    <div class="col-md-6">
+                        <label class="form-label">Ingresar URL de LinkedIn:</label>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Foto de perfil:</label>
+                        <input type="file" name="foto" accept="image/*" class="form-control">
+                    </div>
                 </form>
-
-                <!-- <button type="button" class="btn btn-primary mt-3" onclick="nextSection()">Siguiente</button> -->
+                <button type="button" class="btn btn-primary mt-3" onclick="nextSection()">Siguiente</button>
             </div>
 
 
         </section>
-
     </main>
 </body>
 
