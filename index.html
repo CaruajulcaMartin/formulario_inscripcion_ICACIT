@@ -32,7 +32,7 @@
             <div class="form-section" id="section1">
                 <div class="section-title">
                     <i class="fa-regular fa-address-card"></i>
-                    <h2>Información Personal</h2>
+                    <h2>Datos Personales del Postulante</h2>
                 </div>
 
                 <div class="row g-3 formulario">
@@ -84,19 +84,7 @@
                             <option>Comprometido/a</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Correo Electrónico:</label>
-                        <input type="email" class="form-control" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Teléfono:</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Ingresar URL de LinkedIn:</label>
-                        <input type="text" class="form-control" id="basic-url"
-                            aria-describedby="basic-addon3 basic-addon4">
-                    </div>
+
                     <div class="col-md-6">
                         <label class="form-label">Foto de perfil:</label>
                         <input type="file" name="foto" accept="image/*" class="form-control">
@@ -105,7 +93,7 @@
 
                 <div class="section-title">
                     <i class="fa-solid fa-location-dot"></i>
-                    <h2>Datos Domiciliarios</h2>
+                    <h2>Lugar de Recidencia</h2>
                 </div>
 
                 <div class="row g-3 formulario">
@@ -116,7 +104,7 @@
                                 <option selected>--Seleccionar--</option>
                                 <option>Avenida</option>
                                 <option>Calle</option>
-                                <option>Jiron</option>
+                                <option>Jirón</option>
                                 <option>Pasaje</option>
                                 <option>otro</option>
                             </select>
@@ -144,6 +132,113 @@
                     </div>
                 </div>
 
+                <div class="section-title">
+                    <i class="fa-regular fa-address-book"></i>
+                    <h2>Datos de Contacto </h2>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Correo Electrónico:</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Ingresar URL de LinkedIn:</label>
+                        <input type="text" class="form-control" id="basic-url"
+                            aria-describedby="basic-addon3 basic-addon4">
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary mt-3" onclick="nextSection()">Siguiente</button>
+            </div>
+
+            <!-- seccion 2: informacion academica -->
+            <div class="form-section" id="section2">
+                <div class="section-title">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h2>Formación Académica</h2>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-2">
+                        <label class="form-label">Tipo de Formación:</label>
+                        <select class="form-select">
+                            <option selected>--Seleccionar--</option>
+                            <option>Pregado</option>
+                            <option>Maestria</option>
+                            <option>Doctorado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Institución Educativa:</label>
+                        <input type="text" class="form-control" name="institucionEducativa" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">País:</label>
+                        <input type="text" class="form-control" name="pais" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Especialidad:</label>
+                        <input type="text" class="form-control" name="especialidad" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Grado Obtenido:</label>
+                        <input type="text" class="form-control" name="gradoOtenido" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Año de Graduación:</label>
+                        <input type="number" class="form-control" name="añoGraduacion" required>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <i class="fa-solid fa-language"></i>
+                    <h2>Idiomas</h2>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-3">
+                        <label class="form-label">Idioma:</label>
+                        <input type="text" class="form-control" name="idioma" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Competencia Escrita:</label>
+                        <select class="form-select">
+                            <option selected>--Seleccionar--</option>
+                            <option>Básico</option>
+                            <option>Intermedio</option>
+                            <option>Avanzado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Competencia Lectora:</label>
+                        <select class="form-select">
+                            <option selected>--Seleccionar--</option>
+                            <option>Básico</option>
+                            <option>Intermedio</option>
+                            <option>Avanzado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Competencia Oral:</label>
+                        <select class="form-select">
+                            <option selected>--Seleccionar--</option>
+                            <option>Básico</option>
+                            <option>Intermedio</option>
+                            <option>Avanzado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-secondary mt-3" onclick="prevSection()">Atrás</button>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextSection()">Siguiente</button>
             </div>
 
