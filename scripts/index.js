@@ -30,6 +30,28 @@ function updateProgress(index) {
     progressBar.innerText = `Paso ${index + 1} de ${sections.length}`;
 }
 
+// Validación de palabras en textarea
+document.addEventListener("DOMContentLoaded", function() {
+    let textarea = document.getElementById("descripcionContribucion");
+    let contador = document.getElementById("contadorPalabras");
+    let mensajeError = document.getElementById("mensajeError");
+
+    textarea.addEventListener("input", function() {
+        let palabras = this.value.trim().split(/\s+/).filter(word => word.length > 0);
+        let totalPalabras = palabras.length;
+
+        contador.textContent = `Mínimo 400 palabras. Palabras actuales: ${totalPalabras}`;
+
+        if (totalPalabras < 400) {
+            mensajeError.style.display = "block";
+            textarea.setCustomValidity("Debe tener al menos 400 palabras.");
+        } else {
+            mensajeError.style.display = "none";
+            textarea.setCustomValidity("");
+        }
+    });
+});
+
 // Inicializar la primera sección visible
 showSection(currentSection);
 

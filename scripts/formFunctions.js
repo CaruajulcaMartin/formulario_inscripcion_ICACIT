@@ -7,10 +7,10 @@ function agregarFormacion() {
     let pais = document.getElementById("pais").value;
     let especialidad = document.getElementById("especialidad").value;
     let grado = document.getElementById("gradoObtenido").value;
-    let año = document.getElementById("añoGraduacion").value;
+    let ano = document.getElementById("anoGraduacion").value;
 
     // Validar que todos los campos estén llenos
-    if (tipo === "--Seleccionar--" || institucion === "" || pais === "" || especialidad === "" || grado === "" || año === "") {
+    if (tipo === "--Seleccionar--" || institucion === "" || pais === "" || especialidad === "" || grado === "" || ano === "") {
         alert("Por favor, completa todos los campos.");
         return;
     }
@@ -35,7 +35,7 @@ function agregarFormacion() {
         <td>${pais}</td>
         <td>${especialidad}</td>
         <td>${grado}</td>
-        <td>${año}</td>
+        <td>${ano}</td>
         <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
     `;
 
@@ -47,7 +47,7 @@ function agregarFormacion() {
     document.getElementById("pais").value = "";
     document.getElementById("especialidad").value = "";
     document.getElementById("gradoObtenido").value = "";
-    document.getElementById("añoGraduacion").value = "";
+    document.getElementById("anoGraduacion").value = "";
 }
 
 function eliminarFila(boton) {
@@ -104,13 +104,13 @@ function eliminarFila(boton) {
 function agregarCursos() {
     //obtener los datos
     let enRelacionA = document.getElementById("enRelacionA").value;
-    let año = document.getElementById("añoCertificado").value;
+    let ano = document.getElementById("anoCertificado").value;
     let institucion = document.getElementById("institucion").value;
     let cursoSeminario = document.getElementById("cursoSeminario").value;
     let duracion = document.getElementById("duracion").value;
 
     //validar que los campos esten llenos
-    if (año === "" || institucion === "" || cursoSeminario === "" || duracion === "") {
+    if (enRelacionA === "--Seleccionar--" || ano === "" || institucion === "" || cursoSeminario === "" || duracion === "") {
         alert("Por favor, completa todos los campos.");
         return;
     }
@@ -121,7 +121,7 @@ function agregarCursos() {
 
     fila.innerHTML = `
         <td>${enRelacionA}</td>
-        <td>${año}</td>
+        <td>${ano}</td>
         <td>${institucion}</td>
         <td>${cursoSeminario}</td>
         <td>${duracion}</td>
@@ -131,7 +131,7 @@ function agregarCursos() {
 
     //limpiar los campos
     document.getElementById("enRelacionA").value = "--Seleccionar--";
-    document.getElementById("añoCertificado").value = "";
+    document.getElementById("anoCertificado").value = "";
     document.getElementById("institucion").value = "";
     document.getElementById("cursoSeminario").value = "";
     document.getElementById("duracion").value = "";
@@ -335,4 +335,75 @@ function agregarMembresia() {
     document.getElementById("asociacionProfesional").value = "";
     document.getElementById("numeroMembresia").value = "";  
     document.getElementById("gradoMembresia").value = "";
+}
+
+//script para mostrar las investigaciones realizadas
+function agregarInvestigacion() {
+    //obtener los datos
+    let fechaPublicacion = document.getElementById("fechaPublicacion").value;
+    let nombreInvestigacion = document.getElementById("nombreInvestigacion").value;
+    let autores = document.getElementById("autores").value;
+    let revistaCongreso = document.getElementById("revistaCongreso").value;
+    let baseDatos = document.getElementById("baseDatos").value;
+
+    //validar que los campos esten llenos
+    if (fechaPublicacion === "" || nombreInvestigacion === "" || autores === "" || revistaCongreso === "" || baseDatos === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaInvestigaciones");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${fechaPublicacion}</td>
+        <td>${nombreInvestigacion}</td>
+        <td>${autores}</td>
+        <td>${revistaCongreso}</td>
+        <td>${baseDatos}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);    
+
+    //limpiar los campos    
+    document.getElementById("fechaPublicacion").value = "";
+    document.getElementById("nombreInvestigacion").value = "";
+    document.getElementById("autores").value = "";
+    document.getElementById("revistaCongreso").value = "";
+    document.getElementById("baseDatos").value = "";
+}
+
+//script para mostrar los premios recibidos
+function agregarPremio() {
+    //obtener los datos
+    let anoReconocimiento = document.getElementById("anoReconocimiento").value;
+    let institucionReconocimiento = document.getElementById("institucionReconocimiento").value;
+    let nombreReconocimiento = document.getElementById("nombreReconocimiento").value;
+    let descripcionReconocimiento = document.getElementById("descripcionReconocimiento").value;
+
+    //validar que los campos esten llenos
+    if (anoReconocimiento === "" || institucionReconocimiento === "" || nombreReconocimiento === "" || descripcionReconocimiento === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaPremios");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${anoReconocimiento}</td>
+        <td>${institucionReconocimiento}</td>
+        <td>${nombreReconocimiento}</td>
+        <td>${descripcionReconocimiento}</td>    
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("anoReconocimiento").value = "";
+    document.getElementById("institucionReconocimiento").value = "";
+    document.getElementById("nombreReconocimiento").value = "";
+    document.getElementById("descripcionReconocimiento").value = "";
 }
