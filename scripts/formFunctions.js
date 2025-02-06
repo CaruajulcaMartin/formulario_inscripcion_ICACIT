@@ -218,3 +218,121 @@ function agregarExperienciaDocente() {
     document.getElementById("fechaInicioDocente").value = "";
     document.getElementById("fechaRetiroDocente").value = "";
 }
+
+// script para mostrar experiencia como parte de comite de calidad
+function agregarExperienciaComite() {
+    //obtener los datos
+    let institucion = document.getElementById("institucionComite").value;
+    let cargoComite = document.getElementById("cargoComite").value;
+    let modelosCalidad = document.getElementById("modelosCalidad").value;
+    let fechaInicioComite = document.getElementById("fechaInicioComite").value;
+    let fechaRetiroComite = document.getElementById("fechaRetiroComite").value;
+
+    //validar que los campos esten llenos
+    if (institucion === "" || cargoComite === "" || modelosCalidad === "" || fechaInicioComite === "" || fechaRetiroComite === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaExperienciaComite");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${institucion}</td>
+        <td>${cargoComite}</td>
+        <td>${modelosCalidad}</td>
+        <td>${fechaInicioComite}</td>
+        <td>${fechaRetiroComite}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("institucionComite").value = "";
+    document.getElementById("cargoComite").value = "";
+    document.getElementById("modelosCalidad").value = "";
+    document.getElementById("fechaInicioComite").value = "";
+    document.getElementById("fechaRetiroComite").value = "";
+}
+
+//script para mostrar experiencia como par evaluador
+let experienciaEvaluadorAgregada = 0;
+function agregarExperienciaEvaluador() {
+    //obtener los datos
+    let nombreEntidad = document.getElementById("nombreEntidad").value;
+    let programaEvaluador = document.getElementById("programaEvaluador").value;
+    let cargoEvaluador = document.getElementById("cargoEvaluador").value;
+    let paisEvaluador = document.getElementById("paisEvaluador").value;
+    let ciudadEvaluador = document.getElementById("ciudadEvaluador").value;
+    let fechaEvaluacion = document.getElementById("fechaEvaluacion").value;
+
+    //validar que los campos esten llenos
+    if (nombreEntidad === "" || programaEvaluador === "" || cargoEvaluador === "" || paisEvaluador === "" || ciudadEvaluador === "" || fechaEvaluacion === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+    //validar que no se hayan agregado dos experiencias
+    if (experienciaEvaluadorAgregada === 2) {
+        alert("Solo puedes agregar dos experiencias como par evaluador.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaExperienciaEvaluador");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${nombreEntidad}</td>
+        <td>${programaEvaluador}</td>
+        <td>${cargoEvaluador}</td>
+        <td>${paisEvaluador}</td>
+        <td>${ciudadEvaluador}</td>
+        <td>${fechaEvaluacion}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+
+    tabla.appendChild(fila);
+
+    //incrementar la variable
+    experienciaEvaluadorAgregada++;
+    //limpiar los campos
+    document.getElementById("nombreEntidad").value = "";
+    document.getElementById("programaEvaluador").value = "";
+    document.getElementById("cargoEvaluador").value = "";
+    document.getElementById("paisEvaluador").value = "";
+    document.getElementById("ciudadEvaluador").value = "";
+    document.getElementById("fechaEvaluacion").value = "";
+}
+
+
+//script para mostrar membresías en Asociaciones Profesionales
+function agregarMembresia() {
+    //obtener los datos
+    let asociacionProfesional = document.getElementById("asociacionProfesional").value;
+    let numeroMembresia = document.getElementById("numeroMembresia").value;
+    let gradoMembresia = document.getElementById("gradoMembresia").value;
+
+    //validar que los campos esten llenos
+    if (asociacionProfesional === "" || numeroMembresia === "" || gradoMembresia === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaMembresias");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${asociacionProfesional}</td>
+        <td>${numeroMembresia}</td>    
+        <td>${gradoMembresia}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("asociacionProfesional").value = "";
+    document.getElementById("numeroMembresia").value = "";  
+    document.getElementById("gradoMembresia").value = "";
+}

@@ -532,7 +532,7 @@
                     </tbody>
                 </table>
 
-                <!-- experiencia comoparte de comite de calidad-->
+                <!-- experiencia como parte de comite de calidad-->
                 <div class="section-title">
                     <i class="fa-solid fa-ranking-star"></i>
                     <h4>Experiencia como parte de comité de calidad u oficina de acreditación </h4>
@@ -562,7 +562,7 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick=""><i
+                        <button type="button" class="btn btn-success" onclick="agregarExperienciaComite()"><i
                                 class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
@@ -579,7 +579,7 @@
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaExperiencia">
+                    <tbody id="tablaExperienciaComite">
                         <!-- aca se mostraran las filas agregadas -->
                     </tbody>
                 </table>
@@ -630,7 +630,7 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick=""><i
+                        <button type="button" class="btn btn-success" onclick="agregarExperienciaEvaluador()"><i
                                 class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
@@ -648,7 +648,48 @@
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaEvaluador">
+                    <tbody id="tablaExperienciaEvaluador">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <!-- Membresías en Asociaciones Profesionales-->
+                <div class="section-title">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                    <h4>Membresías en Asociaciones Profesionales</h4>
+                </div>
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Asociación Profesional:</label>
+                        <input type="text" class="form-control" name="asociacionProfesional" id="asociacionProfesional" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Número de la membresía:</label>
+                        <input type="number" class="form-control" name="numeroMembresia" id="numeroMembresia" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Grado:</label>
+                        <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarMembresia()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- tabla de contenido -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Asociación Profesional</th>
+                            <th scope="col">Número de la Membresía</th>
+                            <th scope="col">Grado</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMembresias">
                         <!-- aca se mostraran las filas agregadas -->
                     </tbody>
                 </table>
