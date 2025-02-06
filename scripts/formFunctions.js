@@ -103,6 +103,7 @@ function eliminarFila(boton) {
 //script para mostrar los cursos o seminarios agregados
 function agregarCursos() {
     //obtener los datos
+    let enRelacionA = document.getElementById("enRelacionA").value;
     let año = document.getElementById("añoCertificado").value;
     let institucion = document.getElementById("institucion").value;
     let cursoSeminario = document.getElementById("cursoSeminario").value;
@@ -119,6 +120,7 @@ function agregarCursos() {
     let fila = document.createElement("tr");
 
     fila.innerHTML = `
+        <td>${enRelacionA}</td>
         <td>${año}</td>
         <td>${institucion}</td>
         <td>${cursoSeminario}</td>
@@ -128,6 +130,7 @@ function agregarCursos() {
     tabla.appendChild(fila);
 
     //limpiar los campos
+    document.getElementById("enRelacionA").value = "--Seleccionar--";
     document.getElementById("añoCertificado").value = "";
     document.getElementById("institucion").value = "";
     document.getElementById("cursoSeminario").value = "";
