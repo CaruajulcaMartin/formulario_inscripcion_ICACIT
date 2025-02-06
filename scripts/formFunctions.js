@@ -137,7 +137,84 @@ function agregarCursos() {
     document.getElementById("duracion").value = "";
 }
 
-function eliminarFila(boton) {
-    let fila = boton.parentElement.parentElement;
-    fila.remove();
+//script para mostrar las experiencias laborales
+function agregarExperiencia() {
+    //obtener los datos
+    let empresa = document.getElementById("institucionEmpresa").value;
+    let cargo = document.getElementById("cargoDesempeñado").value;
+    let fechaInicio = document.getElementById("fechaInicio").value;
+    let fechaFin = document.getElementById("fechaRetiro").value;
+    let pais = document.getElementById("paisEmpresa").value;
+    let ciudad = document.getElementById("ciudadEmpresa").value;
+
+    //validar que los campos esten llenos
+    if (empresa === "" || cargo === "" || fechaInicio === "" || fechaFin === "" || pais === "" || ciudad === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaExperiencia");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${empresa}</td>
+        <td>${cargo}</td>
+        <td>${fechaInicio}</td>
+        <td>${fechaFin}</td>
+        <td>${pais}</td>
+        <td>${ciudad}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("institucionEmpresa").value = "";
+    document.getElementById("cargoDesempeñado").value = "";
+    document.getElementById("fechaInicio").value = "";
+    document.getElementById("fechaRetiro").value = "";
+    document.getElementById("paisEmpresa").value = "";
+    document.getElementById("ciudadEmpresa").value = "";
+}
+
+// script para mostrar la experiencia como docente
+function agregarExperienciaDocente() {
+    //obtener los datos
+    let institucion = document.getElementById("institucionDocente").value;
+    let paisDocente = document.getElementById("paisDocente").value;
+    let ciudadDocente = document.getElementById("ciudadDocente").value;
+    let programa = document.getElementById("programaProfesional").value;
+    let cursosImpartidos = document.getElementById("cursosImpartidos").value;
+    let fechaInicioDocente = document.getElementById("fechaInicioDocente").value;
+    let fechaRetiroDocente = document.getElementById("fechaRetiroDocente").value;
+
+    //validar que los campos esten llenos
+    if (institucion === "" || paisDocente === "" || ciudadDocente === "" || programa === "" || cursosImpartidos === "" || fechaInicioDocente === "" || fechaRetiroDocente === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaExperienciaDocente");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${institucion}</td>
+        <td>${paisDocente}</td>
+        <td>${ciudadDocente}</td>
+        <td>${programa}</td>
+        <td>${cursosImpartidos}</td>
+        <td>${fechaInicioDocente}</td>
+        <td>${fechaRetiroDocente}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("institucionDocente").value = "";
+    document.getElementById("paisDocente").value = "";
+    document.getElementById("ciudadDocente").value = "";
+    document.getElementById("programaProfesional").value = "";
+    document.getElementById("cursosImpartidos").value = "";
+    document.getElementById("fechaInicioDocente").value = "";
+    document.getElementById("fechaRetiroDocente").value = "";
 }

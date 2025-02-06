@@ -278,6 +278,7 @@
                             <th scope="col">Competencia Escrita</th>
                             <th scope="col">Competencia Lectora</th>
                             <th scope="col">Competencia Oral</th>
+                            <th scope="col">Acción</th>
                         </tr>
                     </thead>
                     <tbody id="tablaIdiomas">
@@ -316,8 +317,8 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Duración:</label>
-                        <input type="number" class="form-control" name="duracion" id="duracion" min="8"
-                            max="360" step="1" required>
+                        <input type="number" class="form-control" name="duracion" id="duracion" min="8" max="360"
+                            step="1" required>
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
@@ -335,6 +336,7 @@
                             <th scope="col">Institución</th>
                             <th scope="col">Curso o Seminario</th>
                             <th scope="col">Duración</th>
+                            <th scope="col">Acción</th>
                         </tr>
                     </thead>
                     <tbody id="tablaCursos">
@@ -347,7 +349,316 @@
             </div>
 
             <!-- seccion 3: informacion laboral actual -->
+            <div class="form-section" id="section3">
+                <h2>Información laboral actual</h2>
+                <div class="section-title">
+                    <i class="fa-solid fa-building-user"></i>
+                    <h4>Datos del Centro Laboral Actual</h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre del Centro Laboral:</label>
+                        <input type="text" class="form-control" name="centroLaboral" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cargo Actual:</label>
+                        <input type="text" class="form-control" name="cargoActual" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tiempo en el centro laboral (en años):</label>
+                        <input type="number" class="form-control" name="tiempoLaboral" min="1900" max="2099" step="1"
+                            required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" name="direccionLaboral" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Número Telefónico :</label>
+                        <input type="text" class="form-control" name="telefonoLaboral" required>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <h4>Datos del Empleador Actual</h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre del Centro Laboral:</label>
+                        <input type="text" class="form-control" name="centroLaboralEmpleador" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Nombres y Apellidos del Empleador Actual:</label>
+                        <input type="text" class="form-control" name="nombresEmpleador" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cargo del Empleador Actual:</label>
+                        <input type="text" class="form-control" name="cargoEmpleador" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Correo Electrónico del Empleador Actual:</label>
+                        <input type="email" class="form-control" name="correoEmpleador" required>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
+                <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
+            </div>
+
+
+            <!-- seccion 4: información sobre experiencia laboral  -->
+            <div class="form-section" id="section4">
+                <h2>Información sobre Experiencia Laboral</h2>
+
+                <!-- experica laboral -->
+                <div class="section-title">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <h4>Experiencia laboral en su campo profesional</h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Institución o Empresa:</label>
+                        <input type="text" class="form-control" name="institucionEmpresa" id="institucionEmpresa" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cargo desempeñado:</label>
+                        <input type="text" class="form-control" name="cargoDesempeñado" id="cargoDesempeñado" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" name="fechaInicio" id="fechaInicio" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Fecha de Retiro:</label>
+                        <input type="date" class="form-control" name="fechaRetiro" id="fechaRetiro" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">País:</label>
+                        <input type="text" class="form-control" name="pais" id="paisEmpresa" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Ciudad:</label>
+                        <input type="text" class="form-control" name="ciudad" id="ciudadEmpresa" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarExperiencia()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- Tabla para muestrar los registros agregados -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Institución o Empresa</th>
+                            <th scope="col">Cargo desempeñado</th>
+                            <th scope="col">Fecha inicio</th>
+                            <th scope="col">Fecha fin</th>
+                            <th scope="col">País</th>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaExperiencia">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <!-- experiencia Docente en Educación Superior-->
+                <div class="section-title">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <h4>Experiencia Docente en Educación Superior o Formación Continua</h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre de la Institución:</label>
+                        <input type="text" class="form-control" name="institucionDocente" id="institucionDocente" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">País:</label>
+                        <input type="text" class="form-control" name="paisDocente" id="paisDocente" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Ciudad:</label>
+                        <input type="text" class="form-control" name="ciudadDocente" id="ciudadDocente" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre del Programa Profesional:</label>
+                        <input type="text" class="form-control" name="programaProfesional" id="programaProfesional" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Curso / Capacitación Impartido:</label>
+                        <input type="text" class="form-control" name="cursosImpartidos" id="cursosImpartidos" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" name="fechaInicioDocente" id="fechaInicioDocente" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha de Retiro:</label>
+                        <input type="date" class="form-control" name="fechaRetiroDocente" id="fechaRetiroDocente" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarExperienciaDocente()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- Tabla para muestrar los registros agregados -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Institución</th>
+                            <th scope="col">País</th>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Programa Profesional</th>
+                            <th scope="col">Curso / Capacitación Impartido</th>
+                            <th scope="col">Fecha inicio</th>
+                            <th scope="col">Fecha fin</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaExperienciaDocente">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <!-- experiencia comoparte de comite de calidad-->
+                <div class="section-title">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    <h4>Experiencia como parte de comité de calidad u oficina de acreditación </h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Institución:</label>
+                        <input type="text" class="form-control" name="institucionComite" id="institucionComite" required> 
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cargo desempeñado:</label>
+                        <input type="text" class="form-control" name="cargoComite" id="cargoComite" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Modelos de Calidad desarrollados (ICACIT, ABET, otros):</label>
+                        <input type="text" class="form-control" name="modelosCalidad" id="modelosCalidad" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" name="fechaInicioComite" id="fechaInicioComite" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha de Retiro:</label>
+                        <input type="date" class="form-control" name="fechaRetiroComite" id="fechaRetiroComite" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick=""><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- tabla de contenido -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Institución</th>
+                            <th scope="col">Cargo desempeñado</th>
+                            <th scope="col">Modelos de Calidad desarrollados</th>
+                            <th scope="col">Fecha inicio</th>
+                            <th scope="col">Fecha fin</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaExperiencia">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <!-- experiencia como par evaluador-->
+                <div class="section-title">
+                    <i class="fa-solid fa-list-check"></i>
+                    <h4>Experiencia como par evaluador</h4>
+                </div>
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Agencia Acreditadora:</label>
+                        <input type="text" class="form-control" name="agenciaAcreditadora" id="agenciaAcreditadora" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" name="fechaInicioEvaluador" id="fechaInicioEvaluador" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha de Retiro:</label>
+                        <input type="date" class="form-control" name="fechaRetiroEvaluador" id="fechaRetiroEvaluador" required>
+                    </div>
+                    <!-- estos datos se mostraran en la tabla -->
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre Entidad:</label>
+                        <input type="text" class="form-control" name="nombreEntidad" id="nombreEntidad" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Programa:</label>
+                        <input type="text" class="form-control" name="programaEvaluador" id="programaEvaluador" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cargo:</label>
+                        <input type="text" class="form-control" name="cargoEvaluador" id="cargoEvaluador" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">País:</label>
+                        <input type="text" class="form-control" name="paisEvaluador" id="paisEvaluador" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Ciudad:</label>
+                        <input type="text" class="form-control" name="ciudadEvaluador" id="ciudadEvaluador" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha de Evaluación:</label>
+                        <input type="date" class="form-control" name="fechaEvaluacion" id="fechaEvaluacion" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick=""><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- tabla de contenido -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre Entidad</th>
+                            <th scope="col">Programa</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">País</th>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Fecha de Evaluación</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaEvaluador">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
+                <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
+            </div>
+
         </form>
+
     </main>
     <script src="/scripts/index.js"></script>
     <script src="/scripts/formFunctions.js"></script>
