@@ -2,6 +2,7 @@ let currentSection = 0;
 const sections = document.querySelectorAll(".form-section");
 const progressBar = document.getElementById("progressBar");
 
+//seccion actual
 function showSection(index) {
     sections.forEach((section, i) => {
         section.style.display = i === index ? "block" : "none";
@@ -10,6 +11,7 @@ function showSection(index) {
     updateProgress(index);
 }
 
+//seccion siguiente
 function nextSection() {
     if (currentSection < sections.length - 1) {
         currentSection++;
@@ -17,6 +19,7 @@ function nextSection() {
     }
 }
 
+//seccion anterior
 function prevSection() {
     if (currentSection > 0) {
         currentSection--;
@@ -24,6 +27,7 @@ function prevSection() {
     }
 }
 
+//actualizar barra de progreso
 function updateProgress(index) {
     const stepPercentage = ((index + 1) / sections.length) * 100;
     progressBar.style.width = stepPercentage + "%";

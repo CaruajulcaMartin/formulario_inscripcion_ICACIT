@@ -1,7 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root {
+    --color-primary: #002060;
+    --color-secondary: #c2e3f5;
+    --font-size-title: 40px;
+    --font-size-subtitle: 20px;
+}
 
 * {
-    font-family: "nunito", serif;
+    font-family: "Nunito", serif;
     font-optical-sizing: auto;
     font-style: normal;
 }
@@ -14,43 +21,72 @@
     padding: 20px;
     gap: 20px;
 
-    img{
+    img {
         width: 300px;
     }
 
-    h1{
-        font-size: 40px;
+    h1 {
+        font-size: var(--font-size-title);
         font-weight: 600;
         text-align: center;
-        color: #002060;
+        color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 30px;
+        }
+
+        img {
+            width: 200px;
+        }
     }
 }
 
-.section-title{
+.section-title {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #c2e3f5;
+    background-color: var(--color-secondary);
     border-radius: 15px;
     padding: 8px;
-    font-size: 20px;
-    color: #002060;
+    font-size: var(--font-size-subtitle);
+    color: var(--color-primary);
 
-    h4{
+    h4 {
         margin: 0;
-        font-size: 20px;
+        font-size: var(--font-size-subtitle);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+
+        h4 {
+            font-size: 18px;
+        }
     }
 }
 
-.formulario{
+.formulario {
     padding: 20px 0;
 
+    @media (max-width: 768px) {
+        padding: 10px 0;
+    }
 }
 
-.form-section{
+.form-section {
     padding-bottom: 20px;
+
+    @media (max-width: 768px) {
+        padding-bottom: 10px;
+    }
 }
 
-.grupo{
+.grupo {
     gap: 20px;
+
+    @media (max-width: 768px) {
+        gap: 10px;
+    }
 }
