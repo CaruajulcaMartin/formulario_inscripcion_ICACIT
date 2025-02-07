@@ -790,7 +790,8 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Modelos de Calidad Desarrollados:</label>
-                        <input type="text" class="form-control" name="modelosCalidad" id="modelosCalidad" placeholder=" (ICACIT, SINEACE, otros)">
+                        <input type="text" class="form-control" name="modelosCalidad" id="modelosCalidad"
+                            placeholder=" (ICACIT, SINEACE, otros)">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Fecha de Inicio:</label>
@@ -846,11 +847,19 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Año de Inicio:</label>
-                        <input type="date" class="form-control" name="fechaInicioEvaluador" id="fechaInicioEvaluador">
+                        <select class="form-control" name="fechaInicioEvaluador" id="fechaInicioEvaluador">
+                            <!-- Opciones para el año de inicio -->
+                            <option value="">--Seleccionar año--</option>
+                            <!-- Las opciones se generan dinámicamente con JavaScript -->
+                        </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Año de Retiro:</label>
-                        <input type="date" class="form-control" name="fechaRetiroEvaluador" id="fechaRetiroEvaluador">
+                        <label class="form-label">Año de Vigencia:</label>
+                        <select class="form-control" name="fechaRetiroEvaluador" id="fechaRetiroEvaluador">
+                            <!-- Opciones para el año de vigencia -->
+                            <option value="">--Seleccionar año--</option>
+                            <!-- Las opciones se generan dinámicamente con JavaScript -->
+                        </select>
                     </div>
                     <!-- estos datos se mostraran en la tabla -->
                     <div class="col-md-4">
@@ -880,8 +889,9 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarExperienciaEvaluador()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success" onclick="agregarExperienciaEvaluador()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -921,6 +931,10 @@
                         <label class="form-label">Grado:</label>
                         <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia">
                     </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Vigente:</label>
+                        <input type="text" class="form-control" name="vigenteMembresia" id="vigenteMembresia" placeholder="Afiliado o Senior">
+                    </div>
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
@@ -936,6 +950,7 @@
                             <th scope="col">Asociación Profesional</th>
                             <th scope="col">Número de la Membresía</th>
                             <th scope="col">Grado</th>
+                            <th scope="col">Vigente</th>
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
@@ -957,31 +972,30 @@
                 </div>
 
                 <div class="row g-3 formulario">
-                    <div class="col-md-4">
-                        <label class="form-label">Año y mes de la publicación:<span class="text-danger">*</span></label>
-                        <input type="month" class="form-control" name="fechaPublicacion" id="fechaPublicacion" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Nombre de la investigación:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nombreInvestigacion" id="nombreInvestigacion"
-                            required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Autor(es):<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="autores" id="autores"
-                            placeholder="Ej: Autor1, Autor2" required>
-                        <small class="form-text text-muted">Separar los autores con una coma (,).</small>
+                    <div class="col-md-2">
+                        <label class="form-label">Año:</label>
+                        <input type="date" class="form-control" name="fechaPublicacion" id="fechaPublicacion">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Revista o Congreso:<span class="text-danger">*</span></label>
+                        <label class="form-label">Revista o Congreso:</label>
                         <input type="text" class="form-control" name="revistaCongreso" id="revistaCongreso"
-                            placeholder="Revista (volumen, número, pág.) o Congreso (nombre, organización, ciudad, país)."
-                            required>
+                            placeholder="Revista (volumen, número, pág.) o Congreso (nombre, organización, ciudad, país).">
                         <small class="form-text text-muted"></small>
                     </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Base:</label>
+                        <input type="text" class="form-control" name="baseDatos" id="baseDatos"
+                            placeholder="Indexado en IEEE explore, SCOPUS">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre de la investigación:</label>
+                        <input type="text" class="form-control" name="nombreInvestigacion" id="nombreInvestigacion">
+                    </div>
                     <div class="col-md-4">
-                        <label class="form-label">Base de Datos y Editorial:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="baseDatos" id="baseDatos" required>
+                        <label class="form-label">Autor(es):</label>
+                        <input type="text" class="form-control" name="autores" id="autores"
+                            placeholder="Ej: Autor1, Autor2">
+                        <small class="form-text text-muted">Separar los autores con una coma (,).</small>
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
@@ -995,11 +1009,11 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Fecha de publicación</th>
+                            <th scope="col">Año de publicación</th>
+                            <th scope="col">Revista o Congreso</th>
+                            <th scope="col">Base</th>
                             <th scope="col">Titulo de investigación</th>
                             <th scope="col">Autor(es)</th>
-                            <th scope="col">Revista o Congreso</th>
-                            <th scope="col">Base de Datos y Editorial</th>
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
@@ -1030,27 +1044,30 @@
                 </div>
                 <div class="row g-3 formulario">
                     <div class="col-md-2">
-                        <label class="form-label">Año:<span class="text-danger">*</span></label>
+                        <label class="form-label">Año:</label>
                         <input type="number" class="form-control" name="anoReconocimiento" id="anoReconocimiento"
-                            min="1900" max="2099" step="1" required>
+                            min="1900" max="2099" step="1">
                     </div>
                     <div class="col-md-5">
-                        <label class="form-label">Institución / Empresa:<span class="text-danger">*</span></label>
+                        <label class="form-label">Institución / Empresa:</label>
                         <input type="text" class="form-control" name="institucionReconocimiento"
-                            id="institucionReconocimiento" required>
+                            id="institucionReconocimiento">
                     </div>
                     <div class="col-md-5">
-                        <label class="form-label">Nombre del Reconocimiento / Premio:<span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nombreReconocimiento" id="nombreReconocimiento"
-                            required>
+                        <label class="form-label">Nombre del Reconocimiento / Premio:</label>
+                        <input type="text" class="form-control" name="nombreReconocimiento" id="nombreReconocimiento">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Descripción Reconocimiento / Premio:<span
-                                class="text-danger">*</span></label>
-                        <textarea name="descripcionReconocimiento" id="descripcionReconocimiento"
-                            class="form-control"></textarea>
+                        <label class="form-label">Descripción Reconocimiento / Premio:</label>
+                        <textarea name="descripcionReconocimiento" id="descripcionReconocimiento" class="form-control"
+                            rows="4"></textarea>
+                        <small id="contadorDescripcion" class="text-muted">Máximo 150 palabras. Palabras actuales:
+                            0</small>
+                        <div id="errorDescripcion" class="text-danger mt-1" style="display: none;">
+                            Has excedido el límite de 150 palabras.
+                        </div>
                     </div>
+
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
@@ -1079,82 +1096,51 @@
                 <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
             </div>
 
-            <!-- seccion 7: Contribución a su campo profesional. -->
+            <!-- seccion 7: Carta de presentación. -->
             <div class="form-section" id="section7">
-                <h2><b>Sección 07:</b> Contribución a su Campo Profesional</h2>
-                <div class="section-title">
-                    <i class="fa-solid fa-hand-holding-hand"></i>
-                    <h4>Contribución Profesional</h4>
-                </div>
-                <div class="row g-3 formulario">
-                    <div class="col-12">
-                        <label class="form-label">Descripción de la contribución profesional<span
-                                class="text-danger">*</span></label>
-                        <textarea name="descripcionContribucion" id="descripcionContribucion" class="form-control"
-                            rows="6" minlength="400" required></textarea>
-                        <small id="contadorPalabras" class="text-muted">Mínimo 400 palabras. Palabras actuales:
-                            0</small>
-                        <div id="mensajeError" class="text-danger mt-1" style="display: none;"><b>Nota:</b> esta sección
-                            debe contener 400 palabras como mínimo.</div>
-                    </div>
+                <h2><b>Sección 07:</b> Carta de Presentación</h2>
 
+                <div class="row g-3 formulario">
+                    <h5>Describa su interés por ser parte del Staff de <b>Evaluadores ICACIT</b></h5>
+                    <div class="col-12">
+                        <label class="form-label">Carta de Presentación:<span class="text-danger">*</span></label>
+                        <textarea name="descripcionContribucion" id="descripcionContribucion" class="form-control"
+                            rows="6" required></textarea>
+                        <small id="contadorPalabras" class="text-muted">Maximo 400 palabras. Palabras actuales:
+                            0</small>
+                        <div id="mensajeError" class="text-danger mt-1" style="display: none;"><b>Nota:</b> Has excedido
+                            el límite de 400 palabras como maximo.</div>
+                    </div>
                 </div>
 
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
                 <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
             </div>
 
-            <!-- seccion 8: Referencias -->
+            <!-- seccion 8: valores eticos -->
             <div class="form-section" id="section8">
-                <h2><b>Sección 08:</b> Anexos y Referencias</h2>
-                <div class="section-title">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <h4>Anexos para la formación academica</h4>
-                </div>
+                <h2><b>Sección 08:</b> Conducta y Valores Éticos</h2>
                 <div class="row g-3 formulario">
-                    <div class="col-md-6">
-                        <label class="form-label"><b>Anexo 1:</b> Grado de Bachiller:<span
-                                class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
-                            required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
-                            MB.</small>
-                        <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
+                    <div class="col-12">
+                        <input type="checkbox" name="condutaEtica" id="condutaEtica">
+                        <label for="">Declaro tener una conducta intachable y valores éticos.</label>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label"><b>Anexo 2:</b> Título Profesional (aplicable solo para
-                            peruanos):<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
-                            required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
-                            MB.</small>
-                        <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label"><b>Anexo 3:</b> Posgrado:<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
-                            required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
-                            MB.</small>
-                        <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
+                    <div class="col-12">
+                        <input type="checkbox" name="condutaEticaValores" id="condutaEticaValores">
+                        <label for="">Declaro que la información que he consignado en este formulario es
+                            verdadera.</label>
                     </div>
                 </div>
 
-                <div class="section-title">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <h4>Evidencias de experiencia profesional</h4>
+                <!-- aca ira la firma-->
+                <!-- Canvas para la firma -->
+                <div>
+                    <label for="firmaCanvas">Firma:</label>
+                    <canvas id="firmaCanvas" style="border: 1px solid #000;"></canvas>
+                    <button type="button" id="limpiarFirma">Limpiar Firma</button>
+                    <input type="hidden" id="firmaInput" name="firma">
                 </div>
-                <div class="row g-3 formulario">
-                    <div class="col-md-12">
-                        <label class="form-label"><b>Anexo 4:</b> Evidencias de 10 años de experiencia profesional en el
-                            área y puestos de dirección:<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
-                            required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
-                            MB.</small>
-                        <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
-                    </div>
-                </div>
+
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
                 <button type="button" class="btn btn-primary mt-3 next" onclick="">Previsualizar</button>
             </div>
@@ -1164,6 +1150,7 @@
     <script src="/scripts/index.js"></script>
     <script src="/scripts/formFunctions.js"></script>
     <script src="/scripts/validaciones.js"></script>
+    <script src="/scripts/firmaUsuario.js"></script>
 </body>
 
 </html>

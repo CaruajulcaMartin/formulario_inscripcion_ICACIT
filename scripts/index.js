@@ -38,19 +38,3 @@ function updateProgress(index) {
 // Inicializar la primera sección visible
 showSection(currentSection);
 
-//funciones para generar vista previa y envio de datos
-// document.getElementById("registrationForm").addEventListener("submit", function(event) {
-//     event.preventDefault();
-//     generatePreview();
-// });
-
-// function generatePreview() {
-//     let previewHTML = "<h3>Vista Previa</h3><ul>";
-//     document.querySelectorAll("input, textarea").forEach(input => {
-//         if (input.type !== "checkbox" || input.checked) {
-//             previewHTML += `<li><strong>${input.name}:</strong> ${input.value}</li>`;
-//         }
-//     });
-//     previewHTML += "</ul>";
-//     document.getElementById("previewData").innerHTML = previewHTML;
-// }
