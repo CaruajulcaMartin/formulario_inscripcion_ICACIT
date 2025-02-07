@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Reconfigurar el canvas cuando se muestra u oculta
     function reconfigurarCanvas() {
         ajustarCanvas();
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
-        inputFirma.value = ""; // Limpiar el input
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        inputFirma.value = "";
     }
 
     // Observar cambios en la visibilidad del canvas
@@ -72,6 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     observer.observe(canvas, {
-        attributes: true, // Observar cambios en los atributos
+        attributes: true,
     });
 });
