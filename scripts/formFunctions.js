@@ -53,7 +53,7 @@ function agregarFormacion() {
 
     // Crear un enlace para visualizar el PDF
     let pdfUrl = URL.createObjectURL(pdfFile);
-    let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-solid fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
+    let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
 
     fila.innerHTML = `
         <td>${tipo}</td>
@@ -238,15 +238,35 @@ function agregarExperiencia() {
     let fechaFin = document.getElementById("fechaRetiro").value;
     let pais = document.getElementById("paisEmpresa").value;
     let ciudad = document.getElementById("ciudadEmpresa").value;
+    let pdfInput = document.getElementById("pdfExperiencia");
+    let pdfFile = pdfInput.files[0];
 
     //validar que los campos esten llenos
-    if (empresa === "" || cargo === "" || fechaInicio === "" || fechaFin === "" || pais === "" || ciudad === "") {
-        alert("Por favor, completa todos los campos.");
+    if (empresa === "" || cargo === "" || fechaInicio === "" || fechaFin === "" || pais === "" || ciudad === "" || !pdfFile) {
+        alert("Por favor, completa todos los campos y adjunta un PDF.");
         return;
     }
+
+    // Validar el tipo de archivo adjunto
+    if (pdfFile.type !== "application/pdf") {
+        alert("Por favor, adjunta un archivo PDF válido.");
+        return;
+    }
+
+    // Validar el tamaño del archivo (máximo 25 MB)
+    const maxSize = 25 * 1024 * 1024; // 25 MB en bytes
+    if (pdfFile.size > maxSize) {
+        alert("El archivo PDF no puede exceder los 25 MB.");
+        return;
+    }
+
     //crear una fila en la tabla
     let tabla = document.getElementById("tablaExperiencia");
     let fila = document.createElement("tr");
+
+    // Crear un enlace para visualizar el PDF
+    let pdfUrl = URL.createObjectURL(pdfFile);
+    let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
 
     fila.innerHTML = `
         <td>${empresa}</td>
@@ -255,6 +275,7 @@ function agregarExperiencia() {
         <td>${fechaFin}</td>
         <td>${pais}</td>
         <td>${ciudad}</td>
+        <td>${pdfIcon}</td>
         <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
     `;
     tabla.appendChild(fila);
@@ -266,6 +287,7 @@ function agregarExperiencia() {
     document.getElementById("fechaRetiro").value = "";
     document.getElementById("paisEmpresa").value = "";
     document.getElementById("ciudadEmpresa").value = "";
+    pdfInput.value = "";
 }
 
 // script para mostrar la experiencia como docente
@@ -285,6 +307,16 @@ function agregarExperienciaDocente() {
         return;
     }
 
+    //validar que el tiempo sea de un año como minimo
+    let fechaInicio = new Date(fechaInicioDocente);
+    let fechaFin = new Date(fechaRetiroDocente);
+    let tiempo = fechaFin.getFullYear() - fechaInicio.getFullYear();
+
+    if (tiempo < 1) {
+        alert("El tiempo de experiencia debe ser de al menos un año.");
+        return;
+    }
+
     //crear una fila en la tabla
     let tabla = document.getElementById("tablaExperienciaDocente");
     let fila = document.createElement("tr");
@@ -295,8 +327,7 @@ function agregarExperienciaDocente() {
         <td>${ciudadDocente}</td>
         <td>${programa}</td>
         <td>${cursosImpartidos}</td>
-        <td>${fechaInicioDocente}</td>
-        <td>${fechaRetiroDocente}</td>
+        <td>${tiempo} años</td>
         <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
     `;
     tabla.appendChild(fila);

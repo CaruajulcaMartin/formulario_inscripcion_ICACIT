@@ -55,6 +55,30 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+// Validación de palabras en textarea seccion 4
+document.addEventListener("DOMContentLoaded", function() {
+    const textarea = document.getElementById("funcionesPrincipales");
+    const contador = document.getElementById("contadorObservacionesPrincipales");
+    const errorMensaje = document.getElementById("errorObservaciones");
+    const MAX_PALABRAS = 150;
+
+    textarea.addEventListener("input", function() {
+        const palabras = this.value.trim().split(/\s+/).filter(word => word.length > 0);
+        const totalPalabras = palabras.length;
+
+        contador.textContent = `Máximo 150 palabras. Palabras actuales: ${totalPalabras}`;
+
+        if (totalPalabras > MAX_PALABRAS) {
+            errorMensaje.style.display = "block";
+
+            // Limitar a 150 palabras eliminando el exceso
+            this.value = palabras.slice(0, MAX_PALABRAS).join(" ");
+
+        } else {
+            errorMensaje.style.display = "none";
+        }
+    });
+});
 
 
 
