@@ -1,4 +1,5 @@
 let tipoPregradoAgregado = false;
+let tipoPosdoctoradoAgregado = false;
 
 function agregarFormacion() {
     // Obtener los valores ingresados
@@ -6,12 +7,13 @@ function agregarFormacion() {
     let institucion = document.getElementById("institucionEducativa").value;
     let pais = document.getElementById("pais").value;
     let especialidad = document.getElementById("especialidad").value;
-    let grado = document.getElementById("gradoObtenido").value;
+    let grado = document.getElementById("nombreGrado").value;
     let ano = document.getElementById("anoGraduacion").value;
+    let pdfInput = document.getElementById("pdfFormacion");
 
     // Validar que todos los campos estén llenos
-    if (tipo === "--Seleccionar--" || institucion === "" || pais === "" || especialidad === "" || grado === "" || ano === "") {
-        alert("Por favor, completa todos los campos.");
+    if (tipo === "--Seleccionar--" || institucion === "" || pais === "" || especialidad === "" || grado === "" || ano === "" || pdfInput.files.length === 0) {
+        alert("Por favor, completa todos los campos y adjunta un PDF.");
         return;
     }
 
@@ -21,21 +23,46 @@ function agregarFormacion() {
         return;
     }
 
-    if (tipo === "Pregrado") {
-        tipoPregradoAgregado = true;
+    // Validar que el tipo de formación POSDOCTORADO no sea agregado dos veces
+    if (tipo === "Posdoctorado" && tipoPosdoctoradoAgregado) {
+        alert("Ya has agregado una formación de Posdoctorado. Por favor, selecciona otro tipo de formación.");
+        return;
     }
+
+    // Validar el tipo de archivo adjunto
+    let pdfFile = pdfInput.files[0];
+    if (pdfFile.type !== "application/pdf") {
+        alert("Por favor, adjunta un archivo PDF válido.");
+        return;
+    }
+
+    // Validar el tamaño del archivo (máximo 25 MB)
+    const maxSize = 25 * 1024 * 1024; // 25 MB en bytes
+    if (pdfFile.size > maxSize) {
+        alert("El archivo PDF no puede exceder los 25 MB.");
+        return;
+    }
+
+    // Actualizar las banderas de tipo de formación
+    if (tipo === "Pregrado") tipoPregradoAgregado = true;
+    if (tipo === "Posdoctorado") tipoPosdoctoradoAgregado = true;
 
     // Crear una nueva fila en la tabla
     let tabla = document.getElementById("tablaFormacion");
     let fila = document.createElement("tr");
 
+    // Crear un enlace para visualizar el PDF
+    let pdfUrl = URL.createObjectURL(pdfFile);
+    let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-solid fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
+
     fila.innerHTML = `
         <td>${tipo}</td>
-        <td>${institucion}</td>
         <td>${pais}</td>
+        <td>${ano}</td>
+        <td>${institucion}</td>
         <td>${especialidad}</td>
         <td>${grado}</td>
-        <td>${ano}</td>
+        <td>${pdfIcon}</td>
         <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
     `;
 
@@ -46,20 +73,21 @@ function agregarFormacion() {
     document.getElementById("institucionEducativa").value = "";
     document.getElementById("pais").value = "";
     document.getElementById("especialidad").value = "";
-    document.getElementById("gradoObtenido").value = "";
+    document.getElementById("nombreGrado").value = "";
     document.getElementById("anoGraduacion").value = "";
+    document.getElementById("pdfFormacion").value = "";
 }
 
 function eliminarFila(boton) {
     let fila = boton.parentElement.parentElement;
+    let tipo = fila.cells[0].innerHTML;
+
+    // Si se elimina la fila de Pregrado o Posdoctorado, habilitar nuevamente la opción
+    if (tipo === "Pregrado") tipoPregradoAgregado = false;
+    if (tipo === "Posdoctorado") tipoPosdoctoradoAgregado = false;
+
     fila.remove();
-
-    // Si se elimina la fila de Pregrado, habilitar nuevamente la opción
-    if (fila.cells[0].innerHTML === "Pregrado") {
-        tipoPregradoAgregado = false;
-    }
 }
-
 
 //script para mostrar los idiomas agregados
 function agregarIdioma() {
@@ -100,17 +128,83 @@ function eliminarFila(boton) {
     fila.remove();
 }
 
-//script para mostrar los cursos o seminarios agregados
+//script para mostrar los cursos o seminarios agregados en relacion a: campo profesional
+function agregarCursosAmbitoProfesional() {
+    //obtener los datos
+    let anoCertificadoCampoProfesional = document.getElementById("anoCertificadoCampoProfesional").value;
+    let institucionCampoProfesional = document.getElementById("institucionCampoProfesional").value;
+    let cursoSeminarioCampoProfesional = document.getElementById("cursoSeminarioCampoProfesional").value;
+    let duracionCampoProfesional = document.getElementById("duracionCampoProfesional").value;
+
+    //validar que los campos esten llenos
+    if (anoCertificadoCampoProfesional === "" || institucionCampoProfesional === "" || cursoSeminarioCampoProfesional === "" || duracionCampoProfesional === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaCursosAmbitoProfesional");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${anoCertificadoCampoProfesional}</td>
+        <td>${institucionCampoProfesional}</td>
+        <td>${cursoSeminarioCampoProfesional}</td>
+        <td>${duracionCampoProfesional}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("anoCertificadoCampoProfesional").value = "";
+    document.getElementById("institucionCampoProfesional").value = ""; 
+    document.getElementById("cursoSeminarioCampoProfesional").value = "";
+    document.getElementById("duracionCampoProfesional").value = "";
+}
+//script para mostrar los cursos o seminarios agregados en relacion a: ambito academico
+function agregarCursosAmbitoAcademico() {
+    //obtener los datos
+    let anoCertificadoAmbitoAcademico = document.getElementById("anoCertificadoAmbitoAcademico").value;
+    let institucionAmbitoAcademico = document.getElementById("institucionAmbitoAcademico").value;
+    let cursoSeminarioAmbitoAcademico = document.getElementById("cursoSeminarioAmbitoAcademico").value;
+    let duracionAmbitoAcademico = document.getElementById("duracionAmbitoAcademico").value;
+
+    //validar que los campos esten llenos
+    if (anoCertificadoAmbitoAcademico === "" || institucionAmbitoAcademico === "" || cursoSeminarioAmbitoAcademico === "" || duracionAmbitoAcademico === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    //crear una fila en la tabla
+    let tabla = document.getElementById("tablaCursosAmbitoAcademico");
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${anoCertificadoAmbitoAcademico}</td>
+        <td>${institucionAmbitoAcademico}</td>
+        <td>${cursoSeminarioAmbitoAcademico}</td>
+        <td>${duracionAmbitoAcademico}</td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    tabla.appendChild(fila);
+
+    //limpiar los campos
+    document.getElementById("anoCertificadoAmbitoAcademico").value = "";
+    document.getElementById("institucionAmbitoAcademico").value = "";
+    document.getElementById("cursoSeminarioAmbitoAcademico").value = "";
+    document.getElementById("duracionAmbitoAcademico").value = "";
+}
+
+//script para mostrar los cursos o seminarios agregados en relacion a: ambitos de evaluacion
 function agregarCursos() {
     //obtener los datos
-    let enRelacionA = document.getElementById("enRelacionA").value;
     let ano = document.getElementById("anoCertificado").value;
     let institucion = document.getElementById("institucion").value;
     let cursoSeminario = document.getElementById("cursoSeminario").value;
     let duracion = document.getElementById("duracion").value;
 
     //validar que los campos esten llenos
-    if (enRelacionA === "--Seleccionar--" || ano === "" || institucion === "" || cursoSeminario === "" || duracion === "") {
+    if (ano === "" || institucion === "" || cursoSeminario === "" || duracion === "") {
         alert("Por favor, completa todos los campos.");
         return;
     }
@@ -120,7 +214,6 @@ function agregarCursos() {
     let fila = document.createElement("tr");
 
     fila.innerHTML = `
-        <td>${enRelacionA}</td>
         <td>${ano}</td>
         <td>${institucion}</td>
         <td>${cursoSeminario}</td>
@@ -130,7 +223,6 @@ function agregarCursos() {
     tabla.appendChild(fila);
 
     //limpiar los campos
-    document.getElementById("enRelacionA").value = "--Seleccionar--";
     document.getElementById("anoCertificado").value = "";
     document.getElementById("institucion").value = "";
     document.getElementById("cursoSeminario").value = "";

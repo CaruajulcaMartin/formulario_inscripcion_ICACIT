@@ -30,7 +30,7 @@
         <form class="row g-3 formulario">
             <!-- seccion 1: informacion personal -->
             <div class="form-section" id="section1">
-                <h2>Información del Postulante</h2>
+                <h2><b>Sección 01:</b> Información del Postulante</h2>
                 <div class="section-title">
                     <i class="fa-regular fa-address-card"></i>
                     <h4>Datos Personales</h4>
@@ -55,7 +55,7 @@
                             <option selected>--Seleccionar--</option>
                             <option>DNI</option>
                             <option>Pasaporte</option>
-                            <option>Cédula</option>
+                            <option>Carnet de Extranjeria</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -78,17 +78,51 @@
                             <option selected>--Seleccionar--</option>
                             <option>Soltero/a</option>
                             <option>Casado/a</option>
-                            <option>Divorciado/a</option>
-                            <option>Viudo/a</option>
-                            <option>Conviviente</option>
-                            <option>Separado/a</option>
-                            <option>Comprometido/a</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Foto de perfil:<span class="text-danger">*</span></label>
-                        <input type="file" name="fotoPerfil" accept="image/*" class="form-control">
+                        <label class="form-label">Foto de perfil: <span class="text-danger">*</span></label>
+                        <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/png, image/jpg"
+                            class="form-control" required>
+                        <small class="text-muted">Solo se permiten archivos JPG o PNG.</small>
+                        <div id="errorFotoPerfil" class="text-danger mt-1" style="display: none;">Formato inválido. Solo
+                            JPG o PNG.</div>
+                    </div>
+
+                </div>
+
+                <!-- datos de contacto -->
+                <div class="section-title">
+                    <i class="fa-regular fa-address-book"></i>
+                    <h4>Datos de Contacto </h4>
+                </div>
+
+                <div class="row g-3 formulario">
+                    <div class="col-md-4">
+                        <label class="form-label">Correo Electrónico Principal:<span
+                                class="text-danger">*</span></label>
+                        <input type="email" class="form-control" name="correoElectronicoPrincipal" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Correo Electronico Secundario:<span
+                                class="text-danger">*</span></label>
+                        <input type="email" class="form-control" name="correoElectronicoSecundario" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Número de Teléfono:</label>
+                        <input type="text" class="form-control" name="telefono">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="celular" placeholder="Numero de Whatsapp"
+                            required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Red Profesional<span class="text-danger">*</span></label>
+                        <input type="url" class="form-control" id="basic-url" name="redProfesional"
+                            placeholder="LinkedIn, red interna de la universidad o empresa"
+                            aria-describedby="basic-addon3 basic-addon4" required>
                     </div>
                 </div>
 
@@ -100,7 +134,7 @@
 
                 <div class="row g-3 formulario">
                     <div class="input-group grupo">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class="form-label">Tipo de Dirección:<span class="text-danger">*</span></label>
                             <select class="form-select" name="tipoDireccion">
                                 <option selected>--Seleccionar--</option>
@@ -111,9 +145,13 @@
                                 <option>otro</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label">Dirección:<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="direccion" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Número:<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="numeroDireccion" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -130,12 +168,18 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Distrito:</label>
-                        <input type="text" class="form-control" name="distrito" required>
+                        <input type="text" class="form-control" name="distrito">
                     </div>
-                    <div class="colmd-12">
-                        <label class="form-label">Referencia del Domicilio:<span class="text-danger">*</span></label>
+                    <div class="col-md-12">
+                        <label class="form-label">Referencia del Domicilio:</label>
                         <textarea name="observaciones" id="observaciones" class="form-control" rows="3"></textarea>
+                        <small id="contadorObservaciones" class="text-muted">Máximo 150 palabras. Palabras actuales:
+                            0</small>
+                        <div id="errorObservaciones" class="text-danger mt-1" style="display: none;">
+                            Has excedido el límite de 150 palabras.
+                        </div>
                     </div>
+
                     <!-- Alerta de Nota -->
                     <div class="alert alert-info mt-3 d-flex align-items-center" role="alert">
                         <i class="fas fa-info-circle me-2"></i>
@@ -147,42 +191,12 @@
                     </div>
                 </div>
 
-                <!-- datos de contacto -->
-                <div class="section-title">
-                    <i class="fa-regular fa-address-book"></i>
-                    <h4>Datos de Contacto </h4>
-                </div>
-
-                <div class="row g-3 formulario">
-                    <div class="col-md-4">
-                        <label class="form-label">Correo Electrónico Personal:<span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="correoElectronico" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Correo Electronico Laboral:<span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="correoElectronicoLaboral" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Número de Teléfono:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="telefono" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="celular" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Ingresar URL de LinkedIn:<span class="text-danger">*</span></label>
-                        <input type="url" class="form-control" id="basic-url" name="urlLinkedin"
-                            aria-describedby="basic-addon3 basic-addon4">
-                    </div>
-                </div>
-
                 <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
             </div>
 
             <!-- seccion 2: informacion laboral actual -->
             <div class="form-section" id="section2">
-                <h2>Información Laboral Actual</h2>
+                <h2><b>Sección 02:</b> Información Laboral Actual</h2>
                 <div class="section-title">
                     <i class="fa-solid fa-building-user"></i>
                     <h4>Datos del Centro Laboral Actual</h4>
@@ -245,51 +259,57 @@
 
             <!-- seccion 3: informacion academica -->
             <div class="form-section" id="section3">
-                <h2>Información de Formación Académica</h2>
+                <h2><b>Sección 03:</b> Información de Formación Académica</h2>
                 <div class="section-title">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Formación Académica</h4>
                 </div>
 
                 <div class="row g-3 formulario">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label class="form-label">Tipo de Formación:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoFormacion" id="tipoFormacion">
                             <option selected>--Seleccionar--</option>
                             <option>Pregrado</option>
                             <option>Maestria</option>
                             <option>Doctorado</option>
+                            <option>Posdoctorado</option>
                         </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Institución Educativa:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="institucionEducativa" id="institucionEducativa"
-                            required>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="pais" id="pais" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Especialidad:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="especialidad" id="especialidad" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Grado Obtenido:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="gradoOtenido" id="gradoObtenido" required>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Año de Graduación:<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="anoGraduacion" id="anoGraduacion" min="1900"
                             max="2099" step="1" required>
                     </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label">Universidad:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="institucionEducativa" id="institucionEducativa"
+                            required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Especialidad:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="especialidad" id="especialidad" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre del Grado:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="nombreGrado" id="nombreGrado" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="pdfFormacion" id="pdfFormacion"
+                            accept="application/pdf" required>
+                            <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
+                                MB.</small>
+                    </div>
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
                         <button type="button" class="btn btn-success" onclick="agregarFormacion()"><i
                                 class="fa-solid fa-plus"></i></button>
                     </div>
-
                     <!-- Alerta de Nota -->
                     <div class="alert alert-info mt-3 d-flex align-items-center" role="alert">
                         <i class="fas fa-info-circle me-2"></i>
@@ -301,21 +321,22 @@
                     </div>
                 </div>
 
-                <!-- Tabla para muestrar los registros agregados -->
+                <!-- Tabla para mostrar los registros agregados -->
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Tipo</th>
-                            <th scope="col">Institución</th>
                             <th scope="col">País</th>
+                            <th scope="col">Año de Graduación</th>
+                            <th scope="col">Universidad</th>
                             <th scope="col">Especialidad</th>
                             <th scope="col">Grado</th>
-                            <th scope="col">Año</th>
+                            <th scope="col">Anexos</th>
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
                     <tbody id="tablaFormacion">
-                        <!-- aca se mostraran las filas agregadas -->
+                        <!-- Aquí se mostrarán las filas agregadas -->
                     </tbody>
                 </table>
 
@@ -405,29 +426,120 @@
                 <!-- cursos y seminarios -->
                 <div class="section-title">
                     <i class="fa-solid fa-user-graduate"></i>
-                    <h4>Cursos y Seminarios recibidos (Últimos 3 años): </h4>
+                    <h4>Cursos y Seminarios (últimos 3 años)</h4>
                 </div>
 
+                <!-- en relacion a: campo profesional -->
                 <div class="row g-3 formulario">
-                    <div class="col-md-4">
-                        <label class="form-label">En relación a:<span class="text-danger">*</span></label>
-                        <select class="form-select" name="enRelacionA" id="enRelacionA" required>
-                            <option selected>--Seleccionar--</option>
-                            <option>Campo Profesional</option>
-                            <option>Ámbito Academico</option>
-                            <option>Ámbito de Evaluacion con fines de Acreditación</option>
-                        </select>
+                    <h5>Relacionados a su campo profesional:</h5>
+                    <div class="col-md-2">
+                        <label class="form-label">Año:<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="anoCertificadoCampoProfesional"
+                            id="anoCertificadoCampoProfesional" min="1900" max="2099" step="1" required>
                     </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Institución:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="institucionCampoProfesional"
+                            id="institucionCampoProfesional">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Nombre del Curso o Seminario:<span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="cursoSeminarioCampoProfesional"
+                            id="cursoSeminarioCampoProfesional">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Duración (8 horas mínimo):<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="duracionCampoProfesional"
+                            id="duracionCampoProfesional" min="8" max="360" step="1" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarCursosAmbitoProfesional()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Año</th>
+                            <th scope="col">Institución</th>
+                            <th scope="col">Curso o Seminario</th>
+                            <th scope="col">Duración</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCursosAmbitoProfesional">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <div class="border-bottom border-secondary my-4"></div>
+
+                <!-- en relacion a: ambito academico -->
+                <div class="row g-3 formulario">
+                    <h5>Relacionados a su ámbito académico:</h5>
+                    <div class="col-md-2">
+                        <label class="form-label">Año:<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="anoCertificadoAmbitoAcademico"
+                            id="anoCertificadoAmbitoAcademico" min="1900" max="2099" step="1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Institución:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="institucionAmbitoAcademico"
+                            id="institucionAmbitoAcademico">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Nombre del Curso o Seminario:<span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="cursoSeminarioAmbitoAcademico"
+                            id="cursoSeminarioAmbitoAcademico">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Duración (8 horas mínimo):<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="duracionAmbitoAcademico"
+                            id="duracionAmbitoAcademico" min="8" max="360" step="1" required>
+                    </div>
+
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success" onclick="agregarCursosAmbitoAcademico()"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Año</th>
+                            <th scope="col">Institución</th>
+                            <th scope="col">Curso o Seminario</th>
+                            <th scope="col">Duración</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCursosAmbitoAcademico">
+                        <!-- aca se mostraran las filas agregadas -->
+                    </tbody>
+                </table>
+
+                <div class="border-bottom border-secondary my-4"></div>
+
+                <!-- en relacion a: ambito de evaluacion con fines de acreditación -->
+                <div class="row g-3 formulario">
+                    <h5>Relacionados a su ámbito de evaluación con fines de acreditación:</h5>
                     <div class="col-md-2">
                         <label class="form-label">Año:<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="anoCertificado" id="anoCertificado" min="1900"
                             max="2099" step="1" required>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="form-label">Institución:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="institucion" id="institucion" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label class="form-label">Nombre del Curso o Seminario:<span
                                 class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="cursoSeminario" id="cursoSeminario" required>
@@ -448,7 +560,6 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">En relación a</th>
                             <th scope="col">Año</th>
                             <th scope="col">Institución</th>
                             <th scope="col">Curso o Seminario</th>
@@ -476,7 +587,7 @@
 
             <!-- seccion 4: información sobre experiencia laboral  -->
             <div class="form-section" id="section4">
-                <h2>Información Sobre Experiencia Laboral</h2>
+                <h2><b>Sección 04:</b> Información Sobre Experiencia Laboral</h2>
 
                 <!-- experica laboral -->
                 <div class="section-title">
@@ -824,7 +935,7 @@
 
             <!-- seccion5:  Información Sobre Investigación. -->
             <div class="form-section" id="section5">
-                <h2>Información Sobre Investigación</h2>
+                <h2><b>Sección 05:</b> Información Sobre Investigación</h2>
                 <div class="section-title">
                     <i class="fa-brands fa-readme"></i>
                     <h4>Publicaciones, Artículos y Revistas</h4>
@@ -897,7 +1008,7 @@
 
             <!-- seccion 6:Premios y Reconocimientos. -->
             <div class="form-section" id="section6">
-                <h2>Premios y Reconocimientos</h2>
+                <h2><b>Sección 06:</b> Premios y Reconocimientos</h2>
                 <div class="section-title">
                     <i class="fa-solid fa-award"></i>
                     <h4>Premios y Reconocimientos</h4>
@@ -955,14 +1066,15 @@
 
             <!-- seccion 7: Contribución a su campo profesional. -->
             <div class="form-section" id="section7">
-                <h2>Contribución a su Campo Profesional</h2>
+                <h2><b>Sección 07:</b> Contribución a su Campo Profesional</h2>
                 <div class="section-title">
                     <i class="fa-solid fa-hand-holding-hand"></i>
                     <h4>Contribución Profesional</h4>
                 </div>
                 <div class="row g-3 formulario">
                     <div class="col-12">
-                        <label class="form-label">Descripción de la contribución profesional<span class="text-danger">*</span></label>
+                        <label class="form-label">Descripción de la contribución profesional<span
+                                class="text-danger">*</span></label>
                         <textarea name="descripcionContribucion" id="descripcionContribucion" class="form-control"
                             rows="6" minlength="400" required></textarea>
                         <small id="contadorPalabras" class="text-muted">Mínimo 400 palabras. Palabras actuales:
@@ -979,28 +1091,36 @@
 
             <!-- seccion 8: Referencias -->
             <div class="form-section" id="section8">
-                <h2>Anexos y Referencias</h2>
+                <h2><b>Sección 08:</b> Anexos y Referencias</h2>
                 <div class="section-title">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Anexos para la formación academica</h4>
                 </div>
                 <div class="row g-3 formulario">
                     <div class="col-md-6">
-                        <label class="form-label"><b>Anexo 1:</b> Grado de Bachiller:<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control" required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5 MB.</small>
+                        <label class="form-label"><b>Anexo 1:</b> Grado de Bachiller:<span
+                                class="text-danger">*</span></label>
+                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
+                            required>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
+                            MB.</small>
                         <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label"><b>Anexo 2:</b> Título Profesional (aplicable solo para peruanos):<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control" required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5 MB.</small>
+                        <label class="form-label"><b>Anexo 2:</b> Título Profesional (aplicable solo para
+                            peruanos):<span class="text-danger">*</span></label>
+                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
+                            required>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
+                            MB.</small>
                         <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
                     </div>
                     <div class="col-md-6">
                         <label class="form-label"><b>Anexo 3:</b> Posgrado:<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control" required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5 MB.</small>
+                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
+                            required>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
+                            MB.</small>
                         <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
                     </div>
                 </div>
@@ -1011,9 +1131,12 @@
                 </div>
                 <div class="row g-3 formulario">
                     <div class="col-md-12">
-                        <label class="form-label"><b>Anexo 4:</b> Evidencias de 10 años de experiencia profesional en el área y puestos de dirección:<span class="text-danger">*</span></label>
-                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control" required>
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5 MB.</small>
+                        <label class="form-label"><b>Anexo 4:</b> Evidencias de 10 años de experiencia profesional en el
+                            área y puestos de dirección:<span class="text-danger">*</span></label>
+                        <input type="file" name="anexo1" id="anexo1" accept="application/pdf" class="form-control"
+                            required>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
+                            MB.</small>
                         <!-- <div id="anexo1Error" class="text-danger mt-1" style="display: none;">El archivo debe ser un PDF y no puede superar los 5 MB.</div> -->
                     </div>
                 </div>
@@ -1025,6 +1148,7 @@
     </main>
     <script src="/scripts/index.js"></script>
     <script src="/scripts/formFunctions.js"></script>
+    <script src="/scripts/validaciones.js"></script>
 </body>
 
 </html>
