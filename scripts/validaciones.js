@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Función genérica para validar archivos (foto de perfil)
+    // Función para validar archivos (foto de perfil)
     function validarArchivo(inputId, errorId, formatosValidos, maxSizeMB) {
         let input = document.getElementById(inputId);
         let errorMensaje = document.getElementById(errorId);
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Función genérica para validar textarea (límite de palabras)
+    // Función para validar textarea (límite de palabras)
     function validarTextarea(textareaId, contadorId, errorId, maxPalabras) {
         let textarea = document.getElementById(textareaId);
         let contador = document.getElementById(contadorId);

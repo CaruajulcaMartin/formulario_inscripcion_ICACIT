@@ -117,13 +117,50 @@ function agregarIdioma() {
     limpiarCampos(campos);
 }
 
-// Función para agregar cursos
-function agregarCursos(tablaId, camposIds) {
-    let campos = camposIds.map(id => document.getElementById(id));
+// Función para campo profesional 
+function agregarCursosAmbitoProfesional(){
+    let campos = [
+        document.getElementById("anoCertificadoCampoProfesional"),
+        document.getElementById("institucionCampoProfesional"),
+        document.getElementById("cursoSeminarioCampoProfesional"),
+        document.getElementById("duracionCampoProfesional"),
+    ];
+
     if (!validarCampos(campos)) return;
 
     let valores = campos.map(campo => campo.value);
-    crearFila(tablaId, valores);
+    crearFila("tablaCursosAmbitoProfesional", valores);
+    limpiarCampos(campos);
+}
+
+//funcion para ambito academico
+function agregarCursosAmbitoAcademico(){
+    let campos = [
+        document.getElementById("anoCertificadoAmbitoAcademico"),
+        document.getElementById("institucionAmbitoAcademico"),
+        document.getElementById("cursoSeminarioAmbitoAcademico"),
+        document.getElementById("duracionAmbitoAcademico"),
+    ];
+
+    if (!validarCampos(campos)) return;
+
+    let valores = campos.map(campo => campo.value);
+    crearFila("tablaCursosAmbitoAcademico", valores);
+    limpiarCampos(campos);
+}
+
+function agregarCursos() {
+    let campos = [
+        document.getElementById("anoCertificado"),
+        document.getElementById("institucion"),
+        document.getElementById("cursoSeminario"),
+        document.getElementById("duracion")
+    ];
+
+    if (!validarCampos(campos)) return;
+
+    let valores = campos.map(campo => campo.value);
+    crearFila("tablaCursos", valores);
     limpiarCampos(campos);
 }
 
@@ -159,7 +196,9 @@ function agregarExperienciaDocente() {
         document.getElementById("fechaRetiroDocente")
     ];
 
-    if (!validarCampos(campos)) return;
+    let pdfInput = document.getElementById("pdfExperienciaDocente");
+
+    if (!validarCampos(campos) || !validarPDF(pdfInput)) return;
 
     let fechaInicio = new Date(campos[5].value);
     let fechaFin = new Date(campos[6].value);
@@ -171,8 +210,8 @@ function agregarExperienciaDocente() {
     }
 
     let valores = campos.map(campo => campo.value);
-    valores.push(`${tiempo} años`);
-    crearFila("tablaExperienciaDocente", valores);
+    // valores.push(`${tiempo} años`);
+    crearFila("tablaExperienciaDocente", valores, pdfInput.files[0]);
     limpiarCampos(campos);
 }
 
@@ -181,8 +220,7 @@ function agregarMembresia() {
     let campos = [
         document.getElementById("asociacionProfesional"),
         document.getElementById("numeroMembresia"),
-        document.getElementById("gradoMembresia"),
-        document.getElementById("vigenteMembresia")
+        document.getElementById("gradoMembresia")
     ];
 
     if (!validarCampos(campos)) return;

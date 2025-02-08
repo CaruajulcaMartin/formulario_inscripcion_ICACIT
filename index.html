@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Tipo de Identidad:<span class="text-danger">*</span></label>
-                        <select class="form-select">
+                        <select class="form-select" name="tipoIdentidad" required>
                             <option selected>--Seleccionar--</option>
                             <option>DNI</option>
                             <option>Pasaporte</option>
@@ -65,6 +65,9 @@
 
                     <div class="col-md-3">
                         <label class="form-label">Nacionalidad:<span class="text-danger">*</span></label>
+                        <!-- <select class="form-control" name="nacionalidad" id="nacionalidad">
+                            <option value="">Seleccione una nacionalidad</option>
+                        </select> -->
                         <input type="text" name="nacionalidad" class="form-control" required>
                     </div>
 
@@ -74,7 +77,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Estado Civil:<span class="text-danger">*</span></label>
-                        <select class="form-select" name="estadoCivil">
+                        <select class="form-select" name="estadoCivil" required>
                             <option selected>--Seleccionar--</option>
                             <option>Soltero/a</option>
                             <option>Casado/a</option>
@@ -110,19 +113,17 @@
                         <input type="email" class="form-control" name="correoElectronicoSecundario" required>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Número de Teléfono:</label>
-                        <input type="text" class="form-control" name="telefono">
-                    </div>
-                    <div class="col-md-4">
                         <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="celular" placeholder="Numero de Whatsapp"
                             required>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Red Profesional<span class="text-danger">*</span></label>
-                        <input type="url" class="form-control" id="basic-url" name="redProfesional"
-                            placeholder="LinkedIn, red interna de la universidad o empresa"
-                            aria-describedby="basic-addon3 basic-addon4" required>
+                    <div class="mb-3">
+                        <label for="basic-url" class="form-label">Red Profesional:<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon3">https://example.com/</span>
+                            <input type="text" class="form-control" id="basic-url" placeholder="LinkedIn, red interna de la universidad o empresa"
+                                aria-describedby="basic-addon3 basic-addon4">
+                        </div>
                     </div>
                 </div>
 
@@ -136,7 +137,7 @@
                     <div class="input-group grupo">
                         <div class="col-md-3">
                             <label class="form-label">Tipo de Dirección:<span class="text-danger">*</span></label>
-                            <select class="form-select" name="tipoDireccion">
+                            <select class="form-select" name="tipoDireccion" required>
                                 <option selected>--Seleccionar--</option>
                                 <option>Avenida</option>
                                 <option>Calle</option>
@@ -156,6 +157,9 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
+                        <!-- <select class="form-control" name="pais" id="pais">
+                            <option value="">Seleccione un país</option>
+                        </select> -->
                         <input type="text" class="form-control" name="pais" required>
                     </div>
                     <div class="col-md-3">
@@ -222,8 +226,8 @@
                         <input type="text" class="form-control" name="direccionLaboral" required>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Número Telefónico:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="telefonoLaboral" required>
+                        <label class="form-label">Número Telefónico:</label>
+                        <input type="text" class="form-control" name="telefonoLaboral">
                     </div>
                 </div>
 
@@ -710,7 +714,7 @@
                                 class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="cursosImpartidos" id="cursosImpartidos" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="form-label">Funciones Principales:</label>
                         <textarea name="funcionesPrincipales" id="funcionesPrincipales" class="form-control" rows="3"
                             placeholder="Ingrese las funciones principales"></textarea>
@@ -720,24 +724,24 @@
                             Has excedido el límite de 150 palabras.
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    
+                    <div class="col-md-4">
                         <label class="form-label">Fecha de Inicio:<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" name="fechaInicioDocente" id="fechaInicioDocente"
                             required>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">Fecha de Retiro:<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" name="fechaRetiroDocente" id="fechaRetiroDocente"
                             required>
                     </div>
-
-                    <!-- <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="pdfExperiencia" id="pdfExperiencia"
+                        <input type="file" class="form-control" name="pdfExperienciaDocente" id="pdfExperienciaDocente"
                             accept="application/pdf" required>
                             <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
                                 MB.</small>
-                    </div> -->
+                    </div>
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
@@ -755,7 +759,9 @@
                             <th scope="col">Ciudad</th>
                             <th scope="col">Nombre del Programa</th>
                             <th scope="col">Curso o Capacitación</th>
-                            <th scope="col">Tiempo de Experiencia</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Fin</th>
+                            <th scope="col">Anexos</th>
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
@@ -916,7 +922,7 @@
                 <!-- Membresías en Asociaciones Profesionales-->
                 <div class="section-title">
                     <i class="fa-solid fa-handshake-angle"></i>
-                    <h4>Membresías en Asociaciones Profesionales</h4>
+                    <h4>Membresías en Asociaciones Profesionales Vigentes</h4>
                 </div>
                 <div class="row g-3 formulario">
                     <div class="col-md-4">
@@ -929,11 +935,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Grado:</label>
-                        <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Vigente:</label>
-                        <input type="text" class="form-control" name="vigenteMembresia" id="vigenteMembresia" placeholder="Afiliado o Senior">
+                        <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia" placeholder="Afiliado o Senior">
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
@@ -950,7 +952,6 @@
                             <th scope="col">Asociación Profesional</th>
                             <th scope="col">Número de la Membresía</th>
                             <th scope="col">Grado</th>
-                            <th scope="col">Vigente</th>
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
@@ -1150,6 +1151,8 @@
     <script src="/scripts/formFunctions.js"></script>
     <script src="/scripts/validaciones.js"></script>
     <script src="/scripts/firmaUsuario.js"></script>
+    <script src="/services/servicioNacionalidades.js"></script>
+    <script src="/services/servicioPaises.js"></script>
 </body>
 
 </html>
