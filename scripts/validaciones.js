@@ -3,26 +3,30 @@ document.addEventListener("DOMContentLoaded", function () {
     function validarArchivo(inputId, errorId, formatosValidos, maxSizeMB) {
         let input = document.getElementById(inputId);
         let errorMensaje = document.getElementById(errorId);
-
+        
         input.addEventListener("change", function () {
             let archivo = this.files[0];
             let maxSizeBytes = maxSizeMB * 1024 * 1024;
-
+            
             if (archivo) {
-                if (!formatosValidos.includes(archivo.type)) {
+                // Convertir tipo de archivo a minúsculas para comparación
+                let tipoArchivo = archivo.type.toLowerCase();
+
+                // Permitir también archivos con extensión .jpg y .png
+                if (!formatosValidos.includes(tipoArchivo) && !(tipoArchivo === "image/jpeg" && archivo.name.toLowerCase().endsWith(".jpg")) && !(tipoArchivo === "image/png" && archivo.name.toLowerCase().endsWith(".png"))) {
                     errorMensaje.textContent = `Formato inválido. Solo se permiten archivos ${formatosValidos.join(", ")}.`;
                     errorMensaje.style.display = "block";
                     this.value = ""; // Limpiar el input
                     return;
                 }
-
+                
                 if (archivo.size > maxSizeBytes) {
                     errorMensaje.textContent = `El archivo es demasiado grande. Máximo permitido: ${maxSizeMB}MB.`;
                     errorMensaje.style.display = "block";
                     this.value = ""; // Limpiar el input
                     return;
                 }
-
+                
                 // Si pasa ambas validaciones, ocultar mensaje de error
                 errorMensaje.style.display = "none";
             }
