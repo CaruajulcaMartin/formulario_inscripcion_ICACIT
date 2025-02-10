@@ -128,6 +128,12 @@ function agregarCursosAmbitoProfesional(){
 
     if (!validarCampos(campos)) return;
 
+    let duracion = parseInt(campos[3].value);
+    if (duracion < 8) {
+        alert("La duración mínima debe ser de 8 horas.");
+        return;
+    }
+
     let valores = campos.map(campo => campo.value);
     crearFila("tablaCursosAmbitoProfesional", valores);
     limpiarCampos(campos);
@@ -144,6 +150,12 @@ function agregarCursosAmbitoAcademico(){
 
     if (!validarCampos(campos)) return;
 
+    let duracion = parseInt(campos[3].value);
+    if (duracion < 8) {
+        alert("La duración mínima debe ser de 8 horas.");
+        return;
+    }
+
     let valores = campos.map(campo => campo.value);
     crearFila("tablaCursosAmbitoAcademico", valores);
     limpiarCampos(campos);
@@ -158,6 +170,12 @@ function agregarCursos() {
     ];
 
     if (!validarCampos(campos)) return;
+
+    let duracion = parseInt(campos[3].value);
+    if (duracion < 8) {
+        alert("La duración mínima debe ser de 8 horas.");
+        return;
+    }
 
     let valores = campos.map(campo => campo.value);
     crearFila("tablaCursos", valores);

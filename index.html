@@ -118,10 +118,12 @@
                             required>
                     </div>
                     <div class="mb-3">
-                        <label for="basic-url" class="form-label">Red Profesional:<span class="text-danger">*</span></label>
+                        <label for="basic-url" class="form-label">Red Profesional:<span
+                                class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon3">https://example.com/</span>
-                            <input type="text" class="form-control" id="basic-url" placeholder="LinkedIn, red interna de la universidad o empresa"
+                            <input type="text" class="form-control" id="basic-url"
+                                placeholder="LinkedIn, red interna de la universidad o empresa"
                                 aria-describedby="basic-addon3 basic-addon4" required>
                         </div>
                     </div>
@@ -310,9 +312,14 @@
                     </div>
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarFormacion()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre tu formación académica" onclick="agregarFormacion()">
+                            Agregar Formacion Academica
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
+
                     <!-- Alerta de Nota -->
                     <div class="alert alert-info mt-3 d-flex align-items-center" role="alert">
                         <i class="fas fa-info-circle me-2"></i>
@@ -396,8 +403,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarIdioma()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre tus idiomas que domines" onclick="agregarIdioma()">
+                            Agregar Idiomas
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -459,8 +470,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarCursosAmbitoProfesional()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a tu campo profesional" onclick="agregarCursosAmbitoProfesional()">
+                            Agregar Cursos 
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -508,8 +523,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarCursosAmbitoAcademico()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito académico" onclick="agregarCursosAmbitoAcademico()">
+                            Agregar Cursos 
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -555,8 +574,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarCursos()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito de evaluación con fines de acreditación" onclick="agregarCursos()">
+                            Agregar Cursos 
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -632,9 +655,13 @@
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarExperiencia()">Agregar <i
-                                class="fa-solid fa-plus"></i></button>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre su experiencia laboral" onclick="agregarExperiencia()">
+                            Agregar Experiencia
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
 
                     <!-- Alerta de Nota -->
@@ -720,7 +747,7 @@
                             Has excedido el límite de 150 palabras.
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <label class="form-label">Fecha de Inicio:<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" name="fechaInicioDocente" id="fechaInicioDocente">
@@ -733,14 +760,18 @@
                         <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="pdfExperienciaDocente" id="pdfExperienciaDocente"
                             accept="application/pdf">
-                            <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
-                                MB.</small>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
+                            MB.</small>
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarExperienciaDocente()"><i
-                                class="fa-solid fa-plus"></i></button>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre su experiencia laboral como docente en educación superior" onclick="agregarExperienciaDocente()">
+                            Agregar Experiencia
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -803,9 +834,13 @@
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarExperienciaComite()"><i
-                                class="fa-solid fa-plus"></i></button>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre su experiencia laboral como parte de comité de calidad" onclick="agregarExperienciaComite()">
+                            Agregar Experiencia
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -888,8 +923,11 @@
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarExperienciaEvaluador()">
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre su experiencia laboral como par evaluador" onclick="agregarExperienciaEvaluador()">
+                            Agregar Experiencia
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -929,13 +967,18 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Grado:</label>
-                        <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia" placeholder="Afiliado o Senior">
+                        <input type="text" class="form-control" name="gradoMembresia" id="gradoMembresia"
+                            placeholder="Afiliado o Senior">
                     </div>
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarMembresia()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre sus membresías en asociaciones profesionales " onclick="agregarMembresia()">
+                            Agregar Experiencia
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -995,8 +1038,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarInvestigacion()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre sus investigaciones" onclick="agregarInvestigacion()">
+                            Agregar Investigación
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -1066,8 +1113,12 @@
 
                     <!-- Botón para agregar un nuevo registro -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success" onclick="agregarPremio()"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Haz clic aquí para agregar más información sobre sus premios y reconocimientos" onclick="agregarPremio()">
+                            Agregar Reconocimientos
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -1141,11 +1192,19 @@
         </form>
 
     </main>
+
     <script src="/scripts/index.js"></script>
     <script src="/scripts/formFunctions.js"></script>
     <script src="/scripts/validaciones.js"></script>
     <script src="/scripts/firmaUsuario.js"></script>
     <script src="/scripts/validarExperiencia.js"></script>
+    <script>
+        // Inicializa todos los tooltips en la página
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 </body>
 
 </html>
