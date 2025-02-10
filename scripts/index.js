@@ -11,26 +11,20 @@ function showSection(index) {
     updateProgress(index);
 }
 
-// Función para avanzar a la siguiente sección
+// Avanzar a la siguiente sección
 function nextSection() {
-    // Validar la sección actual antes de avanzar
-    if (!validateSection(sections[currentSection])) {
-        return; // Detener si la validación falla
-    }
+    if (!validateSection(sections[currentSection])) return;
 
-    // Validación específica para la sección de experiencia laboral (Sección 4)
-    if (currentSection === 3 && !validateExperienceSection()) {
-        return; // Detener si no cumple con los 10 años de experiencia
-    }
+    // Si estamos en la sección 4, validar experiencia laboral con el script externo
+    if (currentSection === 3 && !validarExperienciaLaboral()) return;
 
-    // Avanzar a la siguiente sección si la validación es exitosa
     if (currentSection < sections.length - 1) {
         currentSection++;
         showSection(currentSection);
     }
 }
 
-// Función para retroceder a la sección anterior
+// Retroceder a la sección anterior
 function prevSection() {
     if (currentSection > 0) {
         currentSection--;
@@ -45,68 +39,62 @@ function updateProgress(index) {
     progressBar.innerText = `Paso ${index + 1} de ${sections.length}`;
 }
 
-// Función para validar todos los campos requeridos en una sección
+// Validar la sección actual
 function validateSection(section) {
-    const requiredInputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+    const sectionName = section.querySelector("h2")?.textContent || "Sección desconocida";
+    return validateRequiredFields(section, sectionName) && validateTables(section);
+}
+
+// Validar campos requeridos
+function validateRequiredFields(section, sectionName) {
     let isValid = true;
+    const requiredInputs = section.querySelectorAll('input[required], select[required], textarea[required]');
 
     requiredInputs.forEach(input => {
         if (!input.value.trim()) {
             isValid = false;
-            input.classList.add('is-invalid'); // Marcar campo como inválido
-            showError(input, 'Este campo es requerido.'); // Mostrar mensaje de error
+            showError(input, `En la sección "${sectionName}", el campo "${input.name}" es requerido.`);
         } else {
-            input.classList.remove('is-invalid'); // Remover marca de inválido
-            hideError(input); // Ocultar mensaje de error
+            hideError(input);
         }
     });
-
-    if (!isValid) {
-        alert('Por favor, complete todos los campos requeridos antes de continuar.');
-    }
 
     return isValid;
 }
 
-// Función para validar la experiencia laboral (mínimo 10 años)
-function validateExperienceSection() {
-    const experienceRows = document.querySelectorAll('#tablaExperiencia tr');
-    let totalYears = 0;
+// Validar solo las tablas obligatorias
+function validateTables(section) {
+    let isValid = true;
 
-    experienceRows.forEach(row => {
-        const startDate = row.querySelector('input[name="fechaInicio"]').value;
-        const endDate = row.querySelector('input[name="fechaRetiro"]').value;
+    const requiredTables = section.querySelectorAll('table.required'); // Solo valida tablas con la clase 'required'
 
-        if (startDate && endDate) {
-            const startYear = new Date(startDate).getFullYear();
-            const endYear = new Date(endDate).getFullYear();
-            totalYears += (endYear - startYear);
+    requiredTables.forEach(table => {
+        if (table.querySelectorAll('tbody tr').length === 0) {
+            isValid = false;
+            alert(`Debe agregar al menos un registro en la tabla: "${table.previousElementSibling.textContent.trim()}".`);
         }
     });
 
-    if (totalYears < 10) {
-        alert('Debe tener al menos 10 años de experiencia laboral para continuar.');
-        return false;
-    }
-
-    return true;
+    return isValid;
 }
 
-// Función para mostrar un mensaje de error debajo de un campo
+// Mostrar mensaje de error
 function showError(input, message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'invalid-feedback';
+    let errorDiv = input.parentNode.querySelector('.invalid-feedback');
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback';
+        input.parentNode.appendChild(errorDiv);
+    }
     errorDiv.textContent = message;
     input.classList.add('is-invalid');
-    input.parentNode.appendChild(errorDiv);
 }
 
-// Función para ocultar un mensaje de error
+// Ocultar mensaje de error
 function hideError(input) {
     const errorDiv = input.parentNode.querySelector('.invalid-feedback');
-    if (errorDiv) {
-        errorDiv.remove();
-    }
+    if (errorDiv) errorDiv.remove();
+    input.classList.remove('is-invalid');
 }
 
 // Inicializar la primera sección visible

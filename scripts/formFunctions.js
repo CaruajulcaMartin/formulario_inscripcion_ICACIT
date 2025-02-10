@@ -215,6 +215,41 @@ function agregarExperienciaDocente() {
     limpiarCampos(campos);
 }
 
+// Funcion para agregar experiencia comite
+function agregarExperienciaComite() {
+    let campos = [
+        document.getElementById("institucionComite"),
+        document.getElementById("cargoComite"),
+        document.getElementById("modelosCalidad"),
+        document.getElementById("fechaInicioComite"),
+        document.getElementById("fechaRetiroComite")
+    ];
+
+    if (!validarCampos(campos)) return;
+
+    let valores = campos.map(campo => campo.value);
+    crearFila("tablaExperienciaComite", valores);
+    limpiarCampos(campos);
+}
+
+//Funcion para agregar como par evaluador
+function agregarExperienciaEvaluador(){
+    let campos = [
+        document.getElementById("nombreEntidad"),
+        document.getElementById("programaEvaluador"),
+        document.getElementById("cargoEvaluador"),
+        document.getElementById("paisEvaluador"),
+        document.getElementById("ciudadEvaluador"),
+        document.getElementById("fechaEvaluacion")
+    ];
+
+    if (!validarCampos(campos)) return;
+
+    let valores = campos.map(campo => campo.value);
+    crearFila("tablaExperienciaEvaluador", valores);
+    limpiarCampos(campos);
+}
+
 // Función para agregar membresías
 function agregarMembresia() {
     let campos = [
