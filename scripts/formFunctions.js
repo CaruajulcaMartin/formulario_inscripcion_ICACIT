@@ -72,11 +72,11 @@ function eliminarFila(boton) {
 function agregarFormacion() {
     let campos = [
         document.getElementById("tipoFormacion"),
+        document.getElementById("paisFormacion"),
+        document.getElementById("anoGraduacion"),
         document.getElementById("institucionEducativa"),
-        document.getElementById("pais"),
         document.getElementById("especialidad"),
-        document.getElementById("nombreGrado"),
-        document.getElementById("anoGraduacion")
+        document.getElementById("nombreGrado")
     ];
 
     let pdfInput = document.getElementById("pdfFormacion");
@@ -161,6 +161,7 @@ function agregarCursosAmbitoAcademico(){
     limpiarCampos(campos);
 }
 
+//funcion en ambito de evaluacion
 function agregarCursos() {
     let campos = [
         document.getElementById("anoCertificado"),
@@ -230,7 +231,7 @@ function agregarExperienciaDocente() {
     let valores = campos.map(campo => campo.value);
     // valores.push(`${tiempo} años`);
     crearFila("tablaExperienciaDocente", valores, pdfInput.files[0]);
-    limpiarCampos(campos);
+    limpiarCampos([...campos, pdfInput]);
 }
 
 // Funcion para agregar experiencia comite

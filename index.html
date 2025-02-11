@@ -65,10 +65,10 @@
 
                     <div class="col-md-3">
                         <label class="form-label">Nacionalidad:<span class="text-danger">*</span></label>
-                        <!-- <select class="form-control" name="nacionalidad" id="nacionalidad">
-                            <option value="">Seleccione una nacionalidad</option>
-                        </select> -->
-                        <input type="text" name="nacionalidad" class="form-control" required>
+                        <select class="form-control" name="nationality" id="nationality" required>
+                            <option value="">Seleccionar Nacionalidad</option>
+                        </select>
+                        <!-- <input type="text" name="nacionalidad" class="form-control" required> -->
                     </div>
 
                     <div class="col-md-4">
@@ -85,8 +85,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Foto de perfil: <span class="text-danger">*</span></label>
-                        <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/png, image/jpg"
+                        <label class="form-label">Foto de Perfil: <span class="text-danger">*</span></label>
+                        <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/png, image/jpeg"
                             class="form-control" required>
                         <small class="text-muted">Solo se permiten archivos JPG o PNG.</small>
                         <div id="errorFotoPerfil" class="text-danger mt-1" style="display: none;">Formato inválido. Solo
@@ -108,13 +108,13 @@
                         <input type="email" class="form-control" name="correoElectronicoPrincipal" required>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Correo Electronico Secundario:<span
+                        <label class="form-label">Correo Electrónico Secundario:<span
                                 class="text-danger">*</span></label>
                         <input type="email" class="form-control" name="correoElectronicoSecundario" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="celular" placeholder="Numero de Whatsapp"
+                        <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp"
                             required>
                     </div>
                     <div class="mb-3">
@@ -159,10 +159,10 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
-                        <!-- <select class="form-control" name="pais" id="pais">
-                            <option value="">Seleccione un país</option>
-                        </select> -->
-                        <input type="text" class="form-control" name="pais" required>
+                        <select class="form-control" name="country" id="country" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="pais" required> -->
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Región:<span class="text-danger">*</span></label>
@@ -243,7 +243,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Número Telefónico:</label>
-                        <input type="text" class="form-control" name="telefonoLaboral">
+                        <input type="tel" class="form-control" name="telefonoLaboral">
                     </div>
                 </div>
 
@@ -298,7 +298,10 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="pais" id="pais">
+                        <select class="form-control" name="paisFormacion" id="paisFormacion" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="paisFormacion" id="paisFormacion"> -->
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Año de Graduación:<span class="text-danger">*</span></label>
@@ -329,7 +332,7 @@
                         <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip" data-bs-placement="top"
                             data-bs-custom-class="custom-tooltip"
                             data-bs-title="Haz clic aquí para agregar más información sobre tu formación académica" onclick="agregarFormacion()">
-                            Agregar Formacion Academica
+                            Agregar Formación Académica
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -706,7 +709,10 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="pais" id="paisEmpresa">
+                        <select class="form-control" name="paisEmpresa" id="paisEmpresa" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="paisEmpresa" id="paisEmpresa"> -->
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Ciudad:<span class="text-danger">*</span></label>
@@ -810,7 +816,10 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="paisDocente" id="paisDocente">
+                        <select class="form-control" name="paisDocente" id="paisDocente" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="paisDocente" id="paisDocente"> -->
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Ciudad:<span class="text-danger">*</span></label>
@@ -1024,7 +1033,10 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:</label>
-                        <input type="text" class="form-control" name="paisEvaluador" id="paisEvaluador">
+                        <select class="form-control" name="paisEvaluador" id="paisEvaluador" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="paisEvaluador" id="paisEvaluador"> -->
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Ciudad:</label>
@@ -1323,6 +1335,7 @@
     <script src="/scripts/validaciones.js"></script>
     <script src="/scripts/firmaUsuario.js"></script>
     <script src="/scripts/validarExperiencia.js"></script>
+    <script src="/services/serviceCountry.js"></script>
     <script>
         // Inicializa todos los tooltips en la página
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
