@@ -128,7 +128,6 @@ function validarCanvas() {
 }
 
 
-
 // Mostrar mensaje de error
 function showError(input, message) {
     let errorDiv = input.parentNode.querySelector('.invalid-feedback');
@@ -149,4 +148,4 @@ function hideError(input) {
 }
 
 // Inicializar la primera sección visible
-showSection(currentSection);
+//showSection(currentSection);

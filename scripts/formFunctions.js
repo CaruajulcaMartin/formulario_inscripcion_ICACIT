@@ -68,6 +68,12 @@ function eliminarFila(boton) {
     fila.remove();
 }
 
+//funcion para validar año
+function validarAno(ano) {
+    const anoActual = new Date().getFullYear();
+    return !isNaN(ano) && ano >= 1900 && ano <= anoActual;
+}
+
 // Función para agregar formación
 function agregarFormacion() {
     let campos = [
@@ -128,6 +134,12 @@ function agregarCursosAmbitoProfesional(){
 
     if (!validarCampos(campos)) return;
 
+    let anoCertificado = parseInt(campos[0].value);
+    if (!validarAno(anoCertificado)){
+        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        return;
+    }
+
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
         alert("La duración mínima debe ser de 8 horas.");
@@ -150,6 +162,12 @@ function agregarCursosAmbitoAcademico(){
 
     if (!validarCampos(campos)) return;
 
+    let anoCertificado = parseInt(campos[0].value);
+    if (!validarAno(anoCertificado)){
+        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        return;
+    }
+
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
         alert("La duración mínima debe ser de 8 horas.");
@@ -171,6 +189,12 @@ function agregarCursos() {
     ];
 
     if (!validarCampos(campos)) return;
+
+    let anoCertificado = parseInt(campos[0].value);
+    if (!validarAno(anoCertificado)){
+        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        return;
+    }
 
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
@@ -215,6 +239,8 @@ function agregarExperienciaDocente() {
         document.getElementById("fechaRetiroDocente")
     ];
 
+    let funcionesPrincipales = document.getElementById("funcionesPrincipales");
+
     let pdfInput = document.getElementById("pdfExperienciaDocente");
 
     if (!validarCampos(campos) || !validarPDF(pdfInput)) return;
@@ -231,7 +257,7 @@ function agregarExperienciaDocente() {
     let valores = campos.map(campo => campo.value);
     // valores.push(`${tiempo} años`);
     crearFila("tablaExperienciaDocente", valores, pdfInput.files[0]);
-    limpiarCampos([...campos, pdfInput]);
+    limpiarCampos([...campos,funcionesPrincipales, pdfInput]);
 }
 
 // Funcion para agregar experiencia comite
