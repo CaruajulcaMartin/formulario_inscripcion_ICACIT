@@ -65,30 +65,32 @@ fetch('https://restcountries.com/v3.1/all')
     .catch(error => console.error('Error al obtener los países:', error));
 
 // Solicitar nacionalidades
-function getNationalities(data) {
-    if (!data) return;
+// function getNationalities(data) {
+//     if (!data) return;
 
-    const nationalitySelect = document.getElementById('nationality');
-    nationalitySelect.innerHTML = ''; //limpiar el select
+//     data.sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-    //agregar opcion por defecto
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = '--Seleccionar Nacionalidad--';
-    nationalitySelect.appendChild(defaultOption);
+//     const nationalitySelect = document.getElementById('nationality');
+//     nationalitySelect.innerHTML = ''; //limpiar el select
 
-    data.forEach(country => {
-        if (country.demonyms && country.demonyms.eng) {
-            const option = document.createElement('option');
-            option.value = country.demonyms.eng.m;
-            option.textContent = country.demonyms.eng.m;
-            nationalitySelect.appendChild(option);
-        }
-    });
-}
+//     //agregar opcion por defecto
+//     const defaultOption = document.createElement('option');
+//     defaultOption.value = '';
+//     defaultOption.textContent = '--Seleccionar Nacionalidad--';
+//     nationalitySelect.appendChild(defaultOption);
+
+//     data.forEach(country => {
+//         if (country.demonyms && country.demonyms.eng) {
+//             const option = document.createElement('option');
+//             option.value = country.demonyms.eng.m;
+//             option.textContent = country.demonyms.eng.m;
+//             nationalitySelect.appendChild(option);
+//         }
+//     });
+// }
 
 document.addEventListener('DOMContentLoaded', async () => {
     const data = await fetchData();
     getCountries(data);
-    getNationalities(data);
+    // getNationalities(data);
 });

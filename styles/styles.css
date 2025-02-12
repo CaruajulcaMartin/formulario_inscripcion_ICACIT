@@ -107,14 +107,45 @@
     gap: 10px;
 }
 
-canvas {
-    width: 100%;
-    height: 100%;
-}
+/*ESTILOS PARA LA FIRMA DIGITAL*/
 
 #firmaCanvas {
     width: 100%;
     height: 200px;
     background-color: #f9f9f9;
     cursor: crosshair;
+    border: dashed 2px #002060;
+    border-radius: 10px;
+}
+
+
+/*estilos de PREVISUALIZACION*/
+#previewModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.modal-header, .modal-footer {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+    text-align: right;
 }

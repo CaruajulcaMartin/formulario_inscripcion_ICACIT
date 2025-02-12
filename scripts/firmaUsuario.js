@@ -1,8 +1,9 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let canvas = document.getElementById("firmaCanvas");
-    let ctx = canvas.getContext("2d");
-    let limpiador = document.getElementById("limpiarFirma");
-    let inputFirma = document.getElementById("firmaInput");
+// firmaDigital.js
+function initializeSignatureCanvas() {
+    const canvas = document.getElementById("firmaCanvas");
+    const ctx = canvas.getContext("2d");
+    const limpiador = document.getElementById("limpiarFirma");
+    const inputFirma = document.getElementById("firmaInput");
 
     // Ajustar tamaño del canvas
     function ajustarCanvas() {
@@ -54,24 +55,25 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.addEventListener("mousemove", dibujar);
     canvas.addEventListener("mouseup", finalizarDibujo);
     canvas.addEventListener("mouseleave", finalizarDibujo);
+}
 
-    // Reconfigurar el canvas cuando se muestra u oculta
-    function reconfigurarCanvas() {
-        ajustarCanvas();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        inputFirma.value = "";
-    }
-
-    // Observar cambios en la visibilidad del canvas
-    const observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if (mutation.attributeName === "style") {
-                reconfigurarCanvas();
-            }
-        });
+// Observar cambios en el DOM para inicializar el canvas cuando esté visible
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        // Verificar si el canvas está visible
+        const canvas = document.getElementById("firmaCanvas");
+        if (canvas && canvas.style.display !== "none") {
+            // Inicializar el canvas de la firma
+            initializeSignatureCanvas();
+            // Dejar de observar después de inicializar (opcional)
+            observer.disconnect();
+        }
     });
+});
 
-    observer.observe(canvas, {
-        attributes: true,
-    });
+// Configurar el observer para observar cambios en el DOM
+observer.observe(document.body, {
+    childList: true, // Observar cambios en los hijos del nodo
+    subtree: true, // Observar en todo el subárbol del nodo
+    attributes: true, // Observar cambios en atributos (como style)
 });

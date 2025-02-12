@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Validación de foto de perfil (solo JPG y PNG, máximo 25 MB)
-    validarArchivo("fotoPerfil", "errorFotoPerfil", ["image/jpg", "image/png"], 25);
+    validarArchivo("fotoPerfil", "errorFotoPerfil", ["image/jpg", "image/png"], 5);
 
     // Validación de textarea de sección 1 (referencias domicilio)
     validarTextarea("observaciones", "contadorObservaciones", "errorObservaciones", 150);
