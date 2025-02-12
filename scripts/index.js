@@ -148,4 +148,4 @@ function hideError(input) {
 }
 
 // Inicializar la primera sección visible
-//showSection(currentSection);
+showSection(currentSection);
