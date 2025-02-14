@@ -578,7 +578,7 @@ function downloadPDF() {
     });
 
     // Guardar el PDF
-    pdf.save('formulario_inscripcion.pdf');
+    pdf.save('Formulario_Inscripcion_ICACIT_2025.pdf');
 }
 
 // Asignar la función al botón de descarga
