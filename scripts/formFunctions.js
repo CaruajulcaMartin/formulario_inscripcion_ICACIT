@@ -95,6 +95,12 @@ function agregarFormacion() {
 
     if (!validarCampos(campos) || !validarPDF(pdfInput)) return;
 
+    let anoCertificado = parseInt(campos[2].value);
+    if (!validarAno(anoCertificado)){
+        alert("Por favor ingresa un año de graduación valido");
+        return;
+    }
+
     let tipo = campos[0].value;
     if (tipo === "Pregrado" && tipoPregradoAgregado) {
         alert("Ya has agregado una formación de Pregrado.");
@@ -142,7 +148,7 @@ function agregarCursosAmbitoProfesional(){
 
     let anoCertificado = parseInt(campos[0].value);
     if (!validarAno(anoCertificado)){
-        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        alert("Por favor ingresa un año valido (entre 1900 y año actual)");
         return;
     }
 
@@ -320,10 +326,10 @@ function agregarMembresia() {
 function agregarInvestigacion() {
     let campos = [
         document.getElementById("fechaPublicacion"),
+        document.getElementById("revistaCongreso"),
+        document.getElementById("baseDatos"),
         document.getElementById("nombreInvestigacion"),
         document.getElementById("autores"),
-        document.getElementById("revistaCongreso"),
-        document.getElementById("baseDatos")
     ];
 
     if (!validarCampos(campos)) return;
@@ -343,6 +349,12 @@ function agregarPremio() {
     ];
 
     if (!validarCampos(campos)) return;
+
+    let anoCertificado = parseInt(campos[0].value);
+    if (!validarAno(anoCertificado)){
+        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        return;
+    }
 
     let valores = campos.map(campo => campo.value);
     crearFila("tablaPremios", valores);

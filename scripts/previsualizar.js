@@ -1,6 +1,59 @@
 function showPreviewInModal() {
+    // Validar la sección 8 antes de continuar
+    if (!validateSection8()) {
+        alert("Por favor, completa todos los checkboxes y proporciona tu firma antes de previsualizar.");
+        return;
+    }
 
-    // Definir estilos en línea para la previsualización (puedes moverlos a tu CSS si prefieres)
+    // Generar el contenido de la previsualización
+    const content = generatePreviewContent();
+
+    // Insertar el contenido en el cuerpo del modal
+    document.getElementById("previewModalBody").innerHTML = content;
+
+    // Mostrar el modal
+    const modalElement = document.getElementById('previewModal');
+    const modalInstance = new bootstrap.Modal(modalElement);
+    modalInstance.show();
+}
+
+function validateSection8() {
+    let valid = true;
+
+    // Validar checkboxes
+    const checkboxes = document.querySelectorAll("#section8 input[type='checkbox']");
+    checkboxes.forEach(checkbox => {
+        const label = checkbox.nextElementSibling; // Obtener el label asociado al checkbox
+        const labelText = label ? label.textContent.trim() : "Campo requerido";
+
+        if (!checkbox.checked) {
+            valid = false;
+            showError(checkbox, `Debe marcar la opción: "${labelText}".`);
+        } else {
+            hideError(checkbox);
+        }
+    });
+
+    // Validar el canvas de la firma
+    const canvas = document.getElementById('firmaCanvas');
+    if (canvas) {
+        const firmaURL = canvas.toDataURL();
+        if (!firmaURL || firmaURL === "data:," || firmaURL.length < 100) {
+            valid = false;
+            showError(canvas, "Por favor, proporciona tu firma para continuar.");
+        } else {
+            hideError(canvas);
+        }
+    } else {
+        valid = false;
+        console.error("No se encontró el canvas de la firma.");
+    }
+
+    return valid;
+}
+
+function generatePreviewContent() {
+    // Definir estilos en línea para la previsualización
     const styleContent = `
         <style>
             .header { text-align: center; margin-bottom: 20px; }
@@ -40,8 +93,6 @@ function showPreviewInModal() {
         `;
     }
 
-
-    
     // Recorrer cada sección del formulario
     const sections = document.querySelectorAll('.form-section');
     sections.forEach((section) => {
@@ -56,23 +107,19 @@ function showPreviewInModal() {
         // Extraer datos de los campos que NO estén dentro de una tabla
         const fields = section.querySelectorAll('input, select, textarea');
         fields.forEach(field => {
-            // Excluir campos de tipo file, button, submit, hidden y el campo de firma
             if (['button', 'submit', 'file', 'hidden'].includes(field.type) || field.name === 'firma') {
                 return;
             }
-            // Omitir si el campo está dentro de una tabla
             if (field.closest('table')) {
                 return;
             }
             let labelText = "";
-            // Buscar la etiqueta asociada: en el mismo contenedor o justo antes
             const parentLabel = field.parentElement.querySelector('label');
             if (parentLabel) {
                 labelText = parentLabel.innerText.replace(":", "");
             } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
                 labelText = field.previousElementSibling.innerText.replace(":", "");
             }
-            // Considerar etiqueta especial para "Red Profesional" en la sección 1
             if (field.id === "basic-url" && section.id === "section1") {
                 labelText = "Red Profesional";
             }
@@ -80,7 +127,6 @@ function showPreviewInModal() {
             if (field.tagName === "SELECT") {
                 const selectedOption = field.options[field.selectedIndex];
                 value = selectedOption ? selectedOption.text : "";
-                // Omitir si es la opción de placeholder
                 if (value.includes("--Seleccionar")) {
                     value = "";
                 }
@@ -95,14 +141,12 @@ function showPreviewInModal() {
         // Procesar tablas dentro de la sección
         const tables = section.querySelectorAll('table');
         tables.forEach(table => {
-            // Si existe un título previo (por ejemplo, un h4 en .section-title), se incluye
             const subTitleElem = table.previousElementSibling && table.previousElementSibling.matches('.section-title')
                 ? table.previousElementSibling.innerText
                 : "";
             if (subTitleElem) {
                 sectionContent += `<h4>${subTitleElem}</h4>`;
             }
-            // Obtener encabezados y sus índices, omitiendo la columna "Acción"
             let headers = [];
             const headerCells = table.querySelectorAll("thead th");
             headerCells.forEach((th, index) => {
@@ -118,7 +162,6 @@ function showPreviewInModal() {
                 });
                 sectionContent += `</tr></thead><tbody>`;
             }
-            // Recorrer las filas de la tabla
             const rows = table.querySelectorAll("tbody tr");
             rows.forEach(row => {
                 sectionContent += `<tr>`;
@@ -126,7 +169,6 @@ function showPreviewInModal() {
                     const cell = row.querySelectorAll("td")[header.index];
                     if (cell) {
                         let cellContent = cell.innerText.trim();
-                        // Si la columna es "Anexos" y hay contenido, mostrar como enlace
                         if (header.text.toLowerCase() === "anexos" && cellContent) {
                             cellContent = `<a href="${cellContent}" target="_blank">Ver anexo</a>`;
                         }
@@ -158,11 +200,5 @@ function showPreviewInModal() {
         }
     }
 
-    // 1) Insertar el contenido en el cuerpo del modal
-    document.getElementById("previewModalBody").innerHTML = content;
-
-    // 2) Iniciar y mostrar el modal (asegúrate de tener bootstrap.min.js y el CSS de Bootstrap cargados)
-    const modalElement = document.getElementById('previewModal');
-    const modalInstance = new bootstrap.Modal(modalElement);
-    modalInstance.show();
+    return content;
 }

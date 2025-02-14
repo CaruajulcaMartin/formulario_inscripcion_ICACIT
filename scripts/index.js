@@ -50,13 +50,13 @@ function validateSection(section) {
     
     let isValidCheckboxes = true;
     let isValidCanvas = true;
-    
+    /*
     if (section.id === "section8") {
         isValidCheckboxes = validateCheckboxes();
         isValidCanvas = validateCanvas();
-    }
+    }*/
     
-    return validateRequiredFields(section, sectionName) && validateTables(section) && isValidCheckboxes && isValidCanvas;
+    return validateRequiredFields(section, sectionName) && validateTables(section);
     // return isValidCheckboxes && isValidCanvas;
 }
 
@@ -68,7 +68,7 @@ function validateRequiredFields(section, sectionName) {
     requiredInputs.forEach(input => {
         if (!input.value.trim()) {
             isValid = false;
-            showError(input, `En la sección "${sectionName}", el campo "${input.name}" es requerido.`);
+            showError(input, `La "${sectionName}", tiene campos requeridos.`);
         } else {
             hideError(input);
         }
@@ -94,7 +94,7 @@ function validateTables(section) {
 }
 
 // Validar los checkboxes
-function validateCheckboxes() {
+/*function validateCheckboxes() {
     const checkboxes = document.querySelectorAll("#section8 input[type='checkbox']");
     let allChecked = true;
 
@@ -111,10 +111,10 @@ function validateCheckboxes() {
     });
 
     return allChecked;
-}
+}*/
 
 // Validar el canvas de la firma
-function validarCanvas() {
+/*function validarCanvas() {
     const firmaInput = document.getElementById("firmaInput");
     const firmaValue = firmaInput.value.trim();
 
@@ -125,8 +125,7 @@ function validarCanvas() {
         hideError(firmaInput);
         return true;
     }
-}
-
+}*/
 
 // Mostrar mensaje de error
 function showError(input, message) {
