@@ -54,7 +54,13 @@ function crearFila(tablaId, valores, incluirPDF = false) {
 
 // Función genérica para limpiar campos
 function limpiarCampos(campos) {
-    campos.forEach(campo => campo.value = "");
+    campos.forEach(campo => {
+        if (campo.tagName.toLowerCase() === 'select') {
+            campo.selectedIndex = 0;
+        } else {
+            campo.value = "";
+        }
+    });
 }
 
 // Función para eliminar filas
