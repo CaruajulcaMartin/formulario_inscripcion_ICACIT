@@ -1,12 +1,14 @@
 function showPreviewInModal() {
+
     // Definir estilos en línea para la previsualización (puedes moverlos a tu CSS si prefieres)
     const styleContent = `
         <style>
             .header { text-align: center; margin-bottom: 20px; }
             .profile-picture { max-width: 150px; border-radius: 10px; }
             .section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-            h2 { color: #003366; }
+            h3 { color: #003366; }
             h4 { color: #006699; margin-bottom: 5px; }
+            h5 { color: #003366; }
             p { margin: 5px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
@@ -23,7 +25,6 @@ function showPreviewInModal() {
     content += `
         <div class="header">
             <img src="/assets/ICACIT_2025.jpg" alt="Logo ICACIT">
-            <h1>Previsualización del Formulario de Inscripción - Evaluador ICACIT</h1>
         </div>
     `;
 
@@ -39,6 +40,8 @@ function showPreviewInModal() {
         `;
     }
 
+
+    
     // Recorrer cada sección del formulario
     const sections = document.querySelectorAll('.form-section');
     sections.forEach((section) => {
@@ -47,7 +50,7 @@ function showPreviewInModal() {
         // Título de la sección (h2)
         const sectionTitleElem = section.querySelector('h2');
         if (sectionTitleElem) {
-            sectionContent += `<h2>${sectionTitleElem.innerText}</h2>`;
+            sectionContent += `<h3>${sectionTitleElem.innerText}</h3>`;
         }
 
         // Extraer datos de los campos que NO estén dentro de una tabla
@@ -69,12 +72,16 @@ function showPreviewInModal() {
             } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
                 labelText = field.previousElementSibling.innerText.replace(":", "");
             }
+            // Considerar etiqueta especial para "Red Profesional" en la sección 1
+            if (field.id === "basic-url" && section.id === "section1") {
+                labelText = "Red Profesional";
+            }
             let value = "";
             if (field.tagName === "SELECT") {
                 const selectedOption = field.options[field.selectedIndex];
                 value = selectedOption ? selectedOption.text : "";
                 // Omitir si es la opción de placeholder
-                if (value.includes("--Seleccionar--")) {
+                if (value.includes("--Seleccionar")) {
                     value = "";
                 }
             } else {
