@@ -6,14 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha de Inscripción - ICACIT</title>
 
+    <!-- Librería Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
+    <!-- Librería Font Awesome -->
     <script src="https://kit.fontawesome.com/869ea98b1d.js" crossorigin="anonymous"></script>
 
+    <!-- Librería jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/preVisualizar.css">
 </head>
@@ -285,6 +293,8 @@
             <!-- seccion 3: informacion academica -->
             <div class="form-section" id="section3">
                 <h2><b>Sección 03:</b> Información de Formación Académica</h2>
+
+                <!-- seccion 3.1: formacion academica -->
                 <div class="section-title">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Formación Académica</h4>
@@ -411,7 +421,7 @@
                     </div>
                 </div> -->
 
-                <!-- idiomas -->
+                <!-- seccion 3.2: idiomas -->
                 <div class="section-title">
                     <i class="fa-solid fa-language"></i>
                     <h4>Idiomas</h4>
@@ -503,13 +513,13 @@
                 </div> -->
 
 
-                <!-- cursos y seminarios -->
+                <!-- seccion 3.3: cursos y seminarios -->
                 <div class="section-title">
                     <i class="fa-solid fa-user-graduate"></i>
                     <h4>Cursos y Seminarios (últimos 3 años)</h4>
                 </div>
 
-                <!-- en relacion a: campo profesional -->
+                <!-- seccion 3.3.1: relacionados a su campo profesional -->
                 <div class="row g-3 formulario">
                     <h5>Relacionados a su campo profesional:</h5>
                     <div class="col-md-2">
@@ -563,7 +573,7 @@
 
                 <div class="border-bottom border-secondary my-4"></div>
 
-                <!-- en relacion a: ambito academico -->
+                <!-- seccion 3.3.2: relacionados a su ambito academico -->
                 <div class="row g-3 formulario">
                     <h5>Relacionados a su ámbito académico:</h5>
                     <div class="col-md-2">
@@ -617,7 +627,7 @@
 
                 <div class="border-bottom border-secondary my-4"></div>
 
-                <!-- en relacion a: ambito de evaluacion con fines de acreditación -->
+                <!-- seccion 3.3.3: relacionados a su ambito de evaluacion con fines de acreditacion -->
                 <div class="row g-3 formulario">
                     <h5>Relacionados a su ámbito de evaluación con fines de acreditación:</h5>
                     <div class="col-md-2">
@@ -697,7 +707,7 @@
             <div class="form-section" id="section4">
                 <h2><b>Sección 04:</b> Información Sobre Experiencia Laboral</h2>
 
-                <!-- experica laboral -->
+                <!-- seccion 4.1: experiencia laboral -->
                 <div class="section-title">
                     <i class="fa-solid fa-briefcase"></i>
                     <h4>Experiencia laboral en su campo profesional (evidenciar mínimo 10 años)</h4>
@@ -821,7 +831,7 @@
                     </div>
                 </div> -->
 
-                <!-- experiencia Docente en Educación Superior-->
+                <!-- seccion 4.2: experiencia docente en educación superior o formación continua -->
                 <div class="section-title">
                     <i class="fa-solid fa-chalkboard-user"></i>
                     <h4>Experiencia Docente en Educación Superior o Formación Continua</h4>
@@ -935,7 +945,7 @@
                     </div>
                 </div> -->
 
-                <!-- experiencia como parte de comite de calidad-->
+                <!-- seccion 4.3: experiencia como parte de comité de calidad u oficina de acreditación / calidad -->
                 <div class="section-title">
                     <i class="fa-solid fa-ranking-star"></i>
                     <h4>Experiencia como parte de comité de calidad u oficina de acreditación / calidad</h4>
@@ -1014,7 +1024,7 @@
                     </div>
                 </div> -->
 
-                <!-- experiencia como par evaluador-->
+                <!-- seccion 4.4: experiencia como par evaluador -->
                 <div class="section-title">
                     <i class="fa-solid fa-list-check"></i>
                     <h4>Experiencia como par evaluador</h4>
@@ -1099,7 +1109,7 @@
                     </tbody>
                 </table>
 
-                <!-- Membresías en Asociaciones Profesionales-->
+                <!-- seccion 4.5: membresias en asociaciones profesionales -->
                 <div class="section-title">
                     <i class="fa-solid fa-handshake-angle"></i>
                     <h4>Membresías en Asociaciones Profesionales Vigentes</h4>
@@ -1153,6 +1163,7 @@
             <!-- seccion5:  Información Sobre Investigación. -->
             <div class="form-section" id="section5">
                 <h2><b>Sección 05:</b> Información Sobre Investigación</h2>
+                <!-- seccion 5.1:  Publicaciones, Artículos y Revistas -->
                 <div class="section-title">
                     <i class="fa-brands fa-readme"></i>
                     <h4>Publicaciones, Artículos y Revistas</h4>
@@ -1243,6 +1254,7 @@
             <!-- seccion 6:Premios y Reconocimientos. -->
             <div class="form-section" id="section6">
                 <h2><b>Sección 06:</b> Premios y Reconocimientos</h2>
+                <!-- seccion 6.1:  Premios y Reconocimientos -->
                 <div class="section-title">
                     <i class="fa-solid fa-award"></i>
                     <h4>Premios y Reconocimientos</h4>
@@ -1310,6 +1322,7 @@
             <div class="form-section" id="section7">
                 <h2><b>Sección 07:</b> Carta de Presentación</h2>
 
+                <!-- seccion 7.1:  Carta de presentación -->
                 <div class="row g-3 formulario">
                     <h5>Describa su interés por ser parte del Staff de <b>Evaluadores ICACIT</b></h5>
                     <div class="col-12">
@@ -1330,15 +1343,15 @@
             <!-- seccion 8: valores eticos -->
             <div class="form-section" id="section8">
                 <h2><b>Sección 08:</b> Conducta y Valores Éticos</h2>
+                <!-- seccion 8.1:  valores eticos -->
                 <div class="row g-3 formulario">
                     <div class="col-12">
                         <input type="checkbox" name="condutaEtica" id="condutaEtica">
-                        <label>Declaro tener una conducta intachable y valores éticos.</label>
+                        <label for="condutaEtica">Declaro tener una conducta intachable y valores éticos.</label>
                     </div>
                     <div class="col-12">
                         <input type="checkbox" name="condutaEticaValores" id="condutaEticaValores">
-                        <label>Declaro que la información que he consignado en este formulario es
-                            verdadera.</label>
+                        <label for="condutaEticaValores">Declaro que la información que he consignado en este formulario es verdadera.</label>
                     </div>
                 </div>
 
@@ -1371,7 +1384,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success">Enviar Formulario</button>
+                    <button type="button" class="btn btn-info" onclick="downloadPDF()">Descargar PDF</button>
+                    <button type="button" class="btn btn-success" onclick="">Enviar Formulario</button>
                 </div>
             </div>
         </div>
