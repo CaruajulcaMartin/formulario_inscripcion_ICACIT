@@ -48,9 +48,9 @@ function updateProgress(index) {
 function validateSection(section) {
     const sectionName = section.querySelector("h2")?.textContent || "Sección desconocida";
     
+    /*
     let isValidCheckboxes = true;
     let isValidCanvas = true;
-    /*
     if (section.id === "section8") {
         isValidCheckboxes = validateCheckboxes();
         isValidCanvas = validateCanvas();
@@ -93,39 +93,6 @@ function validateTables(section) {
     return isValid;
 }
 
-// Validar los checkboxes
-/*function validateCheckboxes() {
-    const checkboxes = document.querySelectorAll("#section8 input[type='checkbox']");
-    let allChecked = true;
-
-    checkboxes.forEach(checkbox => {
-        const label = checkbox.nextElementSibling; // Obtener el label asociado al checkbox
-        const labelText = label ? label.textContent.trim() : "Campo requerido";
-
-        if (!checkbox.checked) {
-            allChecked = false;
-            showError(checkbox, `Debe marcar la opción: "${labelText}".`);
-        } else {
-            hideError(checkbox);
-        }
-    });
-
-    return allChecked;
-}*/
-
-// Validar el canvas de la firma
-/*function validarCanvas() {
-    const firmaInput = document.getElementById("firmaInput");
-    const firmaValue = firmaInput.value.trim();
-
-    if (!firmaValue || firmaValue === "data:,") {
-        showError(firmaInput, "Por favor, proporciona tu firma para continuar.");
-        return false;
-    } else {
-        hideError(firmaInput);
-        return true;
-    }
-}*/
 
 // Mostrar mensaje de error
 function showError(input, message) {

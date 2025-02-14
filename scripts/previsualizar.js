@@ -2,7 +2,7 @@ function showPreviewInModal() {
     // Validar la sección 8 antes de continuar
     if (!validateSection8()) {
         alert("Por favor, completa todos los checkboxes y proporciona tu firma antes de previsualizar.");
-        return;
+        return; // Detener la ejecución si la validación falla
     }
 
     // Generar el contenido de la previsualización
@@ -11,46 +11,12 @@ function showPreviewInModal() {
     // Insertar el contenido en el cuerpo del modal
     document.getElementById("previewModalBody").innerHTML = content;
 
-    // Mostrar el modal
+    // Mostrar el modal manualmente
     const modalElement = document.getElementById('previewModal');
     const modalInstance = new bootstrap.Modal(modalElement);
-    modalInstance.show();
+    modalInstance.show(); // Abre el modal solo si la validación es exitosa
 }
 
-function validateSection8() {
-    let valid = true;
-
-    // Validar checkboxes
-    const checkboxes = document.querySelectorAll("#section8 input[type='checkbox']");
-    checkboxes.forEach(checkbox => {
-        const label = checkbox.nextElementSibling; // Obtener el label asociado al checkbox
-        const labelText = label ? label.textContent.trim() : "Campo requerido";
-
-        if (!checkbox.checked) {
-            valid = false;
-            showError(checkbox, `Debe marcar la opción: "${labelText}".`);
-        } else {
-            hideError(checkbox);
-        }
-    });
-
-    // Validar el canvas de la firma
-    const canvas = document.getElementById('firmaCanvas');
-    if (canvas) {
-        const firmaURL = canvas.toDataURL();
-        if (!firmaURL || firmaURL === "data:," || firmaURL.length < 100) {
-            valid = false;
-            showError(canvas, "Por favor, proporciona tu firma para continuar.");
-        } else {
-            hideError(canvas);
-        }
-    } else {
-        valid = false;
-        console.error("No se encontró el canvas de la firma.");
-    }
-
-    return valid;
-}
 
 function generatePreviewContent() {
     // Definir estilos en línea para la previsualización
@@ -59,9 +25,9 @@ function generatePreviewContent() {
             .header { text-align: center; margin-bottom: 20px; }
             .profile-picture { max-width: 150px; border-radius: 10px; }
             .section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-            h3 { color: #003366; }
-            h4 { color: #006699; margin-bottom: 5px; }
-            h5 { color: #003366; }
+            h4 { color: #003366; }
+            h5 { color: #006699; margin-bottom: 5px; }
+            h6 { color: #003366; }
             p { margin: 5px 0; }
             table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
@@ -75,11 +41,13 @@ function generatePreviewContent() {
     let content = styleContent;
 
     // Cabecera de la previsualización
+    /*
     content += `
         <div class="header">
             <img src="/assets/ICACIT_2025.jpg" alt="Logo ICACIT">
         </div>
     `;
+    */
 
     // Mostrar la foto de perfil si se subió
     const fotoPerfilInput = document.querySelector('input[name="fotoPerfil"]');
@@ -87,7 +55,7 @@ function generatePreviewContent() {
         const fotoPerfil = URL.createObjectURL(fotoPerfilInput.files[0]);
         content += `
             <div class="section">
-                <h2>Foto de Perfil</h2>
+                <h4>Foto de Perfil</h4>
                 <img src="${fotoPerfil}" alt="Foto de Perfil" class="profile-picture">
             </div>
         `;
@@ -101,7 +69,7 @@ function generatePreviewContent() {
         // Título de la sección (h2)
         const sectionTitleElem = section.querySelector('h2');
         if (sectionTitleElem) {
-            sectionContent += `<h3>${sectionTitleElem.innerText}</h3>`;
+            sectionContent += `<h4>${sectionTitleElem.innerText}</h4>`;
         }
 
         // Extraer datos de los campos que NO estén dentro de una tabla
@@ -145,7 +113,7 @@ function generatePreviewContent() {
                 ? table.previousElementSibling.innerText
                 : "";
             if (subTitleElem) {
-                sectionContent += `<h4>${subTitleElem}</h4>`;
+                sectionContent += `<h6>${subTitleElem}</h6>`;
             }
             let headers = [];
             const headerCells = table.querySelectorAll("thead th");

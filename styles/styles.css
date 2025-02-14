@@ -138,9 +138,21 @@
     width: 80%;
 }
 
-.modal-header, .modal-footer {
-    padding: 10px;
+.modal-backdrop {
+    position: inherit;
+}
+
+.modal-header{
     border-bottom: 1px solid #ddd;
+    gap: 80px;
+
+    .modal-logo{
+        width: 200px;
+    }
+
+    .modal-title{
+        font-size: 24px;
+    }
 }
 
 .modal-footer {
