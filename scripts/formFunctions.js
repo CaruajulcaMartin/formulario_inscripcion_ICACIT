@@ -39,16 +39,29 @@ function crearFila(tablaId, valores, incluirPDF = false) {
     let tabla = document.getElementById(tablaId);
     let fila = document.createElement("tr");
 
-    let contenido = valores.map(valor => `<td>${valor}</td>`).join('');
+    // Crear celdas con los valores proporcionados
+    valores.forEach((valor, index) => {
+        let celda = document.createElement("td");
+        celda.textContent = valor;
+        fila.appendChild(celda);
+    });
 
+    // Si hay un PDF adjunto, agregar la celda de anexo con data-anexo="true"
     if (incluirPDF) {
         let pdfUrl = URL.createObjectURL(incluirPDF);
         let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
-        contenido += `<td>${pdfIcon}</td>`;
+        let celdaAnexo = document.createElement("td");
+        celdaAnexo.innerHTML = pdfIcon;
+        // celdaAnexo.setAttribute("data-anexo", "true"); // Agregar el atributo data-anexo
+        fila.appendChild(celdaAnexo);
     }
 
-    contenido += `<td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button></td>`;
-    fila.innerHTML = contenido;
+    // Agregar la celda de acción (botón para eliminar la fila)
+    let celdaAccion = document.createElement("td");
+    celdaAccion.innerHTML = `<button type="button" class="btn btn-danger" onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></button>`;
+    fila.appendChild(celdaAccion);
+
+    // Agregar la fila a la tabla
     tabla.appendChild(fila);
 }
 

@@ -27,9 +27,11 @@ function generatePreviewContent() {
             .subsection { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
             .subsection h5 { width: 100%; color: #006699; margin-bottom: 10px; }
             .subsection p { flex: 1 1 45%; margin: 5px 0; }
+
             h4 { color: #003366; }
             h5 { color: #006699; margin-bottom: 5px; }
             h6 { color: #003366; }
+            
             table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
             th { background-color: #f4f4f4; }
@@ -165,10 +167,10 @@ function generatePreviewContent() {
                         });
                     }
 
-                    // Reemplazar los anexos en la tabla por "Archivo adjunto"
-                    const anexoCells = clonedTable.querySelectorAll('td.anexo');
-                    anexoCells.forEach(cell => {
-                        cell.innerHTML = `<span class="archivo-adjunto">Archivo adjunto</span>`;
+                    // Reemplazar los íconos de PDF en la tabla por "SI"
+                    const pdfIcons = clonedTable.querySelectorAll('td[data-anexo="true"]');
+                    pdfIcons.forEach(cell => {
+                        cell.innerHTML = "SI";  // Reemplazar el ícono de PDF por "SI"
                     });
 
                     subsectionContent += clonedTable.outerHTML;
@@ -257,7 +259,6 @@ function generatePreviewContent() {
 
     return content;
 }
-
 /*
 function generatePreviewContent() {
     // Definir estilos en línea para la previsualización
@@ -543,6 +544,12 @@ function downloadPDF() {
             data.push(rowData);
         });
 
+        // Verificar si la tabla contiene un anexo
+        const hasAnexo = table.querySelector('td[data-anexo="true"]') !== null;
+        if (hasAnexo) {
+            data.push(['Anexo:', 'SI']);
+        }
+
         // Agregar la tabla al PDF usando el plugin autoTable
         pdf.autoTable({
             startY: currentY,
@@ -568,8 +575,22 @@ function downloadPDF() {
         } else if (element.tagName === 'IMG') {
             // Agregar una imagen (img)
             const imgSrc = element.src;
-            const imgWidth = 50; // Ancho de la imagen en mm
-            const imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
+            let imgWidth, imgHeight;
+
+            if (element.classList.contains('profile-pic')) {
+                // Reducir el tamaño de la foto de perfil
+                imgWidth = 30; // Ancho de la imagen en mm
+                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
+            } else if (element.classList.contains('signature')) {
+                // Aumentar el tamaño de la firma
+                imgWidth = 80; // Ancho de la imagen en mm
+                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
+            } else {
+                // Tamaño por defecto para otras imágenes
+                imgWidth = 50; // Ancho de la imagen en mm
+                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
+            }
+
             addImage(imgSrc, imgWidth, imgHeight);
         } else if (element.tagName === 'TABLE') {
             // Agregar una tabla (table)
