@@ -1,16 +1,33 @@
+const GEONAMES_USERNAME = 'caruajulcamartin'; // Reemplaza con tu usuario de GeoNames
+
+// Mapeo de geonameId a nombres de países
+let countryIdToNameMap = {};
+
 // Función para obtener la lista de países
-async function fetchData(url = 'https://countriesnow.space/api/v0.1/countries/') {
-    try { 
-        const response = await fetch(url);
+async function fetchCountries() {
+    try {
+        const response = await fetch(`http://api.geonames.org/countryInfoJSON?username=${GEONAMES_USERNAME}`);
         if (!response.ok) {
             throw new Error('La respuesta de la red no fue correcta.');
         }
         const json = await response.json();
-        return json.data; // La API retorna un objeto con la propiedad "data" que contiene el arreglo de países
+        const countries = json.geonames; // GeoNames retorna un arreglo de países en la propiedad "geonames"
+
+        // Crear el mapeo de geonameId a nombres de países
+        countries.forEach(country => {
+            countryIdToNameMap[country.geonameId] = country.countryName;
+        });
+
+        return countries;
     } catch (error) {
-        console.error("Error al obtener los datos:", error);
+        console.error("Error al obtener los países:", error);
         return null;
     }
+}
+
+// Función para obtener el nombre del país por su geonameId
+function getCountryNameById(geonameId) {
+    return countryIdToNameMap[geonameId] || 'Desconocido';
 }
 
 // Función auxiliar para limpiar un <select> y agregar una opción por defecto
@@ -23,115 +40,93 @@ function clearAndSetDefault(selectElement, defaultText = '--Seleccionar--') {
     selectElement.appendChild(defaultOption);
 }
 
-// Función para obtener las regiones de un país
-async function loadRegions(countryName) {
+// Función para obtener las regiones (estados) de un país
+async function loadRegions(countryCode) {
     try {
-        const response = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country: countryName })
-        });
+        const response = await fetch(`http://api.geonames.org/childrenJSON?geonameId=${countryCode}&username=${GEONAMES_USERNAME}`);
         if (!response.ok) throw new Error("Error al obtener regiones.");
         const result = await response.json();
-        return result.data.states; // La respuesta tiene la forma: { data: { states: [ { name: 'Región1' }, ... ] } }
+        return result.geonames || []; // Retorna un arreglo de regiones (o estados)
     } catch (error) {
         console.error("Error al obtener regiones:", error);
         return [];
     }
 }
 
-// Función para obtener las provincias de una región
-async function loadProvinces(countryName, regionName) {
-    try {
-        const response = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country: countryName, state: regionName })
-        });
-        if (!response.ok) throw new Error("Error al obtener provincias.");
-        const result = await response.json();
-        return result.data || []; // Retorna un arreglo de provincias (o municipios) si existe
-    } catch (error) {
-        console.error("Error al obtener provincias:", error);
-        return [];
-    }
-}
-
-// Función principal para llenar el <select> de países, regiones y provincias
-function getCountries(data, countrySelectId, regionSelectId = null, provinceSelectId = null) {
+// Función principal para llenar el <select> de países y regiones
+function getCountries(data, countrySelectId, regionSelectId = null) {
     if (!data || !countrySelectId) return;
 
     const countrySelect = document.getElementById(countrySelectId);
     if (!countrySelect) return;
-    clearAndSetDefault(countrySelect, 'Seleccionar País');
+    clearAndSetDefault(countrySelect, '--Seleccionar País--');
 
     // Ordenar y llenar el select de países
-    data.sort((a, b) => a.country.localeCompare(b.country));
+    data.sort((a, b) => a.countryName.localeCompare(b.countryName));
     data.forEach(country => {
         const option = document.createElement('option');
-        option.value = country.country;
-        option.textContent = country.country;
+        option.value = country.geonameId; // Usamos el geonameId como valor
+        option.textContent = country.countryName;
         countrySelect.appendChild(option);
     });
 
-    // Si se proporcionó un select para regiones, configurar el evento change
-    if (regionSelectId) {
-        const regionSelect = document.getElementById(regionSelectId);
-        if (!regionSelect) return;
-        clearAndSetDefault(regionSelect, 'Seleccionar Región / Estado');
-
-        countrySelect.addEventListener('change', async function() {
-            const selectedCountry = this.value;
-            clearAndSetDefault(regionSelect, 'Seleccionar Región / Estado');
-            if (provinceSelectId) {
-                const provinceSelect = document.getElementById(provinceSelectId);
-                if (provinceSelect) clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
-            }
-            if (selectedCountry) {
-                const regions = await loadRegions(selectedCountry);
-                if (regions && regions.length) {
-                    regions.sort((a, b) => a.name.localeCompare(b.name));
-                    regions.forEach(region => {
-                        const option = document.createElement('option');
-                        option.value = region.name;
-                        option.textContent = region.name;
-                        regionSelect.appendChild(option);
-                    });
-                }
-            }
-        });
-
-        // Si se proporcionó un select para provincias, configurar el evento change en el select de regiones
-        if (provinceSelectId) {
-            const provinceSelect = document.getElementById(provinceSelectId);
-            if (!provinceSelect) return;
-            clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
-
-            regionSelect.addEventListener('change', async function() {
-                const selectedRegion = this.value;
-                clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
-                const selectedCountry = countrySelect.value;
-                if (selectedCountry && selectedRegion) {
-                    const provinces = await loadProvinces(selectedCountry, selectedRegion);
-                    if (provinces && provinces.length) {
-                        provinces.sort((a, b) => a.localeCompare(b));
-                        provinces.forEach(province => {
+    // Establecer Perú como predeterminado
+    const peruOption = Array.from(countrySelect.options).find(option => option.textContent === 'Peru');
+    if (peruOption) {
+        countrySelect.value = peruOption.value; // Selecciona Perú
+        if (regionSelectId) {
+            // Cargar regiones de Perú automáticamente
+            loadRegions(peruOption.value).then(regions => {
+                const regionSelect = document.getElementById(regionSelectId);
+                if (regionSelect) {
+                    clearAndSetDefault(regionSelect, '--Seleccionar Región / Estado--');
+                    if (regions && regions.length) {
+                        regions.sort((a, b) => a.name.localeCompare(b.name));
+                        regions.forEach(region => {
                             const option = document.createElement('option');
-                            option.value = province;
-                            option.textContent = province;
-                            provinceSelect.appendChild(option);
+                            option.value = region.geonameId; // Usamos el geonameId como valor
+                            option.textContent = region.name;
+                            regionSelect.appendChild(option);
                         });
+                    } else {
+                        console.warn("No se encontraron regiones para Perú.");
                     }
                 }
             });
         }
     }
+
+    // Si se proporcionó un select para regiones, configurar el evento change
+    if (regionSelectId) {
+        const regionSelect = document.getElementById(regionSelectId);
+        if (!regionSelect) return;
+        clearAndSetDefault(regionSelect, '--Seleccionar Región / Estado--');
+
+        countrySelect.addEventListener('change', async function() {
+            const selectedCountryId = this.value;
+            clearAndSetDefault(regionSelect, '--Seleccionar Región / Estado--');
+            if (selectedCountryId) {
+                const regions = await loadRegions(selectedCountryId);
+                if (regions && regions.length) {
+                    regions.sort((a, b) => a.name.localeCompare(b.name));
+                    regions.forEach(region => {
+                        const option = document.createElement('option');
+                        option.value = region.geonameId; // Usamos el geonameId como valor
+                        option.textContent = region.name;
+                        regionSelect.appendChild(option);
+                    });
+                } else {
+                    console.warn("No se encontraron regiones para el país seleccionado.");
+                }
+            }
+        });
+    }
 }
 
 // Ejemplo de uso: llenar distintos selects para diferentes secciones de la aplicación
-fetchData().then(data => {
-    // Sección de datos personales con regiones y provincias
-    getCountries(data, 'PaisDatoDominicial', 'PaisDatoDominicialRegion', 'PaisDatoDominicialProvincia');
+fetchCountries().then(data => {
+    // Sección de datos personales con regiones
+    getCountries(data, 'PaisDatoDominicial', 'PaisDatoDominicialRegion');
 
     // Sección de Información Laboral Actual (solo país)
     getCountries(data, 'PaisInformacionLaboral');

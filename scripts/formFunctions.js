@@ -1,6 +1,7 @@
 let tipoPregradoAgregado = false;
 let tipoPosdoctoradoAgregado = false;
 let experienciaEvaluadorAgregada = 0;
+let fechasRegistradas = [];
 
 // Función genérica para validar campos
 function validarCampos(campos) {
@@ -35,14 +36,35 @@ function validarPDF(pdfInput, maxSize = 5 * 1024 * 1024) {
 }
 
 // Función genérica para crear una fila en la tabla
+// Función genérica para crear una fila en la tabla
 function crearFila(tablaId, valores, incluirPDF = false) {
     let tabla = document.getElementById(tablaId);
     let fila = document.createElement("tr");
 
+    // Verificar si las fechas ya están registradas
+    if (tablaId === "tablaExperiencia" || tablaId === "tablaExperienciaDocente" || tablaId === "tablaExperienciaComite") {
+        let fechaInicio = valores[2]; // Asumiendo que la fecha de inicio está en la posición 2
+        let fechaFin = valores[3]; // Asumiendo que la fecha de fin está en la posición 3
+
+        if (fechasRegistradas.includes(fechaInicio) || fechasRegistradas.includes(fechaFin)) {
+            alert("Las fechas ya han sido registradas.");
+            return;
+        }
+
+        // Agregar las fechas al arreglo de fechas registradas
+        fechasRegistradas.push(fechaInicio);
+        fechasRegistradas.push(fechaFin);
+    }
+
     // Crear celdas con los valores proporcionados
     valores.forEach((valor, index) => {
         let celda = document.createElement("td");
-        celda.textContent = valor;
+        // Si el valor es un geonameId (número) y corresponde a un país, obtener el nombre del país
+        if (!isNaN(valor) && countryIdToNameMap[valor]) {
+            celda.textContent = getCountryNameById(valor);
+        } else {
+            celda.textContent = valor;
+        }
         fila.appendChild(celda);
     });
 
@@ -54,17 +76,6 @@ function crearFila(tablaId, valores, incluirPDF = false) {
         celdaAnexo.innerHTML = pdfIcon;
         fila.appendChild(celdaAnexo);
     }
-
-    /*
-    // Si hay un PDF adjunto, agregar la celda de anexo con data-anexo="true"
-    if (incluirPDF) {
-        let pdfUrl = URL.createObjectURL(incluirPDF);
-        let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
-        let celdaAnexo = document.createElement("td");
-        celdaAnexo.innerHTML = pdfIcon;
-        celdaAnexo.setAttribute("data-anexo", "true"); // Agregar el atributo data-anexo
-        fila.appendChild(celdaAnexo);
-    }*/
 
     // Agregar la celda de acción (botón para eliminar la fila)
     let celdaAccion = document.createElement("td");
@@ -93,6 +104,14 @@ function eliminarFila(boton) {
 
     if (tipo === "Pregrado") tipoPregradoAgregado = false;
     if (tipo === "Posdoctorado") tipoPosdoctoradoAgregado = false;
+
+    // Eliminar las fechas del arreglo de fechas registradas
+    if (fila.parentElement.id === "tablaExperiencia" || fila.parentElement.id === "tablaExperienciaDocente" || fila.parentElement.id === "tablaExperienciaComite") {
+        let fechaInicio = fila.cells[2].innerHTML; // Asumiendo que la fecha de inicio está en la posición 2
+        let fechaFin = fila.cells[3].innerHTML; // Asumiendo que la fecha de fin está en la posición 3
+
+        fechasRegistradas = fechasRegistradas.filter(fecha => fecha !== fechaInicio && fecha !== fechaFin);
+    }
 
     fila.remove();
 }

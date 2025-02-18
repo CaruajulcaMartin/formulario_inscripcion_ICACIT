@@ -18,8 +18,8 @@
 
     <!-- Librería jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="/styles/styles.css">
@@ -83,15 +83,15 @@
                     <div class="col-md-2">
                         <label class="form-label">Tipo de Identidad:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoIdentidad" id="tipoIdentidad" required>
-                            <option selected>--Seleccionar--</option>
-                            <option>DNI (Documento Nacional de Identidad)</option>
-                            <option>Pasaporte</option>
-                            <option>Carnet de Extranjeria</option>
+                            <option value="" selected>--Seleccionar--</option>
+                            <option value="DNI (Documento Nacional de Identidad)">DNI (Documento Nacional de Identidad)</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Numero de Identidad:<span class="text-danger">*</span></label>
-                        <input type="text" name="numDoc" id="numDoc" class="form-control" required>
+                        <input type="text" name="numDoc" id="numDoc" class="form-control" required disabled>
                     </div>
                     
                     <!-- archivo de identidad adjunto -->
@@ -157,7 +157,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
                         <!-- <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp" required> -->
-                        <div class="input-group">
+                        <div class="input-group" id="phoneInput">
                             <select id="phoneCode" class="form-control" style="width: 120px;"></select>
                             <input type="tel" id="phoneNumber" class="form-control" name="celular" placeholder="Número de Whatsapp" required>
                         </div>
@@ -199,29 +199,29 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Número:<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="numeroDireccion" required>
+                            <input type="number" class="form-control" name="numeroDireccion" min="1" step="1" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
                         <select class="form-control" name="PaisDatoDominicial" id="PaisDatoDominicial" required>
-                            <option value="">Seleccionar País</option>
+                            <option value="">--Seleccionar País--</option>
                         </select>
                         <!-- <input type="text" class="form-control" name="pais" required> -->
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Región / Estado:<span class="text-danger">*</span></label>
                         <select class="form-control" name="PaisDatoDominicialRegion" id="PaisDatoDominicialRegion" required>
-                            <option value="">Seleccionar Región / Estado</option>
+                            <option value="">--Seleccionar Región / Estado--</option>
                         </select>
                         <!-- <input type="text" class="form-control" name="region" required> -->
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Provincia / Municipio:<span class="text-danger">*</span></label>
-                        <select class="form-control" name="PaisDatoDominicialProvincia" id="PaisDatoDominicialProvincia" required>
-                            <option value="">Seleccionar Provincia / Municipio</option>
-                        </select>
-                        <!-- <input type="text" class="form-control" name="provincia" required> -->
+                        <!-- <select class="form-control" name="PaisDatoDominicialProvincia" id="PaisDatoDominicialProvincia" required>
+                            <option value="">--Seleccionar Provincia / Municipio--</option>
+                        </select> -->
+                        <input type="text" class="form-control" name="provincia" required>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Distrito:</label>
