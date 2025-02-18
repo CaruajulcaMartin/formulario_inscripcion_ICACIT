@@ -139,7 +139,7 @@
 }
 
 .modal-backdrop {
-    position: inherit;
+    position: inherit !important;
 }
 
 .modal-header{

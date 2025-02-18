@@ -14,7 +14,7 @@ function validarCampos(campos) {
 }
 
 // Función genérica para validar archivos PDF
-function validarPDF(pdfInput, maxSize = 25 * 1024 * 1024) {
+function validarPDF(pdfInput, maxSize = 5 * 1024 * 1024) {
     if (pdfInput.files.length === 0) {
         alert("Por favor, adjunta un PDF.");
         return false;
@@ -27,7 +27,7 @@ function validarPDF(pdfInput, maxSize = 25 * 1024 * 1024) {
     }
 
     if (pdfFile.size > maxSize) {
-        alert("El archivo PDF no puede exceder los 25 MB.");
+        alert("El archivo PDF no puede exceder los 5 MB.");
         return false;
     }
 
@@ -46,15 +46,25 @@ function crearFila(tablaId, valores, incluirPDF = false) {
         fila.appendChild(celda);
     });
 
+    // Si hay un PDF adjunto, agregar la celda de anexo con la clase "pdf-icon"
+    if (incluirPDF) {
+        let pdfUrl = URL.createObjectURL(incluirPDF);
+        let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf pdf-icon" style="color: red; font-size: 1.5em;"></i></a>`;
+        let celdaAnexo = document.createElement("td");
+        celdaAnexo.innerHTML = pdfIcon;
+        fila.appendChild(celdaAnexo);
+    }
+
+    /*
     // Si hay un PDF adjunto, agregar la celda de anexo con data-anexo="true"
     if (incluirPDF) {
         let pdfUrl = URL.createObjectURL(incluirPDF);
         let pdfIcon = `<a href="${pdfUrl}" target="_blank"><i class="fa-regular fa-file-pdf" style="color: red; font-size: 1.5em;"></i></a>`;
         let celdaAnexo = document.createElement("td");
         celdaAnexo.innerHTML = pdfIcon;
-        // celdaAnexo.setAttribute("data-anexo", "true"); // Agregar el atributo data-anexo
+        celdaAnexo.setAttribute("data-anexo", "true"); // Agregar el atributo data-anexo
         fila.appendChild(celdaAnexo);
-    }
+    }*/
 
     // Agregar la celda de acción (botón para eliminar la fila)
     let celdaAccion = document.createElement("td");
@@ -100,11 +110,10 @@ function agregarFormacion() {
         document.getElementById("paisFormacion"),
         document.getElementById("anoGraduacion"),
         document.getElementById("institucionEducativa"),
-        document.getElementById("especialidad"),
         document.getElementById("nombreGrado")
     ];
 
-    let pdfInput = document.getElementById("pdfFormacion");
+    let pdfInput = document.getElementById("pdfFormacionAcademica");
 
     if (!validarCampos(campos) || !validarPDF(pdfInput)) return;
 

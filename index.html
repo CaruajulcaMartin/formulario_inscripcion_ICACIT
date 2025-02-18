@@ -24,6 +24,25 @@
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/preVisualizar.css">
+    <link rel="stylesheet" href="/styles/selectCodigoPhone.css">
+
+    <!-- Librería jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Librería Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+        .select2-container .select2-selection--single {
+            height: 38px;
+            padding: 5px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
+    </style>
+    
 </head>
 
 <body>
@@ -63,16 +82,25 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Tipo de Identidad:<span class="text-danger">*</span></label>
-                        <select class="form-select" name="tipoIdentidad" required>
+                        <select class="form-select" name="tipoIdentidad" id="tipoIdentidad" required>
                             <option selected>--Seleccionar--</option>
-                            <option>DNI</option>
+                            <option>DNI (Documento Nacional de Identidad)</option>
                             <option>Pasaporte</option>
                             <option>Carnet de Extranjeria</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Numero de Identidad:<span class="text-danger">*</span></label>
-                        <input type="text" name="num_doc" class="form-control" required>
+                        <input type="text" name="numDoc" id="numDoc" class="form-control" required>
+                    </div>
+                    
+                    <!-- archivo de identidad adjunto -->
+                    <div class="col-md-4">
+                        <label class="form-label">Adjuntar Documento de Identidad:<span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="pdfDocumentoIdentidad" id="pdfDocumentoIdentidad"
+                            accept="application/pdf" required>
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
+                            MB.</small>
                     </div>
 
                     <div class="col-md-3">
@@ -97,11 +125,12 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label">Foto de Perfil: <span class="text-danger">*</span></label>
                         <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/png, image/jpeg"
                             class="form-control" required>
-                        <small class="text-muted">Solo se permiten archivos JPG o PNG.</small>
+                            <small class="form-text text-muted">Solo se permiten archivos JPG o PNG con un tamaño máximo de 5
+                                MB.</small>
                         <div id="errorFotoPerfil" class="text-danger mt-1" style="display: none;">Formato inválido. Solo
                             JPG o PNG.</div>
                     </div>
@@ -115,26 +144,30 @@
                 </div>
 
                 <div class="row g-3 formulario">
-                    <div class="col-md-4">
-                        <label class="form-label">Correo Electrónico Principal:<span
+                    <div class="col-md-6">
+                        <label class="form-label">Correo Electrónico:<span
                                 class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="correoElectronicoPrincipal" required>
+                        <input type="email" class="form-control" name="correoElectronico" id="correoElectronico" required>
                     </div>
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <label class="form-label">Correo Electrónico Secundario:<span
                                 class="text-danger">*</span></label>
                         <input type="email" class="form-control" name="correoElectronicoSecundario" required>
-                    </div>
-                    <div class="col-md-4">
+                    </div> -->
+                    <div class="col-md-6">
                         <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp" required>
+                        <!-- <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp" required> -->
+                        <div class="input-group">
+                            <select id="phoneCode" class="form-control" style="width: 120px;"></select>
+                            <input type="tel" id="phoneNumber" class="form-control" name="celular" placeholder="Número de Whatsapp" required>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="basic-url" class="form-label">Red Profesional:<span
                                 class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon3">https://example.com/</span>
-                            <input type="text" class="form-control" id="basic-url"
+                            <input type="url" class="form-control" id="basic-url"
                                 placeholder="LinkedIn, red interna de la universidad o empresa"
                                 aria-describedby="basic-addon3 basic-addon4" required>
                         </div>
@@ -166,23 +199,29 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Número:<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="numeroDireccion" required>
+                            <input type="number" class="form-control" name="numeroDireccion" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
-                        <select class="form-control" name="country" id="country" required>
-                            <option value="">Seleccionar un país</option>
+                        <select class="form-control" name="PaisDatoDominicial" id="PaisDatoDominicial" required>
+                            <option value="">Seleccionar País</option>
                         </select>
                         <!-- <input type="text" class="form-control" name="pais" required> -->
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Región:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="region" required>
+                        <label class="form-label">Región / Estado:<span class="text-danger">*</span></label>
+                        <select class="form-control" name="PaisDatoDominicialRegion" id="PaisDatoDominicialRegion" required>
+                            <option value="">Seleccionar Región / Estado</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="region" required> -->
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Provincia:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="provincia" required>
+                        <label class="form-label">Provincia / Municipio:<span class="text-danger">*</span></label>
+                        <select class="form-control" name="PaisDatoDominicialProvincia" id="PaisDatoDominicialProvincia" required>
+                            <option value="">Seleccionar Provincia / Municipio</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="provincia" required> -->
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Distrito:</label>
@@ -191,10 +230,10 @@
                     <div class="col-md-12">
                         <label class="form-label">Referencia del Domicilio:</label>
                         <textarea name="observaciones" id="observaciones" class="form-control" rows="3"></textarea>
-                        <small id="contadorObservaciones" class="text-muted">Máximo 150 palabras. Palabras actuales:
+                        <small id="contadorObservaciones" class="text-muted">Máximo 150 caracteres. Caracteres actuales:
                             0</small>
                         <div id="errorObservaciones" class="text-danger mt-1" style="display: none;">
-                            Has excedido el límite de 150 palabras.
+                            Has excedido el límite de 150 caracteres.
                         </div>
                     </div>
 
@@ -247,16 +286,21 @@
                     <div class="col-md-4">
                         <label class="form-label">Tiempo en el centro laboral (en años):<span
                                 class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="tiempoLaboral" min="1900" max="2099" step="1"
-                            required>
+                        <input type="number" class="form-control" name="tiempoLaboral" min="1" step="1" required>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Dirección:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="direccionLaboral" required>
+                        <label class="form-label">País:<span class="text-danger">*</span></label>
+                        <select class="form-control" name="PaisInformacionLaboral" id="PaisInformacionLaboral" required>
+                            <option value="">Seleccionar un país</option>
+                        </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Número Telefónico:</label>
-                        <input type="tel" class="form-control" name="telefonoLaboral">
+                        <label class="form-label">Ciudad:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="telefonoLaboral" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Rubro:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="telefonoLaboral" required>
                     </div>
                 </div>
 
@@ -266,12 +310,12 @@
                 </div>
 
                 <div class="row g-3 formulario">
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <label class="form-label">Nombre del Centro Laboral:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="centroLaboralEmpleador" required>
-                    </div>
+                    </div> -->
                     <div class="col-md-4">
-                        <label class="form-label">Nombres y Apellidos del Empleador Actual:<span
+                        <label class="form-label">Nombres y Apellidos:<span
                                 class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="nombresEmpleador" required>
                     </div>
@@ -301,7 +345,7 @@
                 </div>
 
                 <div class="row g-3 formulario">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">Tipo de Formación:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoFormacion" id="tipoFormacion">
                             <option selected>--Seleccionar--</option>
@@ -311,14 +355,14 @@
                             <option>Posdoctorado</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">País:<span class="text-danger">*</span></label>
                         <select class="form-control" name="paisFormacion" id="paisFormacion">
                             <option value="">Seleccionar un país</option>
                         </select>
                         <!-- <input type="text" class="form-control" name="paisFormacion" id="paisFormacion"> -->
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <label class="form-label">Año de Graduación:<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="anoGraduacion" id="anoGraduacion" min="1900"
                             max="2099" step="1">
@@ -327,19 +371,19 @@
                         <label class="form-label">Universidad:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="institucionEducativa" id="institucionEducativa">
                     </div>
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <label class="form-label">Especialidad:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="especialidad" id="especialidad">
-                    </div>
+                    </div> -->
                     <div class="col-md-4">
                         <label class="form-label">Nombre del Grado:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="nombreGrado" id="nombreGrado">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="pdfFormacion" id="pdfFormacion"
+                        <input type="file" class="form-control" name="pdfFormacionAcademica" id="pdfFormacionAcademica"
                             accept="application/pdf">
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
                             MB.</small>
                     </div>
                     <!-- Botón para agregar un nuevo registro -->
@@ -388,7 +432,6 @@
                             <th scope="col">País</th>
                             <th scope="col">Año de Graduación</th>
                             <th scope="col">Universidad</th>
-                            <th scope="col">Especialidad</th>
                             <th scope="col">Grado</th>
                             <th scope="col">Anexos</th>
                             <th scope="col">Acción</th>
@@ -745,7 +788,7 @@
                         <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="pdfExperiencia" id="pdfExperiencia"
                             accept="application/pdf">
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
                             MB.</small>
                     </div>
 
@@ -868,10 +911,10 @@
                         <label class="form-label">Funciones Principales:</label>
                         <textarea name="funcionesPrincipales" id="funcionesPrincipales" class="form-control" rows="3"
                             placeholder="Ingrese las funciones principales"></textarea>
-                        <small id="contadorObservacionesPrincipales" class="text-muted">Máximo 150 palabras. Palabras
+                        <small id="contadorObservacionesPrincipales" class="text-muted">Máximo 150 caracteres. caracteres
                             actuales: 0</small>
                         <div id="errorObservaciones" class="text-danger mt-1" style="display: none;">
-                            Has excedido el límite de 150 palabras.
+                            Has excedido el límite de 150 caracteres.
                         </div>
                     </div>
 
@@ -887,7 +930,7 @@
                         <label class="form-label">Adjuntar PDF:<span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="pdfExperienciaDocente" id="pdfExperienciaDocente"
                             accept="application/pdf">
-                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 25
+                        <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
                             MB.</small>
                     </div>
 
@@ -1181,7 +1224,7 @@
                         <small class="form-text text-muted"></small>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Base:</label>
+                        <label class="form-label">Base de Datos:</label>
                         <input type="text" class="form-control" name="baseDatos" id="baseDatos"
                             placeholder="Indexado en IEEE explore, SCOPUS">
                     </div>
@@ -1190,7 +1233,7 @@
                         <input type="text" class="form-control" name="nombreInvestigacion" id="nombreInvestigacion">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Autor(es):</label>
+                        <label class="form-label">Información de Autor(es):</label>
                         <input type="text" class="form-control" name="autores" id="autores"
                             placeholder="Ej: Autor1, Autor2">
                         <small class="form-text text-muted">Separar los autores con una coma (,).</small>
@@ -1320,13 +1363,13 @@
 
             <!-- seccion 7: Carta de presentación. -->
             <div class="form-section" id="section7">
-                <h2><b>Sección 07:</b> Carta de Presentación</h2>
+                <h2><b>Sección 07:</b> Carta de Presentación<span class="text-danger">*</span></h2>
 
                 <!-- seccion 7.1:  Carta de presentación -->
                 <div class="row g-3 formulario">
-                    <h5>Describa su interés por ser parte del Staff de <b>Evaluadores ICACIT</b></h5>
+                    <h5>Describa en 400 palabras su interés por ser parte del Exclusivo Staff Internacional de <b>Evaluadores ICACIT</b></h5>
                     <div class="col-12">
-                        <label class="form-label">Carta de Presentación:<span class="text-danger">*</span></label>
+                        <!-- <label class="form-label">Carta de Presentación:<span class="text-danger">*</span></label> -->
                         <textarea name="descripcionContribucion" id="descripcionContribucion" class="form-control"
                             rows="6" required></textarea>
                         <small id="contadorPalabras" class="text-muted">Maximo 400 palabras. Palabras actuales:
@@ -1391,17 +1434,26 @@
         </div>
     </div>
 
+    <!-- index script -->
+    <script src="/scripts/index.js"></script>
+
+    <!-- firma y previsualizar -->
     <script src="/scripts/firmaUsuario.js"></script>
     <script src="/scripts/previsualizar.js"></script>
+    
+    <!-- validaciones -->
+    <script src="/scripts/Validaciones/ValidacionesGenerales.js"></script>
+    <script src="/scripts/Validaciones/validaciones.js"></script>
+    <script src="/scripts/Validaciones/validarExperiencia.js"></script>
+    <script src="/scripts/Validaciones/validarFirma.js"></script>
 
-    <script src="/scripts/index.js"></script>
+    <!-- funciones de tabla -->
     <script src="/scripts/formFunctions.js"></script>
-    <script src="/scripts/validaciones.js"></script>
-    <script src="/scripts/validarExperiencia.js"></script>
-    <script src="/scripts/validarFirma.js"></script>
 
+    <!-- Servicios -->
     <script src="/services/serviceCountry.js"></script>
     <script src="/services/serviceNationalities.js"></script>
+    <script src="/services/servicePhone.js"></script>
     <script>
         // Inicializa todos los tooltips en la página
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

@@ -214,12 +214,21 @@ function llenarNacionalidades(selectId) {
     defaultOption.textContent = '--Seleccionar Nacionalidad--';
     select.appendChild(defaultOption);
 
-    // Llenar el <select> con las nacionalidades capitalizadas
+    // Agregar opción para la nacionalidad peruana seleccionada por defecto
+    const peruvianOption = document.createElement('option');
+    peruvianOption.value = 'peruano';
+    peruvianOption.textContent = 'Peruano';
+    peruvianOption.selected = true;
+    select.appendChild(peruvianOption);
+
+    // Llenar el <select> con las demás nacionalidades capitalizadas
     for (const nacionalidad of Object.values(nacionalidades)) {
-        const option = document.createElement('option');
-        option.value = nacionalidad;
-        option.textContent = capitalizarPrimeraLetra(nacionalidad); // Capitalizar la nacionalidad
-        select.appendChild(option);
+        if (nacionalidad !== 'peruano') {
+            const option = document.createElement('option');
+            option.value = nacionalidad;
+            option.textContent = capitalizarPrimeraLetra(nacionalidad); // Capitalizar la nacionalidad
+            select.appendChild(option);
+        }
     }
 }
 

@@ -1,96 +1,150 @@
-async function fetchData() {
-    try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
-
+// Función para obtener la lista de países
+async function fetchData(url = 'https://countriesnow.space/api/v0.1/countries/') {
+    try { 
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error('La respuesta de la red no fue correcta.');
         }
-
-        const data = await response.json();
-        return data;
+        const json = await response.json();
+        return json.data; // La API retorna un objeto con la propiedad "data" que contiene el arreglo de países
     } catch (error) {
         console.error("Error al obtener los datos:", error);
         return null;
     }
 }
 
-// Solicitar países
-function getCountries(data, selectId) {
-    if (!data || !selectId) return;
-
-    // Ordenar los países por nombre
-    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-
-    // Seleccionar el <select> por ID
-    const countrySelect = document.getElementById(selectId);
-    if (!countrySelect) return;
-
-    // Limpiar el <select>
-    countrySelect.innerHTML = '';
-
-    // Agregar opción por defecto
+// Función auxiliar para limpiar un <select> y agregar una opción por defecto
+function clearAndSetDefault(selectElement, defaultText = '--Seleccionar--') {
+    if (!selectElement) return;
+    selectElement.innerHTML = ''; // Limpia el select
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
-    defaultOption.textContent = '--Seleccionar País--';
-    countrySelect.appendChild(defaultOption);
-
-    // Llenar el <select> con los países
-    data.forEach(country => {
-        const option = document.createElement('option');
-        option.value = country.name.common;
-        option.textContent = country.name.common;
-        countrySelect.appendChild(option);
-    });
+    defaultOption.textContent = defaultText;
+    selectElement.appendChild(defaultOption);
 }
 
-// Ejemplo de cómo usar la función para llenar múltiples <select>
-fetch('https://restcountries.com/v3.1/all')
-    .then(response => response.json())
-    .then(data => {
-        // selecct para la seccion de datos personales
-        getCountries(data, 'country');
+// Función para obtener las regiones de un país
+async function loadRegions(countryName) {
+    try {
+        const response = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country: countryName })
+        });
+        if (!response.ok) throw new Error("Error al obtener regiones.");
+        const result = await response.json();
+        return result.data.states; // La respuesta tiene la forma: { data: { states: [ { name: 'Región1' }, ... ] } }
+    } catch (error) {
+        console.error("Error al obtener regiones:", error);
+        return [];
+    }
+}
 
-        // selecct para la seccion de formacion academica
-        getCountries(data, 'paisFormacion');
+// Función para obtener las provincias de una región
+async function loadProvinces(countryName, regionName) {
+    try {
+        const response = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country: countryName, state: regionName })
+        });
+        if (!response.ok) throw new Error("Error al obtener provincias.");
+        const result = await response.json();
+        return result.data || []; // Retorna un arreglo de provincias (o municipios) si existe
+    } catch (error) {
+        console.error("Error al obtener provincias:", error);
+        return [];
+    }
+}
 
-        // select para la seccion de experiencia laboral
-        getCountries(data, 'paisEmpresa');
+// Función principal para llenar el <select> de países, regiones y provincias
+function getCountries(data, countrySelectId, regionSelectId = null, provinceSelectId = null) {
+    if (!data || !countrySelectId) return;
 
-        // select para la seccion de experiencia laboral - docente
-        getCountries(data, 'paisDocente');
+    const countrySelect = document.getElementById(countrySelectId);
+    if (!countrySelect) return;
+    clearAndSetDefault(countrySelect, 'Seleccionar País');
 
-        // select para la seccion de experiencia laboral - par evaluador
-        getCountries(data, 'paisEvaluador');
-    })
-    .catch(error => console.error('Error al obtener los países:', error));
+    // Ordenar y llenar el select de países
+    data.sort((a, b) => a.country.localeCompare(b.country));
+    data.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country.country;
+        option.textContent = country.country;
+        countrySelect.appendChild(option);
+    });
 
-// Solicitar nacionalidades
-// function getNationalities(data) {
-//     if (!data) return;
+    // Si se proporcionó un select para regiones, configurar el evento change
+    if (regionSelectId) {
+        const regionSelect = document.getElementById(regionSelectId);
+        if (!regionSelect) return;
+        clearAndSetDefault(regionSelect, 'Seleccionar Región / Estado');
 
-//     data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        countrySelect.addEventListener('change', async function() {
+            const selectedCountry = this.value;
+            clearAndSetDefault(regionSelect, 'Seleccionar Región / Estado');
+            if (provinceSelectId) {
+                const provinceSelect = document.getElementById(provinceSelectId);
+                if (provinceSelect) clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
+            }
+            if (selectedCountry) {
+                const regions = await loadRegions(selectedCountry);
+                if (regions && regions.length) {
+                    regions.sort((a, b) => a.name.localeCompare(b.name));
+                    regions.forEach(region => {
+                        const option = document.createElement('option');
+                        option.value = region.name;
+                        option.textContent = region.name;
+                        regionSelect.appendChild(option);
+                    });
+                }
+            }
+        });
 
-//     const nationalitySelect = document.getElementById('nationality');
-//     nationalitySelect.innerHTML = ''; //limpiar el select
+        // Si se proporcionó un select para provincias, configurar el evento change en el select de regiones
+        if (provinceSelectId) {
+            const provinceSelect = document.getElementById(provinceSelectId);
+            if (!provinceSelect) return;
+            clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
 
-//     //agregar opcion por defecto
-//     const defaultOption = document.createElement('option');
-//     defaultOption.value = '';
-//     defaultOption.textContent = '--Seleccionar Nacionalidad--';
-//     nationalitySelect.appendChild(defaultOption);
+            regionSelect.addEventListener('change', async function() {
+                const selectedRegion = this.value;
+                clearAndSetDefault(provinceSelect, 'Seleccionar Provincia / Municipio');
+                const selectedCountry = countrySelect.value;
+                if (selectedCountry && selectedRegion) {
+                    const provinces = await loadProvinces(selectedCountry, selectedRegion);
+                    if (provinces && provinces.length) {
+                        provinces.sort((a, b) => a.localeCompare(b));
+                        provinces.forEach(province => {
+                            const option = document.createElement('option');
+                            option.value = province;
+                            option.textContent = province;
+                            provinceSelect.appendChild(option);
+                        });
+                    }
+                }
+            });
+        }
+    }
+}
 
-//     data.forEach(country => {
-//         if (country.demonyms && country.demonyms.eng) {
-//             const option = document.createElement('option');
-//             option.value = country.demonyms.eng.m;
-//             option.textContent = country.demonyms.eng.m;
-//             nationalitySelect.appendChild(option);
-//         }
-//     });
-// }
+// Ejemplo de uso: llenar distintos selects para diferentes secciones de la aplicación
+fetchData().then(data => {
+    // Sección de datos personales con regiones y provincias
+    getCountries(data, 'PaisDatoDominicial', 'PaisDatoDominicialRegion', 'PaisDatoDominicialProvincia');
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const data = await fetchData();
-    getCountries(data);
-    // getNationalities(data);
-});
+    // Sección de Información Laboral Actual (solo país)
+    getCountries(data, 'PaisInformacionLaboral');
+
+    // Sección de formación académica (solo país)
+    getCountries(data, 'paisFormacion');
+
+    // Sección de experiencia laboral (solo país)
+    getCountries(data, 'paisEmpresa');
+
+    // Sección de experiencia laboral - docente (solo país)
+    getCountries(data, 'paisDocente');
+
+    // Sección de experiencia laboral - par evaluador (solo país)
+    getCountries(data, 'paisEvaluador');
+}).catch(error => console.error('Error al obtener los países:', error));

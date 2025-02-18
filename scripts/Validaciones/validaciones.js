@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
     validarTextarea("funcionesPrincipales", "contadorObservacionesPrincipales", "errorObservaciones", 150);
 
     // Validación de textarea de sección 7 (carta de presentación)
-    validarTextarea("descripcionContribucion", "contadorPalabras", "mensajeError", 250);
+    validarTextarea("descripcionContribucion", "contadorPalabras", "mensajeError", 400);
 
-    // Validación de foto de perfil (solo JPG y PNG, máximo 25 MB)
+    // Validación de foto de perfil (solo JPG y PNG, máximo 5 MB)
     validarArchivo("fotoPerfil", "errorFotoPerfil", ["image/jpg", "image/png"], 5);
 });

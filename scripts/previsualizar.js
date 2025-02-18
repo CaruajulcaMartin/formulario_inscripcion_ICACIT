@@ -131,6 +131,16 @@ function generatePreviewContent() {
                             } else {
                                 value = "";
                             }
+                        } else if (field.name === "celular") {
+                            // Manejar el campo de teléfono
+                            const phoneCode = document.getElementById('phoneCode');
+                            const phoneNumber = document.getElementById('phoneNumber');
+                            if (phoneCode && phoneNumber) {
+                                const selectedOption = phoneCode.options[phoneCode.selectedIndex];
+                                const countryName = selectedOption ? selectedOption.text.split(' ')[0] : "";
+                                const countryCode = selectedOption ? selectedOption.value : "";
+                                value = `${countryName} (${countryCode}) ${phoneNumber.value}`;
+                            }
                         } else {
                             value = field.value.trim();
                         }
@@ -166,12 +176,6 @@ function generatePreviewContent() {
                             }
                         });
                     }
-
-                    // Reemplazar los íconos de PDF en la tabla por "SI"
-                    const pdfIcons = clonedTable.querySelectorAll('td[data-anexo="true"]');
-                    pdfIcons.forEach(cell => {
-                        cell.innerHTML = "SI";  // Reemplazar el ícono de PDF por "SI"
-                    });
 
                     subsectionContent += clonedTable.outerHTML;
                 }
@@ -229,6 +233,16 @@ function generatePreviewContent() {
                     } else {
                         value = "";
                     }
+                } else if (field.name === "celular") {
+                    // Manejar el campo de teléfono
+                    const phoneCode = document.getElementById('phoneCode');
+                    const phoneNumber = document.getElementById('phoneNumber');
+                    if (phoneCode && phoneNumber) {
+                        const selectedOption = phoneCode.options[phoneCode.selectedIndex];
+                        const countryName = selectedOption ? selectedOption.text.split(' ')[0] : "";
+                        const countryCode = selectedOption ? selectedOption.value : "";
+                        value = `${countryName} (${countryCode}) ${phoneNumber.value}`;
+                    }
                 } else {
                     value = field.value.trim();
                 }
@@ -259,6 +273,7 @@ function generatePreviewContent() {
 
     return content;
 }
+
 /*
 function generatePreviewContent() {
     // Definir estilos en línea para la previsualización
@@ -270,9 +285,11 @@ function generatePreviewContent() {
             .subsection { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
             .subsection h5 { width: 100%; color: #006699; margin-bottom: 10px; }
             .subsection p { flex: 1 1 45%; margin: 5px 0; }
+
             h4 { color: #003366; }
             h5 { color: #006699; margin-bottom: 5px; }
             h6 { color: #003366; }
+            
             table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
             th { background-color: #f4f4f4; }
@@ -408,11 +425,11 @@ function generatePreviewContent() {
                         });
                     }
 
-                    // Eliminar los anexos de la tabla
-                    const anexoRows = clonedTable.querySelectorAll('td.anexo');
-                    anexoRows.forEach(row => {
-                        row.remove();
-                    });
+                    // Reemplazar los íconos de PDF en la tabla por "SI"
+                    // const pdfIcons = clonedTable.querySelectorAll('.pdf-icon');
+                    // pdfIcons.forEach(cell => {
+                    //     cell.innerHTML = "SI";  // Reemplazar el ícono de PDF por "SI"
+                    // });
 
                     subsectionContent += clonedTable.outerHTML;
                 }
@@ -535,20 +552,19 @@ function downloadPDF() {
         const data = [];
 
         // Recorrer las filas de la tabla
+        // Recorrer las filas de la tabla
         rows.forEach(row => {
             const rowData = [];
             const cells = row.querySelectorAll('th, td');
             cells.forEach(cell => {
-                rowData.push(cell.textContent.trim());
+                if (cell.querySelector('.pdf-icon')) {
+                    rowData.push("Adjunto");  // Reemplazar el ícono de PDF por "Adjunto"
+                } else {
+                    rowData.push(cell.textContent.trim());
+                }
             });
             data.push(rowData);
         });
-
-        // Verificar si la tabla contiene un anexo
-        const hasAnexo = table.querySelector('td[data-anexo="true"]') !== null;
-        if (hasAnexo) {
-            data.push(['Anexo:', 'SI']);
-        }
 
         // Agregar la tabla al PDF usando el plugin autoTable
         pdf.autoTable({
