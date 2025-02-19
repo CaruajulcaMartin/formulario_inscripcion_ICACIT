@@ -1,7 +1,7 @@
 function showPreviewInModal() {
     // Validar la sección 8 antes de continuar
     if (!validateSection8()) {
-        alert("Por favor, marcar todos las casillas y proporciona una firma antes de continuar.");
+        alert("Por favor, marcar todas las casillas y proporcionar una firma antes de continuar.");
         return; // Detener la ejecución si la validación falla
     }
 
@@ -29,7 +29,7 @@ function generatePreviewContent() {
             h4 { color: #003366; }
             h5 { color: #006699; margin-bottom: 5px; }
             h6 { color: #003366; }
-            table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 5px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
             th { background-color: #f4f4f4; }
             .signature { max-width: 200px; border: 1px solid #000; margin-top: 10px; }
@@ -59,7 +59,7 @@ function generatePreviewContent() {
 
         const sectionTitleElem = section.querySelector('h2');
         if (sectionTitleElem) {
-            sectionContent += `<h4>${sectionTitleElem.innerText}</h4>`;
+            sectionContent += `<h4>${sectionTitleElem.innerText.replace("*", "")}</h4>`;
         }
 
         sectionContent += processSubsections(section, section.id);
@@ -87,7 +87,7 @@ function generatePreviewContent() {
 function processSubsections(section, sectionId) {
     let content = '';
 
-    const subsections = section.querySelectorAll('.section-title');
+    const subsections = section.querySelectorAll('.section-title, .subsection-title');
     if (subsections.length > 0) {
         subsections.forEach(subsection => {
             content += processSubsection(subsection, sectionId);
@@ -102,9 +102,9 @@ function processSubsections(section, sectionId) {
 function processSubsection(subsection, sectionId) {
     let content = `<div class="subsection">`;
 
-    const subsectionTitle = subsection.querySelector('h4');
+    const subsectionTitle = subsection.querySelector('h4, h5');
     if (subsectionTitle) {
-        content += `<h5>${subsectionTitle.innerText}</h5>`;
+        content += `<h5>${subsectionTitle.innerText.replace("*", "")}</h5>`;
     }
 
     const fieldsContainer = subsection.nextElementSibling;
@@ -112,27 +112,9 @@ function processSubsection(subsection, sectionId) {
         content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'));
     }
 
-    const table = subsection.nextElementSibling?.nextElementSibling;
+    const table = fieldsContainer?.nextElementSibling;
     if (table && table.tagName === 'TABLE') {
         content += processTable(table);
-    }
-
-    // Ordenar las subsecciones de la sección 3
-    if (sectionId === 'section3') {
-        if (subsectionTitle.innerText === "Cursos y Seminarios") {
-            const tableTitles = [
-                'Relacionados a su campo profesional:',
-                'Relacionados a su ámbito académico:',
-                'Relacionados a su ámbito de evaluación con fines de acreditación:'
-            ];
-            tableTitles.forEach(title => {
-                const relatedTable = document.querySelector(`table[data-title="${title}"]`);
-                if (relatedTable) {
-                    content += `<h5>${title}</h5>`;
-                    content += processTable(relatedTable);
-                }
-            });
-        }
     }
 
     content += `</div>`;
@@ -150,9 +132,9 @@ function processFields(fields) {
         let labelText = '';
         const parentLabel = field.parentElement.querySelector('label');
         if (parentLabel) {
-            labelText = parentLabel.innerText.replace(":", "").trim();
+            labelText = parentLabel.innerText.replace(":", "").replace("*", "").trim();
         } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
-            labelText = field.previousElementSibling.innerText.replace(":", "").trim();
+            labelText = field.previousElementSibling.innerText.replace(":", "").replace("*", "").trim();
         }
 
         let value = '';
@@ -196,7 +178,7 @@ function processTable(table) {
     const headers = clonedTable.querySelectorAll('th');
     let actionIndex = -1;
     headers.forEach((header, index) => {
-        if (header.textContent.includes("Acción") || header.textContent.includes("Anexos")) {
+        if (header.textContent.includes("Acción")) {
             actionIndex = index;
         }
     });
@@ -211,6 +193,16 @@ function processTable(table) {
         });
     }
 
+    const rows = clonedTable.querySelectorAll('tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => {
+            if (cell.querySelector('img')) {
+                cell.innerHTML = 'Adjunto';
+            }
+        });
+    });
+
     return `<table>${clonedTable.innerHTML}</table>`;
 }
 
@@ -222,7 +214,6 @@ function downloadPDF() {
     let lineHeight = 10;
     let currentY = margin;
     const pageWidth = pdf.internal.pageSize.getWidth() - margin * 2;
-    const columnWidth = (pageWidth - margin) / 2 - margin;
 
     // Agregar el logo y el título
     const logoImg = new Image();
@@ -236,7 +227,7 @@ function downloadPDF() {
 
         pdf.setFontSize(18);
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, margin + logoHeight + 10, { align: 'center' });
+        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, currentY + logoHeight + 10, { align: 'center' });
         currentY += logoHeight + 20;
 
         const addText = (text, fontSize = 12, isBold = false, align = 'left') => {
@@ -246,25 +237,9 @@ function downloadPDF() {
             }
             pdf.setFontSize(fontSize);
             pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-            pdf.text(text, margin, currentY, { align });
-            currentY += lineHeight;
-        };
-
-        const addColumnText = (text, fontSize = 12, isBold = false, align = 'left') => {
-            if (currentY + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
-                pdf.addPage();
-                currentY = margin;
-            }
-            pdf.setFontSize(fontSize);
-            pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-            if (currentColumn === 0) {
-                pdf.text(text, margin, currentY, { align });
-                currentColumn = 1;
-            } else {
-                pdf.text(text, margin + columnWidth + margin, currentY, { align });
-                currentColumn = 0;
-                currentY += lineHeight;
-            }
+            const textLines = pdf.splitTextToSize(text, pageWidth);
+            pdf.text(textLines, margin, currentY, { align });
+            currentY += lineHeight * textLines.length;
         };
 
         const addImage = (imgSrc, width, height) => {
@@ -280,17 +255,22 @@ function downloadPDF() {
             const rows = table.querySelectorAll('tr');
             const data = [];
 
+            // Recorrer las filas de la tabla
             rows.forEach(row => {
                 const rowData = [];
                 const cells = row.querySelectorAll('th, td');
                 cells.forEach(cell => {
-                    rowData.push(cell.textContent.trim());
+                    if (cell.querySelector('.pdf-icon')) {
+                        rowData.push("Adjunto");  // Reemplazar el ícono de PDF por "Adjunto"
+                    } else {
+                        rowData.push(cell.textContent.trim());
+                    }
                 });
                 data.push(rowData);
             });
 
             pdf.autoTable({
-                startY: currentY,
+                startY: currentY + 5, // Añadir un margen superior para separar tablas
                 head: [data[0]],
                 body: data.slice(1),
                 margin: { left: margin },
@@ -300,26 +280,13 @@ function downloadPDF() {
         };
 
         // Recorrer el contenido de la previsualización
-        let currentColumn = 0;
         previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {
             if (element.tagName === 'H4') {
-                if (element.closest('section1') || element.closest('section2')) {
-                    addColumnText(element.textContent, 16, true);
-                } else {
-                    addText(element.textContent, 16, true);
-                }
+                addText(element.textContent, 16, true);
             } else if (element.tagName === 'H5') {
-                if (element.closest('section1') || element.closest('section2')) {
-                    addColumnText(element.textContent, 14, true);
-                } else {
-                    addText(element.textContent, 14, true);
-                }
+                addText(element.textContent, 14, true);
             } else if (element.tagName === 'P') {
-                if (element.closest('section1') || element.closest('section2')) {
-                    addColumnText(element.textContent, 12);
-                } else {
-                    addText(element.textContent, 12);
-                }
+                addText(element.textContent.replace(/<br\s*\/?>/gi, '\n'), 12); // Reemplazar saltos de línea HTML por saltos de línea en PDF
             } else if (element.tagName === 'IMG') {
                 const imgSrc = element.src;
                 let imgWidth, imgHeight;
