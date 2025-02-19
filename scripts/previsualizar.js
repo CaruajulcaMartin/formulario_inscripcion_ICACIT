@@ -214,8 +214,6 @@ function processTable(table) {
     return `<table>${clonedTable.innerHTML}</table>`;
 }
 
-
-//funcion de descarga de pdf
 function downloadPDF() {
     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
     const previewContent = document.getElementById('previewModalBody');
@@ -224,30 +222,57 @@ function downloadPDF() {
     let lineHeight = 10;
     let currentY = margin;
     const pageWidth = pdf.internal.pageSize.getWidth() - margin * 2;
+    const columnWidth = (pageWidth - margin) / 2 - margin;
 
     // Agregar el logo y el título
     const logoImg = new Image();
     logoImg.src = '/assets/ICACIT_2025.jpg'; // Asegúrate de tener el logo en la ruta especificada
 
     logoImg.onload = function() {
-        pdf.addImage(logoImg, 'PNG', margin, margin, 30, 30); // Logo en la esquina superior izquierda
+        const logoHeight = (logoImg.height * 25) / logoImg.width;
+        pdf.addImage(logoImg, 'PNG', margin, margin, 25, logoHeight); // Logo con ancho 25px y altura automática
         pdf.setFontSize(10);
-        pdf.text(`Fecha de Registro: ${new Date().toLocaleDateString()}`, pageWidth - margin, margin + 5, { align: 'right' }); // Fecha en la esquina superior derecha
+        pdf.text(`Fecha de Registro: ${new Date().toLocaleDateString()}`, pageWidth - margin, margin + logoHeight / 2, { align: 'right' }); // Fecha alineada con el logo
 
         pdf.setFontSize(18);
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, margin + 20, { align: 'center' });
-        currentY += 40;
+        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, margin + logoHeight + 10, { align: 'center' });
+        currentY += logoHeight + 20;
 
         const addText = (text, fontSize = 12, isBold = false, align = 'left') => {
+            if (currentY + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
+                pdf.addPage();
+                currentY = margin;
+            }
             pdf.setFontSize(fontSize);
             pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
             pdf.text(text, margin, currentY, { align });
             currentY += lineHeight;
         };
 
+        const addColumnText = (text, fontSize = 12, isBold = false, align = 'left') => {
+            if (currentY + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
+                pdf.addPage();
+                currentY = margin;
+            }
+            pdf.setFontSize(fontSize);
+            pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+            if (currentColumn === 0) {
+                pdf.text(text, margin, currentY, { align });
+                currentColumn = 1;
+            } else {
+                pdf.text(text, margin + columnWidth + margin, currentY, { align });
+                currentColumn = 0;
+                currentY += lineHeight;
+            }
+        };
+
         const addImage = (imgSrc, width, height) => {
-            pdf.addImage(imgSrc, 'PNG', pageWidth - margin - width, currentY, width, height);
+            if (currentY + height + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
+                pdf.addPage();
+                currentY = margin;
+            }
+            pdf.addImage(imgSrc, 'PNG', margin, currentY, width, height);
             currentY += height + lineHeight;
         };
 
@@ -275,13 +300,26 @@ function downloadPDF() {
         };
 
         // Recorrer el contenido de la previsualización
+        let currentColumn = 0;
         previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {
             if (element.tagName === 'H4') {
-                addText(element.textContent, 16, true);
+                if (element.closest('section1') || element.closest('section2')) {
+                    addColumnText(element.textContent, 16, true);
+                } else {
+                    addText(element.textContent, 16, true);
+                }
             } else if (element.tagName === 'H5') {
-                addText(element.textContent, 14, true);
+                if (element.closest('section1') || element.closest('section2')) {
+                    addColumnText(element.textContent, 14, true);
+                } else {
+                    addText(element.textContent, 14, true);
+                }
             } else if (element.tagName === 'P') {
-                addText(element.textContent, 12);
+                if (element.closest('section1') || element.closest('section2')) {
+                    addColumnText(element.textContent, 12);
+                } else {
+                    addText(element.textContent, 12);
+                }
             } else if (element.tagName === 'IMG') {
                 const imgSrc = element.src;
                 let imgWidth, imgHeight;
@@ -305,43 +343,4 @@ function downloadPDF() {
 
         pdf.save('Formulario_Inscripcion_ICACIT_2025.pdf');
     };
-
-    function addText(text, fontSize = 12, isBold = false, align = 'left') {
-        pdf.setFontSize(fontSize);
-        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-        pdf.text(text, margin, currentY, { align });
-        currentY += lineHeight;
-    }
-
-    function addImage(imgSrc, width, height) {
-        pdf.addImage(imgSrc, 'PNG', margin, currentY, width, height);
-        currentY += height + lineHeight;
-    }
-
-    function addTable(table) {
-        const rows = table.querySelectorAll('tr');
-        const data = [];
-
-        rows.forEach(row => {
-            const rowData = [];
-            const cells = row.querySelectorAll('th, td');
-            cells.forEach(cell => {
-                if (cell.querySelector('.pdf-icon')) {
-                    rowData.push("Adjunto");
-                } else {
-                    rowData.push(cell.textContent.trim());
-                }
-            });
-            data.push(rowData);
-        });
-
-        pdf.autoTable({
-            startY: currentY,
-            head: [data[0]],
-            body: data.slice(1),
-            margin: { left: margin },
-        });
-
-        currentY = pdf.autoTable.previous.finalY + lineHeight;
-    }
 }
