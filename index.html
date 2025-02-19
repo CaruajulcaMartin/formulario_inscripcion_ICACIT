@@ -16,10 +16,10 @@
     <!-- Librería Font Awesome -->
     <script src="https://kit.fontawesome.com/869ea98b1d.js" crossorigin="anonymous"></script>
 
-    <!-- Librería jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Incluir jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <!-- Incluir jsPDF autoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="/styles/styles.css">
@@ -38,11 +38,12 @@
             height: 38px;
             padding: 5px;
         }
+
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 36px;
         }
     </style>
-    
+
 </head>
 
 <body>
@@ -84,7 +85,8 @@
                         <label class="form-label">Tipo de Identidad:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoIdentidad" id="tipoIdentidad" required>
                             <option value="" selected>--Seleccionar--</option>
-                            <option value="DNI (Documento Nacional de Identidad)">DNI (Documento Nacional de Identidad)</option>
+                            <option value="DNI (Documento Nacional de Identidad)">DNI (Documento Nacional de Identidad)
+                            </option>
                             <option value="Pasaporte">Pasaporte</option>
                             <option value="Carnet de Extranjeria">Carnet de Extranjería</option>
                         </select>
@@ -93,10 +95,11 @@
                         <label class="form-label">Numero de Identidad:<span class="text-danger">*</span></label>
                         <input type="text" name="numDoc" id="numDoc" class="form-control" required disabled>
                     </div>
-                    
+
                     <!-- archivo de identidad adjunto -->
                     <div class="col-md-4">
-                        <label class="form-label">Adjuntar Documento de Identidad:<span class="text-danger">*</span></label>
+                        <label class="form-label">Adjuntar Documento de Identidad:<span
+                                class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="pdfDocumentoIdentidad" id="pdfDocumentoIdentidad"
                             accept="application/pdf" required>
                         <small class="form-text text-muted">Solo se permiten archivos PDF con un tamaño máximo de 5
@@ -129,8 +132,9 @@
                         <label class="form-label">Foto de Perfil: <span class="text-danger">*</span></label>
                         <input type="file" name="fotoPerfil" id="fotoPerfil" accept="image/png, image/jpeg"
                             class="form-control" required>
-                            <small class="form-text text-muted">Solo se permiten archivos JPG o PNG con un tamaño máximo de 5
-                                MB.</small>
+                        <small class="form-text text-muted">Solo se permiten archivos JPG o PNG con un tamaño máximo de
+                            5
+                            MB.</small>
                         <div id="errorFotoPerfil" class="text-danger mt-1" style="display: none;">Formato inválido. Solo
                             JPG o PNG.</div>
                     </div>
@@ -145,9 +149,9 @@
 
                 <div class="row g-3 formulario">
                     <div class="col-md-6">
-                        <label class="form-label">Correo Electrónico:<span
-                                class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="correoElectronico" id="correoElectronico" required>
+                        <label class="form-label">Correo Electrónico:<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" name="correoElectronico" id="correoElectronico"
+                            required>
                     </div>
                     <!-- <div class="col-md-4">
                         <label class="form-label">Correo Electrónico Secundario:<span
@@ -159,7 +163,8 @@
                         <!-- <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp" required> -->
                         <div class="input-group" id="phoneInput">
                             <select id="phoneCode" class="form-control" style="width: 120px;"></select>
-                            <input type="tel" id="phoneNumber" class="form-control" name="celular" placeholder="Número de Whatsapp" required>
+                            <input type="tel" id="phoneNumber" class="form-control" name="celular"
+                                placeholder="Número de Whatsapp" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -211,7 +216,8 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Región / Estado:<span class="text-danger">*</span></label>
-                        <select class="form-control" name="PaisDatoDominicialRegion" id="PaisDatoDominicialRegion" required>
+                        <select class="form-control" name="PaisDatoDominicialRegion" id="PaisDatoDominicialRegion"
+                            required>
                             <option value="">--Seleccionar Región / Estado--</option>
                         </select>
                         <!-- <input type="text" class="form-control" name="region" required> -->
@@ -315,8 +321,7 @@
                         <input type="text" class="form-control" name="centroLaboralEmpleador" required>
                     </div> -->
                     <div class="col-md-4">
-                        <label class="form-label">Nombres y Apellidos:<span
-                                class="text-danger">*</span></label>
+                        <label class="form-label">Nombres y Apellidos:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="nombresEmpleador" required>
                     </div>
                     <div class="col-md-4">
@@ -563,162 +568,172 @@
                 </div>
 
                 <!-- seccion 3.3.1: relacionados a su campo profesional -->
-                <div class="row g-3 formulario">
+                <div class="subsection row g-3 formulario">
+                    <!-- Subsección: Campo Profesional -->
                     <h5>Relacionados a su campo profesional:</h5>
-                    <div class="col-md-2">
-                        <label class="form-label">Año:<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="anoCertificadoCampoProfesional"
-                            id="anoCertificadoCampoProfesional" min="1900" max="2099" step="1">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Institución:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="institucionCampoProfesional"
-                            id="institucionCampoProfesional">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Nombre del Curso o Seminario:<span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cursoSeminarioCampoProfesional"
-                            id="cursoSeminarioCampoProfesional">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Duración (8 horas mínimo):<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="duracionCampoProfesional"
-                            id="duracionCampoProfesional" min="8" max="360" step="1">
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <label class="form-label">Año:<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="anoCertificadoCampoProfesional"
+                                id="anoCertificadoCampoProfesional" min="1900" max="2099" step="1">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Institución:<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="institucionCampoProfesional"
+                                id="institucionCampoProfesional">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Nombre del Curso o Seminario:<span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="cursoSeminarioCampoProfesional"
+                                id="cursoSeminarioCampoProfesional">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Duración (8 horas mínimo):<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="duracionCampoProfesional"
+                                id="duracionCampoProfesional" min="8" max="360" step="1">
+                        </div>
+                        <!-- Botón para agregar un nuevo registro -->
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a tu campo profesional"
+                                onclick="agregarCursosAmbitoProfesional()">
+                                Agregar Cursos
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
-                            data-bs-placement="top" data-bs-custom-class="custom-tooltip"
-                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a tu campo profesional"
-                            onclick="agregarCursosAmbitoProfesional()">
-                            Agregar Cursos
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
+                    <!-- Tabla de Campo Profesional -->
+                    <table class="table table-striped required" data-title="Relacionados a su campo profesional:">
+                        <thead>
+                            <tr>
+                                <th scope="col">Año</th>
+                                <th scope="col">Institución</th>
+                                <th scope="col">Curso o Seminario</th>
+                                <th scope="col">Duración</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCursosAmbitoProfesional">
+                            <!-- Aquí se mostrarán las filas agregadas -->
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table table-striped required">
-                    <thead>
-                        <tr>
-                            <th scope="col">Año</th>
-                            <th scope="col">Institución</th>
-                            <th scope="col">Curso o Seminario</th>
-                            <th scope="col">Duración</th>
-                            <th scope="col">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaCursosAmbitoProfesional">
-                        <!-- aca se mostraran las filas agregadas -->
-                    </tbody>
-                </table>
 
                 <div class="border-bottom border-secondary my-4"></div>
 
                 <!-- seccion 3.3.2: relacionados a su ambito academico -->
-                <div class="row g-3 formulario">
+                <div class="subsection row g-3 formulario">
                     <h5>Relacionados a su ámbito académico:</h5>
-                    <div class="col-md-2">
-                        <label class="form-label">Año:<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="anoCertificadoAmbitoAcademico"
-                            id="anoCertificadoAmbitoAcademico" min="1900" max="2099" step="1">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Institución:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="institucionAmbitoAcademico"
-                            id="institucionAmbitoAcademico">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Nombre del Curso o Seminario:<span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cursoSeminarioAmbitoAcademico"
-                            id="cursoSeminarioAmbitoAcademico">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Duración (8 horas mínimo):<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="duracionAmbitoAcademico"
-                            id="duracionAmbitoAcademico" min="8" max="360" step="1">
+                    <div class="row g-3 formulario">
+                        <div class="col-md-2">
+                            <label class="form-label">Año:<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="anoCertificadoAmbitoAcademico"
+                                id="anoCertificadoAmbitoAcademico" min="1900" max="2099" step="1">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Institución:<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="institucionAmbitoAcademico"
+                                id="institucionAmbitoAcademico">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Nombre del Curso o Seminario:<span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="cursoSeminarioAmbitoAcademico"
+                                id="cursoSeminarioAmbitoAcademico">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Duración (8 horas mínimo):<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="duracionAmbitoAcademico"
+                                id="duracionAmbitoAcademico" min="8" max="360" step="1">
+                        </div>
+
+                        <!-- Botón para agregar un nuevo registro -->
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito académico"
+                                onclick="agregarCursosAmbitoAcademico()">
+                                Agregar Cursos
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
-                            data-bs-placement="top" data-bs-custom-class="custom-tooltip"
-                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito académico"
-                            onclick="agregarCursosAmbitoAcademico()">
-                            Agregar Cursos
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
+                    <table class="table table-striped required">
+                        <thead>
+                            <tr>
+                                <th scope="col">Año</th>
+                                <th scope="col">Institución</th>
+                                <th scope="col">Curso o Seminario</th>
+                                <th scope="col">Duración</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCursosAmbitoAcademico">
+                            <!-- aca se mostraran las filas agregadas -->
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table table-striped required">
-                    <thead>
-                        <tr>
-                            <th scope="col">Año</th>
-                            <th scope="col">Institución</th>
-                            <th scope="col">Curso o Seminario</th>
-                            <th scope="col">Duración</th>
-                            <th scope="col">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaCursosAmbitoAcademico">
-                        <!-- aca se mostraran las filas agregadas -->
-                    </tbody>
-                </table>
 
                 <div class="border-bottom border-secondary my-4"></div>
 
                 <!-- seccion 3.3.3: relacionados a su ambito de evaluacion con fines de acreditacion -->
-                <div class="row g-3 formulario">
+                <div class="subsection row g-3 formulario">
                     <h5>Relacionados a su ámbito de evaluación con fines de acreditación:</h5>
-                    <div class="col-md-2">
-                        <label class="form-label">Año:<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="anoCertificado" id="anoCertificado" min="1900"
-                            max="2099" step="1">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Institución:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="institucion" id="institucion">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Nombre del Curso o Seminario:<span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cursoSeminario" id="cursoSeminario">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Duración (8 horas mínimo):<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="duracion" id="duracion" min="8" max="360"
-                            step="1">
+                    <div class="row g-3 formulario">
+                        <div class="col-md-2">
+                            <label class="form-label">Año:<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="anoCertificado" id="anoCertificado"
+                                min="1900" max="2099" step="1">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Institución:<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="institucion" id="institucion">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Nombre del Curso o Seminario:<span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="cursoSeminario" id="cursoSeminario">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Duración (8 horas mínimo):<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="duracion" id="duracion" min="8" max="360"
+                                step="1">
+                        </div>
+
+                        <!-- Botón para agregar un nuevo registro -->
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito de evaluación con fines de acreditación"
+                                onclick="agregarCursos()">
+                                Agregar Cursos
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Botón para agregar un nuevo registro -->
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-success btn-agregar" data-bs-toggle="tooltip"
-                            data-bs-placement="top" data-bs-custom-class="custom-tooltip"
-                            data-bs-title="Haz clic aquí para agregar más información sobre tus cursos y seminarios en relacion a su ámbito de evaluación con fines de acreditación"
-                            onclick="agregarCursos()">
-                            Agregar Cursos
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
+                    <table class="table table-striped required">
+                        <thead>
+                            <tr>
+                                <th scope="col">Año</th>
+                                <th scope="col">Institución</th>
+                                <th scope="col">Curso o Seminario</th>
+                                <th scope="col">Duración</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCursos">
+                            <!-- aca se mostraran las filas agregadas -->
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table table-striped required">
-                    <thead>
-                        <tr>
-                            <th scope="col">Año</th>
-                            <th scope="col">Institución</th>
-                            <th scope="col">Curso o Seminario</th>
-                            <th scope="col">Duración</th>
-                            <th scope="col">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaCursos">
-                        <!-- aca se mostraran las filas agregadas -->
-                    </tbody>
-                </table>
 
                 <!-- Alerta de Nota -->
                 <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
@@ -911,7 +926,8 @@
                         <label class="form-label">Funciones Principales:</label>
                         <textarea name="funcionesPrincipales" id="funcionesPrincipales" class="form-control" rows="3"
                             placeholder="Ingrese las funciones principales"></textarea>
-                        <small id="contadorObservacionesPrincipales" class="text-muted">Máximo 150 caracteres. caracteres
+                        <small id="contadorObservacionesPrincipales" class="text-muted">Máximo 150 caracteres.
+                            caracteres
                             actuales: 0</small>
                         <div id="errorObservaciones" class="text-danger mt-1" style="display: none;">
                             Has excedido el límite de 150 caracteres.
@@ -1367,7 +1383,9 @@
 
                 <!-- seccion 7.1:  Carta de presentación -->
                 <div class="row g-3 formulario">
-                    <h5>Describa en 400 palabras su interés por ser parte del Exclusivo Staff Internacional de <b>Evaluadores ICACIT</b></h5>
+                    <h5>Describa en 400 palabras su interés por ser parte del Exclusivo Staff Internacional de
+                        <b>Evaluadores ICACIT</b>
+                    </h5>
                     <div class="col-12">
                         <!-- <label class="form-label">Carta de Presentación:<span class="text-danger">*</span></label> -->
                         <textarea name="descripcionContribucion" id="descripcionContribucion" class="form-control"
@@ -1394,7 +1412,8 @@
                     </div>
                     <div class="col-12">
                         <input type="checkbox" name="condutaEticaValores" id="condutaEticaValores">
-                        <label for="condutaEticaValores">Declaro que la información que he consignado en este formulario es verdadera.</label>
+                        <label for="condutaEticaValores">Declaro que la información que he consignado en este formulario
+                            es verdadera.</label>
                     </div>
                 </div>
 
@@ -1407,7 +1426,8 @@
                 </div>
 
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
-                <button type="button" class="btn btn-primary mt-3 next" onclick="showPreviewInModal()">Previsualizar</button>
+                <button type="button" class="btn btn-primary mt-3 next"
+                    onclick="showPreviewInModal()">Previsualizar</button>
             </div>
         </form>
 
@@ -1419,7 +1439,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <img src="/assets/ICACIT_2025.jpg" alt="Logo ICACIT" class="modal-logo">
-                    <h5 class="modal-title" id="previewModalLabel">Previsualización del Formulario de Inscripción - Evaluador ICACIT</h5>
+                    <h5 class="modal-title" id="previewModalLabel">Previsualización del Formulario de Inscripción -
+                        Evaluador ICACIT</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="previewModalBody">
@@ -1440,7 +1461,7 @@
     <!-- firma y previsualizar -->
     <script src="/scripts/firmaUsuario.js"></script>
     <script src="/scripts/previsualizar.js"></script>
-    
+
     <!-- validaciones -->
     <script src="/scripts/Validaciones/ValidacionesGenerales.js"></script>
     <script src="/scripts/Validaciones/validaciones.js"></script>

@@ -27,11 +27,9 @@ function generatePreviewContent() {
             .subsection { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
             .subsection h5 { width: 100%; color: #006699; margin-bottom: 10px; }
             .subsection p { flex: 1 1 45%; margin: 5px 0; }
-
             h4 { color: #003366; }
             h5 { color: #006699; margin-bottom: 5px; }
             h6 { color: #003366; }
-            
             table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
             th { background-color: #f4f4f4; }
@@ -43,7 +41,6 @@ function generatePreviewContent() {
         </style>
     `;
 
-    // Empieza el contenido con los estilos
     let content = styleContent;
 
     // Mostrar la foto de perfil si se subió
@@ -69,171 +66,14 @@ function generatePreviewContent() {
             sectionContent += `<h4>${sectionTitleElem.innerText}</h4>`;
         }
 
-        // Verificar si la sección tiene subsecciones
-        const subsections = section.querySelectorAll('.section-title');
-        if (subsections.length > 0) {
-            // Si tiene subsecciones, procesar cada una
-            subsections.forEach(subsection => {
-                let subsectionContent = `<div class="subsection">`;
-                const subsectionTitle = subsection.querySelector('h4');
-                if (subsectionTitle) {
-                    subsectionContent += `<h5>${subsectionTitle.innerText}</h5>`;
-                }
-
-                // Obtener los campos dentro de la subsección actual
-                const fieldsContainer = subsection.nextElementSibling;
-                if (fieldsContainer) {
-                    const fields = fieldsContainer.querySelectorAll('input, select, textarea, label');
-                    fields.forEach(field => {
-                        if (field.tagName === 'LABEL') {
-                            // Si es un label, lo ignoramos porque lo manejamos junto con su input
-                            return;
-                        }
-
-                        if (['button', 'submit', 'file', 'hidden'].includes(field.type) || field.name === 'firma') {
-                            return;
-                        }
-                        if (field.closest('table')) {
-                            return;
-                        }
-
-                        let labelText = "";
-                        const parentLabel = field.parentElement.querySelector('label');
-                        if (parentLabel) {
-                            labelText = parentLabel.innerText.replace(":", "").trim();
-                        } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
-                            labelText = field.previousElementSibling.innerText.replace(":", "").trim();
-                        }
-
-                        if (field.id === "basic-url" && section.id === "section1") {
-                            labelText = "Red Profesional";
-                        }
-
-                        let value = "";
-                        if (field.type === 'checkbox') {
-                            // Manejar checkbox
-                            value = field.checked ? "Sí" : "No";
-                            // Extraer el label asociado al checkbox
-                            const label = field.parentElement.querySelector('label');
-                            if (label) {
-                                labelText = label.innerText.replace(":", "").trim();
-                            }
-                        } else if (field.tagName === "SELECT") {
-                            const selectedOption = field.options[field.selectedIndex];
-                            value = selectedOption ? selectedOption.text : "";
-                            if (value.includes("--Seleccionar")) {
-                                value = ""; // No mostrar si está seleccionado predeterminadamente
-                            }
-                        } else if (field.type === 'file') {
-                            // Manejar archivos adjuntos
-                            if (field.files.length > 0) {
-                                value = `<span class="archivo-adjunto">Archivo adjunto</span>`;
-                            } else {
-                                value = "";
-                            }
-                        }
-
-                        if (value) {
-                            subsectionContent += `<p><strong>${labelText}:</strong> ${value}</p>`;
-                        }
-                    });
-                }
-
-                // Procesar la tabla asociada a esta subsección
-                const table = subsection.nextElementSibling?.nextElementSibling;
-                if (table && table.tagName === 'TABLE') {
-                    // Clonar la tabla para no modificar la original
-                    const clonedTable = table.cloneNode(true);
-
-                    // Buscar el encabezado que contiene "Acción"
-                    const headers = clonedTable.querySelectorAll('th');
-                    let actionIndex = -1;
-                    headers.forEach((header, index) => {
-                        if (header.textContent.includes("Acción")) {
-                            actionIndex = index;
-                        }
-                    });
-
-                    // Si se encontró el encabezado de "Acción", eliminar la columna correspondiente
-                    if (actionIndex !== -1) {
-                        const rows = clonedTable.querySelectorAll('tr');
-                        rows.forEach(row => {
-                            const actionCell = row.children[actionIndex];
-                            if (actionCell) {
-                                actionCell.remove();
-                            }
-                        });
-                    }
-
-                    subsectionContent += clonedTable.outerHTML;
-                }
-
-                subsectionContent += `</div>`;
-                sectionContent += subsectionContent;
-            });
-        } else {
-            // Si la sección no tiene subsecciones, procesar directamente los campos
-            const fields = section.querySelectorAll('input, select, textarea, label');
-            fields.forEach(field => {
-                if (field.tagName === 'LABEL') {
-                    // Si es un label, lo ignoramos porque lo manejamos junto con su input
-                    return;
-                }
-
-                if (['button', 'submit', 'file', 'hidden'].includes(field.type) || field.name === 'firma') {
-                    return;
-                }
-                if (field.closest('table')) {
-                    return;
-                }
-
-                let labelText = "";
-                const parentLabel = field.parentElement.querySelector('label');
-                if (parentLabel) {
-                    labelText = parentLabel.innerText.replace(":", "").trim();
-                } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
-                    labelText = field.previousElementSibling.innerText.replace(":", "").trim();
-                }
-
-                if (field.id === "basic-url" && section.id === "section1") {
-                    labelText = "Red Profesional";
-                }
-
-                let value = "";
-                if (field.type === 'checkbox') {
-                    // Manejar checkbox
-                    value = field.checked ? "Sí" : "No";
-                    // Extraer el label asociado al checkbox
-                    const label = field.parentElement.querySelector('label');
-                    if (label) {
-                        labelText = label.innerText.replace(":", "").trim();
-                    }
-                } else if (field.tagName === "SELECT") {
-                    const selectedOption = field.options[field.selectedIndex];
-                    value = selectedOption ? selectedOption.text : "";
-                    if (value.includes("--Seleccionar")) {
-                        value = ""; // No mostrar si está seleccionado predeterminadamente
-                    }
-                } else if (field.type === 'file') {
-                    // Manejar archivos adjuntos
-                    if (field.files.length > 0) {
-                        value = `<span class="archivo-adjunto">Archivo adjunto</span>`;
-                    } else {
-                        value = "";
-                    }
-                }
-
-                if (value) {
-                    sectionContent += `<p><strong>${labelText}:</strong> ${value}</p>`;
-                }
-            });
-        }
+        // Procesar subsecciones y campos
+        sectionContent += processSubsections(section, section.id);
 
         sectionContent += `</div>`;
         content += sectionContent;
     });
 
-    // Procesar la firma: mostrar la imagen del canvas si tiene contenido significativo
+    // Procesar la firma si existe
     const canvas = document.getElementById('firmaCanvas');
     if (canvas) {
         const firmaURL = canvas.toDataURL();
@@ -250,46 +90,216 @@ function generatePreviewContent() {
     return content;
 }
 
-//funcion para descargar el pdf
-function downloadPDF() {
-    // Crear un nuevo documento PDF
-    const pdf = new jspdf.jsPDF('p', 'mm', 'a4'); // Orientación: portrait, unidad: mm, tamaño: A4
+function processSubsections(section, sectionId) {
+    let content = '';
 
-    // Obtener el contenido de la previsualización
+    const subsections = section.querySelectorAll('.section-title');
+    if (subsections.length > 0) {
+        subsections.forEach(subsection => {
+            content += processSubsection(subsection, sectionId);
+        });
+    } else {
+        content += processFields(section.querySelectorAll('input, select, textarea'));
+    }
+
+    return content;
+}
+
+function processSubsection(subsection, sectionId) {
+    let content = `<div class="subsection">`;
+
+    const subsectionTitle = subsection.querySelector('h4');
+    if (subsectionTitle) {
+        content += `<h5>${subsectionTitle.innerText}</h5>`;
+    }
+
+    const fieldsContainer = subsection.nextElementSibling;
+    if (fieldsContainer) {
+        content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'));
+    }
+
+    const table = subsection.nextElementSibling?.nextElementSibling;
+    if (table && table.tagName === 'TABLE') {
+        content += processTable(table);
+    }
+
+    // Agregar las tablas adicionales para la sección 3
+    if (sectionId === 'section3') {
+        const tableTitles = [
+            'Relacionados a su campo profesional:',
+            'Relacionados a su ámbito académico:',
+            'Relacionados a su ámbito de evaluación con fines de acreditación:'
+        ];
+        tableTitles.forEach(title => {
+            const relatedTable = document.querySelector(`table[data-title="${title}"]`);
+            if (relatedTable) {
+                content += `<h5>${title}</h5>`;
+                content += processTable(relatedTable);
+            }
+        });
+    }
+
+    content += `</div>`;
+    return content;
+}
+
+function processFields(fields) {
+    let content = '';
+
+    fields.forEach(field => {
+        if (field.tagName === 'LABEL' || ['button', 'submit', 'hidden', 'file'].includes(field.type) || field.name === 'firma') {
+            return;
+        }
+
+        let labelText = '';
+        const parentLabel = field.parentElement.querySelector('label');
+        if (parentLabel) {
+            labelText = parentLabel.innerText.replace(":", "").trim();
+        } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
+            labelText = field.previousElementSibling.innerText.replace(":", "").trim();
+        }
+
+        let value = '';
+        if (field.type === 'checkbox') {
+            value = field.checked ? "Sí" : "No";
+        } else if (field.tagName === "SELECT") {
+            const selectedOption = field.options[field.selectedIndex];
+            value = selectedOption ? selectedOption.text : '';
+            if (value.includes("--Seleccionar") || value.includes("Selecciona")) {
+                return; // No mostrar si está seleccionado predeterminadamente
+            }
+        } else {
+            value = field.value.trim();
+        }
+
+        // Manejo especial para input-group
+        if (field.closest('.input-group')) {
+            if (field.id === "phoneNumber") {
+                const phoneCode = document.getElementById('phoneCode').value;
+                value = `${phoneCode} ${value}`;
+                labelText = "Número de Celular";
+            } else if (field.id === "basic-url") {
+                const prefix = field.previousElementSibling.textContent;
+                value = `${prefix}${value}`;
+                labelText = "Red Profesional";
+            }
+        }
+
+        if (value) {
+            content += `<p><strong>${labelText}:</strong> ${value}</p>`;
+        }
+    });
+
+    return content;
+}
+
+function processTable(table) {
+    const clonedTable = table.cloneNode(true);
+
+    const headers = clonedTable.querySelectorAll('th');
+    let actionIndex = -1;
+    headers.forEach((header, index) => {
+        if (header.textContent.includes("Acción")) {
+            actionIndex = index;
+        }
+    });
+
+    if (actionIndex !== -1) {
+        const rows = clonedTable.querySelectorAll('tr');
+        rows.forEach(row => {
+            const actionCell = row.children[actionIndex];
+            if (actionCell) {
+                actionCell.remove();
+            }
+        });
+    }
+
+    return `<table>${clonedTable.innerHTML}</table>`;
+}
+
+//funcion de descarga de pdf
+function downloadPDF() {
+    const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
     const previewContent = document.getElementById('previewModalBody');
 
-    // Configuración inicial
-    let margin = 10; // Margen en mm
-    let lineHeight = 10; // Altura de línea en mm
-    let currentY = margin; // Posición Y actual
+    let margin = 10;
+    let lineHeight = 10;
+    let currentY = margin;
+    const formTitle = 'Formulario de Inscripción ICACIT';
+    const currentDate = new Date().toLocaleDateString();
 
-    // Función para agregar texto al PDF
+    // Agregar el logo y el título
+    const logoImg = new Image();
+    logoImg.src = '/assets/ICACIT_2025.jpg'; // Asegúrate de tener el logo en la ruta especificada
+
+    logoImg.onload = function() {
+        pdf.addImage(logoImg, 'PNG', margin, currentY, 30, 30);
+        currentY += 40;
+
+        pdf.setFontSize(18);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(formTitle, pdf.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
+        currentY += lineHeight;
+
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`Fecha de Registro: ${currentDate}`, pdf.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
+        currentY += lineHeight * 2;
+
+        // Recorrer el contenido de la previsualización
+        previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {
+            if (element.tagName === 'H4') {
+                addText(element.textContent, 16, true);
+            } else if (element.tagName === 'H5') {
+                addText(element.textContent, 14, true);
+            } else if (element.tagName === 'P') {
+                addText(element.textContent, 12);
+            } else if (element.tagName === 'IMG') {
+                const imgSrc = element.src;
+                let imgWidth, imgHeight;
+
+                if (element.classList.contains('profile-pic')) {
+                    imgWidth = 30;
+                    imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
+                } else if (element.classList.contains('signature')) {
+                    imgWidth = 80;
+                    imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
+                } else {
+                    imgWidth = 50;
+                    imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
+                }
+
+                addImage(imgSrc, imgWidth, imgHeight);
+            } else if (element.tagName === 'TABLE') {
+                addTable(element);
+            }
+        });
+
+        pdf.save('Formulario_Inscripcion_ICACIT_2025.pdf');
+    };
+
     function addText(text, fontSize = 12, isBold = false, align = 'left') {
         pdf.setFontSize(fontSize);
         pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
         pdf.text(text, margin, currentY, { align });
-        currentY += lineHeight; // Aumentar la posición Y
+        currentY += lineHeight;
     }
 
-    // Función para agregar una imagen al PDF
     function addImage(imgSrc, width, height) {
         pdf.addImage(imgSrc, 'PNG', margin, currentY, width, height);
-        currentY += height + lineHeight; // Aumentar la posición Y
+        currentY += height + lineHeight;
     }
 
-    // Función para agregar una tabla al PDF
     function addTable(table) {
         const rows = table.querySelectorAll('tr');
         const data = [];
 
-        // Recorrer las filas de la tabla
-        // Recorrer las filas de la tabla
         rows.forEach(row => {
             const rowData = [];
             const cells = row.querySelectorAll('th, td');
             cells.forEach(cell => {
                 if (cell.querySelector('.pdf-icon')) {
-                    rowData.push("Adjunto");  // Reemplazar el ícono de PDF por "Adjunto"
+                    rowData.push("Adjunto");
                 } else {
                     rowData.push(cell.textContent.trim());
                 }
@@ -297,54 +307,13 @@ function downloadPDF() {
             data.push(rowData);
         });
 
-        // Agregar la tabla al PDF usando el plugin autoTable
         pdf.autoTable({
             startY: currentY,
-            head: [data[0]], // La primera fila es el encabezado
-            body: data.slice(1), // El resto son las filas de datos
+            head: [data[0]],
+            body: data.slice(1),
             margin: { left: margin },
         });
 
-        currentY = pdf.autoTable.previous.finalY + lineHeight; // Actualizar la posición Y
+        currentY = pdf.autoTable.previous.finalY + lineHeight;
     }
-
-    // Recorrer el contenido de la previsualización
-    previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {
-        if (element.tagName === 'H4') {
-            // Agregar un título (h4)
-            addText(element.textContent, 16, true);
-        } else if (element.tagName === 'H5') {
-            // Agregar un subtítulo (h5)
-            addText(element.textContent, 14, true);
-        } else if (element.tagName === 'P') {
-            // Agregar un párrafo (p)
-            addText(element.textContent, 12);
-        } else if (element.tagName === 'IMG') {
-            // Agregar una imagen (img)
-            const imgSrc = element.src;
-            let imgWidth, imgHeight;
-
-            if (element.classList.contains('profile-pic')) {
-                // Reducir el tamaño de la foto de perfil
-                imgWidth = 30; // Ancho de la imagen en mm
-                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
-            } else if (element.classList.contains('signature')) {
-                // Aumentar el tamaño de la firma
-                imgWidth = 80; // Ancho de la imagen en mm
-                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
-            } else {
-                // Tamaño por defecto para otras imágenes
-                imgWidth = 50; // Ancho de la imagen en mm
-                imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth; // Altura proporcional
-            }
-
-            addImage(imgSrc, imgWidth, imgHeight);
-        } else if (element.tagName === 'TABLE') {
-            // Agregar una tabla (table)
-            addTable(element);
-        }
-    });
-
-    // Guardar el PDF
-    pdf.save('Formulario_Inscripcion_ICACIT_2025.pdf');
 }
