@@ -1,7 +1,7 @@
 function showPreviewInModal() {
     // Validar la sección 8 antes de continuar
     if (!validateSection8()) {
-        alert("Por favor, completa todos los checkboxes y proporciona tu firma antes de previsualizar.");
+        alert("Por favor, marcar todos las casillas y proporciona una firma antes de continuar.");
         return; // Detener la ejecución si la validación falla
     }
 
@@ -18,7 +18,6 @@ function showPreviewInModal() {
 }
 
 function generatePreviewContent() {
-    // Definir estilos en línea para la previsualización
     const styleContent = `
         <style>
             .header { text-align: center; margin-bottom: 20px; }
@@ -43,7 +42,6 @@ function generatePreviewContent() {
 
     let content = styleContent;
 
-    // Mostrar la foto de perfil si se subió
     const fotoPerfilInput = document.querySelector('input[name="fotoPerfil"]');
     if (fotoPerfilInput && fotoPerfilInput.files.length > 0) {
         const fotoPerfil = URL.createObjectURL(fotoPerfilInput.files[0]);
@@ -55,25 +53,21 @@ function generatePreviewContent() {
         `;
     }
 
-    // Recorrer cada sección del formulario
     const sections = document.querySelectorAll('.form-section');
     sections.forEach((section) => {
         let sectionContent = `<div class="section">`;
 
-        // Título de la sección (h2)
         const sectionTitleElem = section.querySelector('h2');
         if (sectionTitleElem) {
             sectionContent += `<h4>${sectionTitleElem.innerText}</h4>`;
         }
 
-        // Procesar subsecciones y campos
         sectionContent += processSubsections(section, section.id);
 
         sectionContent += `</div>`;
         content += sectionContent;
     });
 
-    // Procesar la firma si existe
     const canvas = document.getElementById('firmaCanvas');
     if (canvas) {
         const firmaURL = canvas.toDataURL();
@@ -123,20 +117,22 @@ function processSubsection(subsection, sectionId) {
         content += processTable(table);
     }
 
-    // Agregar las tablas adicionales para la sección 3
+    // Ordenar las subsecciones de la sección 3
     if (sectionId === 'section3') {
-        const tableTitles = [
-            'Relacionados a su campo profesional:',
-            'Relacionados a su ámbito académico:',
-            'Relacionados a su ámbito de evaluación con fines de acreditación:'
-        ];
-        tableTitles.forEach(title => {
-            const relatedTable = document.querySelector(`table[data-title="${title}"]`);
-            if (relatedTable) {
-                content += `<h5>${title}</h5>`;
-                content += processTable(relatedTable);
-            }
-        });
+        if (subsectionTitle.innerText === "Cursos y Seminarios") {
+            const tableTitles = [
+                'Relacionados a su campo profesional:',
+                'Relacionados a su ámbito académico:',
+                'Relacionados a su ámbito de evaluación con fines de acreditación:'
+            ];
+            tableTitles.forEach(title => {
+                const relatedTable = document.querySelector(`table[data-title="${title}"]`);
+                if (relatedTable) {
+                    content += `<h5>${title}</h5>`;
+                    content += processTable(relatedTable);
+                }
+            });
+        }
     }
 
     content += `</div>`;
@@ -147,7 +143,7 @@ function processFields(fields) {
     let content = '';
 
     fields.forEach(field => {
-        if (field.tagName === 'LABEL' || ['button', 'submit', 'hidden', 'file'].includes(field.type) || field.name === 'firma') {
+        if (['LABEL', 'button', 'submit', 'hidden', 'file'].includes(field.tagName) || field.name === 'firma' || field.type === 'file') {
             return;
         }
 
@@ -166,23 +162,24 @@ function processFields(fields) {
             const selectedOption = field.options[field.selectedIndex];
             value = selectedOption ? selectedOption.text : '';
             if (value.includes("--Seleccionar") || value.includes("Selecciona")) {
-                return; // No mostrar si está seleccionado predeterminadamente
+                return;
             }
         } else {
             value = field.value.trim();
         }
 
-        // Manejo especial para input-group
-        if (field.closest('.input-group')) {
-            if (field.id === "phoneNumber") {
-                const phoneCode = document.getElementById('phoneCode').value;
-                value = `${phoneCode} ${value}`;
-                labelText = "Número de Celular";
-            } else if (field.id === "basic-url") {
-                const prefix = field.previousElementSibling.textContent;
-                value = `${prefix}${value}`;
-                labelText = "Red Profesional";
-            }
+        if (field.closest('.input-group') && field.id === "basic-url" && value === "https://example.com/") {
+            return;
+        }
+
+        if (field.closest('.input-group') && field.id === "phoneNumber") {
+            const phoneCode = document.getElementById('phoneCode').value;
+            value = `${phoneCode} ${value}`;
+            labelText = "Número de Celular";
+        }
+
+        if (field.closest('.input-group') && field.id === "basic-url") {
+            labelText = "Red Profesional";
         }
 
         if (value) {
@@ -199,7 +196,7 @@ function processTable(table) {
     const headers = clonedTable.querySelectorAll('th');
     let actionIndex = -1;
     headers.forEach((header, index) => {
-        if (header.textContent.includes("Acción")) {
+        if (header.textContent.includes("Acción") || header.textContent.includes("Anexos")) {
             actionIndex = index;
         }
     });
@@ -217,6 +214,7 @@ function processTable(table) {
     return `<table>${clonedTable.innerHTML}</table>`;
 }
 
+
 //funcion de descarga de pdf
 function downloadPDF() {
     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
@@ -225,26 +223,56 @@ function downloadPDF() {
     let margin = 10;
     let lineHeight = 10;
     let currentY = margin;
-    const formTitle = 'Formulario de Inscripción ICACIT';
-    const currentDate = new Date().toLocaleDateString();
+    const pageWidth = pdf.internal.pageSize.getWidth() - margin * 2;
 
     // Agregar el logo y el título
     const logoImg = new Image();
     logoImg.src = '/assets/ICACIT_2025.jpg'; // Asegúrate de tener el logo en la ruta especificada
 
     logoImg.onload = function() {
-        pdf.addImage(logoImg, 'PNG', margin, currentY, 30, 30);
-        currentY += 40;
+        pdf.addImage(logoImg, 'PNG', margin, margin, 30, 30); // Logo en la esquina superior izquierda
+        pdf.setFontSize(10);
+        pdf.text(`Fecha de Registro: ${new Date().toLocaleDateString()}`, pageWidth - margin, margin + 5, { align: 'right' }); // Fecha en la esquina superior derecha
 
         pdf.setFontSize(18);
         pdf.setFont('helvetica', 'bold');
-        pdf.text(formTitle, pdf.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
-        currentY += lineHeight;
+        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, margin + 20, { align: 'center' });
+        currentY += 40;
 
-        pdf.setFontSize(12);
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(`Fecha de Registro: ${currentDate}`, pdf.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
-        currentY += lineHeight * 2;
+        const addText = (text, fontSize = 12, isBold = false, align = 'left') => {
+            pdf.setFontSize(fontSize);
+            pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+            pdf.text(text, margin, currentY, { align });
+            currentY += lineHeight;
+        };
+
+        const addImage = (imgSrc, width, height) => {
+            pdf.addImage(imgSrc, 'PNG', pageWidth - margin - width, currentY, width, height);
+            currentY += height + lineHeight;
+        };
+
+        const addTable = (table) => {
+            const rows = table.querySelectorAll('tr');
+            const data = [];
+
+            rows.forEach(row => {
+                const rowData = [];
+                const cells = row.querySelectorAll('th, td');
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent.trim());
+                });
+                data.push(rowData);
+            });
+
+            pdf.autoTable({
+                startY: currentY,
+                head: [data[0]],
+                body: data.slice(1),
+                margin: { left: margin },
+            });
+
+            currentY = pdf.autoTable.previous.finalY + lineHeight;
+        };
 
         // Recorrer el contenido de la previsualización
         previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {

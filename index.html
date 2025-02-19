@@ -162,7 +162,9 @@
                         <label class="form-label">Número de Celular:<span class="text-danger">*</span></label>
                         <!-- <input type="tel" class="form-control" name="celular" placeholder="Numero de Whatsapp" required> -->
                         <div class="input-group" id="phoneInput">
-                            <select id="phoneCode" class="form-control" style="width: 120px;"></select>
+                            <select id="phoneCode" class="form-control" style="width: 120px;" required>
+                                <option value="" selected disabled>--Código--</option>
+                            </select>
                             <input type="tel" id="phoneNumber" class="form-control" name="celular"
                                 placeholder="Número de Whatsapp" required>
                         </div>
@@ -568,7 +570,7 @@
                 </div>
 
                 <!-- seccion 3.3.1: relacionados a su campo profesional -->
-                <div class="subsection row g-3 formulario">
+                <div class="subsection-title row g-3 formulario">
                     <!-- Subsección: Campo Profesional -->
                     <h5>Relacionados a su campo profesional:</h5>
                     <div class="row g-3">
@@ -626,7 +628,7 @@
                 <div class="border-bottom border-secondary my-4"></div>
 
                 <!-- seccion 3.3.2: relacionados a su ambito academico -->
-                <div class="subsection row g-3 formulario">
+                <div class="subsection-title row g-3 formulario">
                     <h5>Relacionados a su ámbito académico:</h5>
                     <div class="row g-3 formulario">
                         <div class="col-md-2">
@@ -683,7 +685,7 @@
                 <div class="border-bottom border-secondary my-4"></div>
 
                 <!-- seccion 3.3.3: relacionados a su ambito de evaluacion con fines de acreditacion -->
-                <div class="subsection row g-3 formulario">
+                <div class="subsection-title row g-3 formulario">
                     <h5>Relacionados a su ámbito de evaluación con fines de acreditación:</h5>
                     <div class="row g-3 formulario">
                         <div class="col-md-2">
@@ -748,14 +750,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="alert alert-info mt-3 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div>
-                        <strong>Nota:</strong> En caso de haber recibido más cursos o seminarios, favor adicionar las
-                        filas que sean necesarias.
-                    </div>
-                </div> -->
 
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
                 <button type="button" class="btn btn-primary mt-3 next" onclick="nextSection()">Siguiente</button>
