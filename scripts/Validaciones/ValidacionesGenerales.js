@@ -8,18 +8,38 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Validación de la fecha de nacimiento (no permitir fechas futuras)
-    const fechaNacimientoInput = document.querySelector('input[name="fechaNacimiento"]');
-    if (fechaNacimientoInput) {
-        fechaNacimientoInput.addEventListener("change", function () {
-            const fechaNacimiento = new Date(this.value);
+    // Función genérica para validar fechas (no permitir fechas futuras)
+    function validarFecha(input, mensajeError) {
+        input.addEventListener("change", function () {
+            const fecha = new Date(this.value);
             const fechaActual = new Date();
-            if (fechaNacimiento > fechaActual) {
-                alert("La fecha de nacimiento no puede ser futura.");
+            if (fecha > fechaActual) {
+                alert(mensajeError);
                 this.value = ""; // Limpiar el campo si la fecha es futura
             }
         });
     }
+
+    // Validación de la fecha de nacimiento
+    const fechaNacimientoInput = document.querySelector('input[name="fechaNacimiento"]');
+    if (fechaNacimientoInput) {
+        validarFecha(fechaNacimientoInput, "La fecha de nacimiento no puede ser futura.");
+    }
+
+    // Validación de fechas de inicio y retiro en diferentes secciones
+    const fechasInicio = document.querySelectorAll('input[name="fechaInicio"], input[name="fechaInicioDocente"], input[name="fechaInicioComite"]');
+    fechasInicio.forEach(input => validarFecha(input, "La fecha de inicio no puede ser futura."));
+
+    const fechasRetiro = document.querySelectorAll('input[name="fechaRetiro"], input[name="fechaRetiroDocente"], input[name="fechaRetiroComite"]');
+    fechasRetiro.forEach(input => validarFecha(input, "La fecha de retiro no puede ser futura."));
+
+    // Validación de fecha de evaluación
+    const fechaEvaluacionInputs = document.querySelectorAll('input[name="fechaEvaluacion"]');
+    fechaEvaluacionInputs.forEach(input => validarFecha(input, "La fecha de evaluación no puede ser futura."));
+
+    // Validación de año de publicación
+    const fechaPublicacionInputs = document.querySelectorAll('input[name="fechaPublicacion"]');
+    fechaPublicacionInputs.forEach(input => validarFecha(input, "El año de publicación no puede ser futuro."));
 
     // Validación de email (mejorada para correos institucionales)
     const emailInputs = document.querySelectorAll('input[type="email"]');

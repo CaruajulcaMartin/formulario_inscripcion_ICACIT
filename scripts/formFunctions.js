@@ -36,7 +36,6 @@ function validarPDF(pdfInput, maxSize = 5 * 1024 * 1024) {
 }
 
 // Función genérica para crear una fila en la tabla
-// Función genérica para crear una fila en la tabla
 function crearFila(tablaId, valores, incluirPDF = false) {
     let tabla = document.getElementById(tablaId);
     let fila = document.createElement("tr");

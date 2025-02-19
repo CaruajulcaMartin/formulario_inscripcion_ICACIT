@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Función para validar textarea (límite de palabras)
-    function validarTextarea(textareaId, contadorId, errorId, maximo) {
+    function validarTextarea(textareaId, contadorId, errorId, maximo, minimo = 0) {
         let textarea = document.getElementById(textareaId);
         let contador = document.getElementById(contadorId);
         let errorMensaje = document.getElementById(errorId);
@@ -53,12 +53,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     errorMensaje.style.display = "none";
                 }
-            } else if (maximo === 250) {
+            } else if (maximo === 400) {
                 contador.textContent = `Máximo ${maximo} palabras. Palabras actuales: ${totalPalabras}`;
                 if (totalPalabras > maximo) {
                     errorMensaje.style.display = "block";
                     errorMensaje.textContent = `No puedes escribir más de ${maximo} palabras.`;
                     this.value = texto.split(/\s+/).filter(word => word.length > 0).slice(0, maximo).join(" "); // Limitar a maximo
+                } else if (totalPalabras < minimo) {
+                    errorMensaje.style.display = "block";
+                    errorMensaje.textContent = `Debes escribir al menos ${minimo} palabras.`;
                 } else {
                     errorMensaje.style.display = "none";
                 }
@@ -72,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Validación de textarea de sección 4 (funciones principales)
     validarTextarea("funcionesPrincipales", "contadorObservacionesPrincipales", "errorObservaciones", 150);
 
-    // Validación de textarea de sección 7 (carta de presentación)
-    validarTextarea("descripcionContribucion", "contadorPalabras", "mensajeError", 400);
+    // Validación de textarea de sección 7 (carta de presentación) - mínimo 10 palabras, máximo 400 palabras
+    validarTextarea("descripcionContribucion", "contadorPalabras", "mensajeError", 400, 10);
 
     // Validación de foto de perfil (solo JPG y PNG, máximo 5 MB)
     validarArchivo("fotoPerfil", "errorFotoPerfil", ["image/jpg", "image/png"], 5);
