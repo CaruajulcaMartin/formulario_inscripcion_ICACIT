@@ -112,9 +112,22 @@ function processSubsection(subsection, sectionId) {
         content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'));
     }
 
-    const table = fieldsContainer?.nextElementSibling;
+    const tableSection3 = subsection.querySelector('.row.g-3');
+    if (tableSection3) {
+        content += processFields(tableSection3.querySelectorAll('input, select, textarea'));
+    }
+
+    let table = fieldsContainer?.nextElementSibling || tableSection3?.nextElementSibling;
     if (table && table.tagName === 'TABLE') {
         content += processTable(table);
+    }
+
+    // Se agrega el procesamiento de las tablas en la sección 3
+    if (sectionId === 'section3') {
+        const tables = subsection.querySelectorAll('table');
+        tables.forEach(table => {
+            content += processTable(table);
+        });
     }
 
     content += `</div>`;
