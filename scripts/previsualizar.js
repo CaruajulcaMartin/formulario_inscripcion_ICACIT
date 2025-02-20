@@ -29,7 +29,7 @@ function generatePreviewContent() {
             h4 { color: #003366; }
             h5 { color: #006699; margin-bottom: 5px; }
             h6 { color: #003366; }
-            table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 5px; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
             th { background-color: #f4f4f4; }
             .signature { max-width: 200px; border: 1px solid #000; margin-top: 10px; }
@@ -93,7 +93,7 @@ function processSubsections(section, sectionId) {
             content += processSubsection(subsection, sectionId);
         });
     } else {
-        content += processFields(section.querySelectorAll('input, select, textarea'));
+        content += processFields(section.querySelectorAll('input, select, textarea'), sectionId);
     }
 
     return content;
@@ -109,12 +109,12 @@ function processSubsection(subsection, sectionId) {
 
     const fieldsContainer = subsection.nextElementSibling;
     if (fieldsContainer) {
-        content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'));
+        content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'), sectionId);
     }
 
     const tableSection3 = subsection.querySelector('.row.g-3');
     if (tableSection3) {
-        content += processFields(tableSection3.querySelectorAll('input, select, textarea'));
+        content += processFields(tableSection3.querySelectorAll('input, select, textarea'), sectionId);
     }
 
     let table = fieldsContainer?.nextElementSibling || tableSection3?.nextElementSibling;
@@ -134,7 +134,7 @@ function processSubsection(subsection, sectionId) {
     return content;
 }
 
-function processFields(fields) {
+function processFields(fields, sectionId) {
     let content = '';
 
     fields.forEach(field => {
@@ -243,14 +243,14 @@ function downloadPDF() {
         pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, currentY + logoHeight + 10, { align: 'center' });
         currentY += logoHeight + 20;
 
-        const addText = (text, fontSize = 12, isBold = false, align = 'left') => {
+        const addText = (text, fontSize = 12, isBold = false, align = 'left', colWidth = pageWidth) => {
             if (currentY + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
                 pdf.addPage();
                 currentY = margin;
             }
             pdf.setFontSize(fontSize);
             pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-            const textLines = pdf.splitTextToSize(text, pageWidth);
+            const textLines = pdf.splitTextToSize(text, colWidth);
             pdf.text(textLines, margin, currentY, { align });
             currentY += lineHeight * textLines.length;
         };
@@ -299,7 +299,8 @@ function downloadPDF() {
             } else if (element.tagName === 'H5') {
                 addText(element.textContent, 14, true);
             } else if (element.tagName === 'P') {
-                addText(element.textContent.replace(/<br\s*\/?>/gi, '\n'), 12); // Reemplazar saltos de línea HTML por saltos de línea en PDF
+                const isSection1Or2 = element.closest('.form-section')?.id === 'section1' || element.closest('.form-section')?.id === 'section2';
+                addText(element.textContent.replace(/<br\s*\/?>/gi, '\n'), 12, false, 'left', isSection1Or2 ? pageWidth / 2 : pageWidth); // Reemplazar saltos de línea HTML por saltos de línea en PDF
             } else if (element.tagName === 'IMG') {
                 const imgSrc = element.src;
                 let imgWidth, imgHeight;

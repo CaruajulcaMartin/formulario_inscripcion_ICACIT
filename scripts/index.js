@@ -10,6 +10,9 @@ function showSection(index) {
     });
     updateProgress(index);
 
+    // Desplazarse al inicio de la sección visible
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+
     // Si la sección actual es la que contiene el canvas de la firma, inicialízalo
     if (index === sections.length - 1) {
         initializeSignatureCanvas();
@@ -48,16 +51,7 @@ function updateProgress(index) {
 function validateSection(section) {
     const sectionName = section.querySelector("h2")?.textContent || "Sección desconocida";
     
-    /*
-    let isValidCheckboxes = true;
-    let isValidCanvas = true;
-    if (section.id === "section8") {
-        isValidCheckboxes = validateCheckboxes();
-        isValidCanvas = validateCanvas();
-    }*/
-    
     return validateRequiredFields(section, sectionName) && validateTables(section);
-    // return isValidCheckboxes && isValidCanvas;
 }
 
 // Validar campos requeridos
@@ -92,7 +86,6 @@ function validateTables(section) {
 
     return isValid;
 }
-
 
 // Mostrar mensaje de error
 function showError(input, message) {
