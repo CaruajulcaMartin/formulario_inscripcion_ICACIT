@@ -56,14 +56,9 @@ function crearFila(tablaId, valores, incluirPDF = false) {
     }
 
     // Crear celdas con los valores proporcionados
-    valores.forEach((valor, index) => {
+    valores.forEach((valor) => {
         let celda = document.createElement("td");
-        // Si el valor es un geonameId (número) y corresponde a un país, obtener el nombre del país
-        if (!isNaN(valor) && countryIdToNameMap[valor]) {
-            celda.textContent = getCountryNameById(valor);
-        } else {
-            celda.textContent = valor;
-        }
+        celda.textContent = valor;
         fila.appendChild(celda);
     });
 
