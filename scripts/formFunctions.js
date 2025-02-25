@@ -2,6 +2,7 @@ let tipoPregradoAgregado = false;
 let tipoPosdoctoradoAgregado = false;
 let experienciaEvaluadorAgregada = 0;
 let fechasRegistradas = [];
+let anexosTablas = []; // Arreglo para almacenar los anexos de las tablas
 
 // Función genérica para validar campos
 function validarCampos(campos) {
@@ -69,6 +70,14 @@ function crearFila(tablaId, valores, incluirPDF = false) {
         let celdaAnexo = document.createElement("td");
         celdaAnexo.innerHTML = pdfIcon;
         fila.appendChild(celdaAnexo);
+
+        // Agregar el PDF al arreglo de anexos
+        let seccion = "";
+        if (tablaId === "tablaFormacion") seccion = "Formación Académica";
+        if (tablaId === "tablaExperiencia") seccion = "Experiencia laboral en su campo profesional";
+        if (tablaId === "tablaExperienciaDocente") seccion = "Experiencia Docente en Educación Superior o Formación Continua";
+        
+        anexosTablas.push({file: incluirPDF});
     }
 
     // Agregar la celda de acción (botón para eliminar la fila)
