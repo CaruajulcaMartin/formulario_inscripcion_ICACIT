@@ -340,18 +340,30 @@ async function downloadPDF() {
         jsPDFPages.forEach(page => finalPdf.addPage(page));
 
         // Función para agregar un PDF adjunto al documento final
-        const addPDF = async (fileInput) => {
+        const addPDF = async (fileInput, titulo) => {
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const arrayBuffer = await readFileAsArrayBuffer(file);
                 const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+                // Verificar que el título no sea undefined
+                if (titulo) {
+                    const tituloPagina = await finalPdf.addPage();
+                    tituloPagina.drawText(titulo, {
+                        x: 50,
+                        y: 750,
+                        size: 20,
+                    });
+                }
+
+                // Agregar las páginas del PDF adjunto
                 const pages = await finalPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
                 pages.forEach(page => finalPdf.addPage(page));
             }
         };
 
         // Agregar los PDF adjuntos en el orden de las secciones
-        await addPDF(document.getElementById('pdfDocumentoIdentidad'));
+        await addPDF(document.getElementById('pdfDocumentoIdentidad'), 'Anexo: Documento de Identidad');
 
         // Agregar los PDFs adjuntos en las tablas con un título general
         let seccionesUnicas = [...new Set(anexosTablas.map(anexo => anexo.seccion))]; // Obtener secciones únicas
@@ -360,7 +372,7 @@ async function downloadPDF() {
             const tituloPagina = await finalPdf.addPage();
             tituloPagina.drawText(`Archivos adjuntos de la seccion 3 y seccion 4`, {
                 x: 50,
-                y: 550,
+                y: 750,
                 size: 18,
             });
 
