@@ -75,6 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Validación de textarea de sección 4 (funciones principales)
     validarTextarea("funcionesPrincipales", "contadorObservacionesPrincipales", "errorObservaciones", 150);
 
+    // Validación de textarea de sección 6 (Descripción Reconocimiento / Premio)
+    validarTextarea("descripcionReconocimiento", "contadorDescripcionReconocimiento", "errorObservaciones", 150);
+
     // Validación de textarea de sección 7 (carta de presentación) - mínimo 10 palabras, máximo 400 palabras
     validarTextarea("descripcionContribucion", "contadorPalabras", "mensajeError", 400, 10);
 

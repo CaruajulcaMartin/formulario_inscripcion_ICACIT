@@ -16,7 +16,7 @@ function generatePreviewContent() {
     const styleContent = `
         <style>
             .header { text-align: center; margin-bottom: 20px; }
-            .profile-picture { max-width: 150px; border-radius: 10px; }
+            .profile-picture { max-width: 100px; border-radius: 10px; }
             .section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
             .subsection { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
             .subsection h5 { width: 100%; color: #006699; margin-bottom: 10px; }
@@ -225,13 +225,11 @@ async function readFileAsArrayBuffer(file) {
 }
 
 async function downloadPDF() {
-    const { PDFDocument } = PDFLib; // Usar pdf-lib para manipular PDFs
-
-    // Crear un nuevo PDF con jsPDF
+    const { PDFDocument } = PDFLib;
     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
     const previewContent = document.getElementById('previewModalBody');
 
-    let margin = 10;
+    let margin = 15; // Margen general
     let lineHeight = 10;
     let currentY = margin;
     const pageWidth = pdf.internal.pageSize.getWidth() - margin * 2;
@@ -241,33 +239,61 @@ async function downloadPDF() {
 
     logoImg.onload = async function () {
         const logoHeight = (logoImg.height * 25) / logoImg.width;
-        pdf.addImage(logoImg, 'PNG', margin, margin, 25, logoHeight);
-        pdf.setFontSize(10);
-        pdf.text(`Fecha de Registro: ${new Date().toLocaleDateString()}`, pageWidth - margin, margin + logoHeight / 2, { align: 'right' });
 
-        pdf.setFontSize(18);
+        const addHeader = () => {
+            pdf.addImage(logoImg, 'PNG', margin, margin, 25, logoHeight);
+            pdf.setFontSize(10);
+            pdf.setTextColor(100); // Color gris para el texto secundario
+            pdf.text(`Fecha de Registro: ${new Date().toLocaleDateString()}`, pageWidth + margin, margin + logoHeight / 2, { align: 'right' }); // Mover la fecha más a la derecha
+        };
+
+        addHeader();
+
+        pdf.setFontSize(36); // Tamaño más grande para el título principal
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Formulario de Inscripción ICACIT 2025', pageWidth / 2, currentY + logoHeight + 10, { align: 'center' });
-        currentY += logoHeight + 20;
+        pdf.setTextColor(0, 0, 0); // Color negro para el título (RGB)
+        const titleText = 'Formulario de Inscripción\nICACIT 2025'; // Título en dos líneas
+        const titleX = pdf.internal.pageSize.getWidth() / 2;
+        const titleY = pdf.internal.pageSize.getHeight() / 2;
+        pdf.text(titleText, titleX, titleY, { align: 'center' }); // Centrar el título en la página
+        currentY = titleY + 25; // Ajustar el espacio después del título
 
-        const addText = (text, fontSize = 12, isBold = false, align = 'left', colWidth = pageWidth) => {
+        // Agregar una nueva página para el contenido
+        pdf.addPage();
+        addHeader();
+        currentY = margin + logoHeight + 10;
+
+        const addText = (text, fontSize = 12, isBold = false, align = 'left', colWidth = pageWidth, color = [0, 0, 0], justify = true) => {
             if (currentY + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
                 pdf.addPage();
-                currentY = margin;
+                addHeader();
+                currentY = margin + logoHeight + 10;
             }
             pdf.setFontSize(fontSize);
             pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+            pdf.setTextColor(...color); // Pasar el color como argumentos separados
+
             const textLines = pdf.splitTextToSize(text, colWidth);
-            pdf.text(textLines, margin, currentY, { align });
-            currentY += lineHeight * textLines.length;
+            if (justify) {
+                // Justificar el texto
+                textLines.forEach((line, index) => {
+                    pdf.text(line, margin, currentY + (index * lineHeight), { align: 'justify' });
+                });
+                currentY += lineHeight * textLines.length;
+            } else {
+                pdf.text(textLines, margin, currentY, { align });
+                currentY += lineHeight * textLines.length;
+            }
         };
 
-        const addImage = (imgSrc, width, height) => {
+        const addImage = (imgSrc, width, height, align = 'center') => {
             if (currentY + height + lineHeight > pdf.internal.pageSize.getHeight() - margin) {
                 pdf.addPage();
-                currentY = margin;
+                addHeader();
+                currentY = margin + logoHeight + 10;
             }
-            pdf.addImage(imgSrc, 'PNG', margin, currentY, width, height);
+            const x = align === 'center' ? (pageWidth - width) / 2 : margin;
+            pdf.addImage(imgSrc, 'PNG', x, currentY, width, height);
             currentY += height + lineHeight;
         };
 
@@ -289,10 +315,12 @@ async function downloadPDF() {
             });
 
             pdf.autoTable({
-                startY: currentY + 5,
+                startY: currentY - 10,
                 head: [data[0]],
                 body: data.slice(1),
                 margin: { left: margin },
+                headStyles: { fillColor: [44, 62, 80] }, // Color de fondo para el encabezado de la tabla
+                alternateRowStyles: { fillColor: [245, 245, 245] }, // Color alterno para las filas
             });
 
             currentY = pdf.autoTable.previous.finalY + lineHeight;
@@ -301,33 +329,39 @@ async function downloadPDF() {
         // Agregar el contenido de la previsualización
         previewContent.querySelectorAll('h4, h5, p, img, table').forEach(element => {
             if (element.tagName === 'H4') {
-                addText(element.textContent, 16, true);
+                currentY += 8; // Reducir espacio antes del título
+                addText(element.textContent, 18, true, 'left', pageWidth, [0, 51, 102]); // Color azul oscuro para títulos
             } else if (element.tagName === 'H5') {
-                addText(element.textContent, 14, true);
+                addText(element.textContent, 16, true, 'left', pageWidth, [0, 102, 153]); // Color azul claro para subtítulos
+                currentY += 5; // Reducir espacio después del subtítulo
             } else if (element.tagName === 'P') {
-                const isSection1Or2 = element.closest('.form-section')?.id === 'section1' || element.closest('.form-section')?.id === 'section2';
-                addText(element.textContent.replace(/<br\s*\/?>/gi, '\n'), 12, false, 'left', isSection1Or2 ? pageWidth / 2 : pageWidth);
+                const isSection7 = element.closest('.form-section')?.id === 'section7'; // Verificar si es la sección 7
+                addText(element.textContent.replace(/<br\s*\/?>/gi, '\n'), 12, false, 'left', pageWidth, [0, 0, 0], isSection7); // Justificar solo la sección 7
+                if (isSection7) {
+                    currentY -= 20; // Reducir espacio después de la sección 7
+                }
             } else if (element.tagName === 'IMG') {
                 const imgSrc = element.src;
                 let imgWidth, imgHeight;
-
-                if (element.classList.contains('profile-pic')) {
-                    imgWidth = 30;
+        
+                if (element.classList.contains('profile-picture')) {
+                    imgWidth = 30; // Ajustar el tamaño de la foto de perfil
                     imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
                 } else if (element.classList.contains('signature')) {
-                    imgWidth = 80;
+                    imgWidth = 100; // Tamaño más grande para la firma
                     imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
                 } else {
-                    imgWidth = 50;
+                    imgWidth = 60; // Tamaño más grande para otras imágenes
                     imgHeight = (element.naturalHeight * imgWidth) / element.naturalWidth;
                 }
-
+        
                 addImage(imgSrc, imgWidth, imgHeight);
             } else if (element.tagName === 'TABLE') {
                 addTable(element);
             }
         });
 
+        
         // Guardar el PDF generado por jsPDF como un ArrayBuffer
         const jsPDFBuffer = pdf.output('arraybuffer');
 
@@ -346,34 +380,37 @@ async function downloadPDF() {
                 const arrayBuffer = await readFileAsArrayBuffer(file);
                 const pdfDoc = await PDFDocument.load(arrayBuffer);
 
-                // Verificar que el título no sea undefined
                 if (titulo) {
                     const tituloPagina = await finalPdf.addPage();
                     tituloPagina.drawText(titulo, {
-                        x: 50,
+                        x: 50, // Centrar el texto horizontalmente
                         y: 750,
                         size: 20,
+                        font: await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold), // Usar fuente en negrita
+                        align: 'center' // Alinear el texto al centro
                     });
                 }
 
-                // Agregar las páginas del PDF adjunto
                 const pages = await finalPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
                 pages.forEach(page => finalPdf.addPage(page));
             }
         };
 
         // Agregar los PDF adjuntos en el orden de las secciones
-        await addPDF(document.getElementById('pdfDocumentoIdentidad'), 'Anexo: Documento de Identidad');
+        await addPDF(document.getElementById('pdfDocumentoIdentidad'), 'Archivo adjunto: Documento de Identidad');
 
         // Agregar los PDFs adjuntos en las tablas con un título general
         let seccionesUnicas = [...new Set(anexosTablas.map(anexo => anexo.seccion))]; // Obtener secciones únicas
         for (let seccion of seccionesUnicas) {
             // Agregar un título general para la sección
             const tituloPagina = await finalPdf.addPage();
+            const helveticaBoldFont = await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
             tituloPagina.drawText(`Archivos adjuntos de la seccion 3 y seccion 4`, {
-                x: 50,
+                x: 50, // Centrar el texto horizontalmente
                 y: 750,
                 size: 18,
+                font: helveticaBoldFont, // Usar fuente en negrita
+                align: 'center' // Alinear el texto al centro
             });
 
             // Agregar los PDFs de la sección actual
