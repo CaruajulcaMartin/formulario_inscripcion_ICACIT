@@ -433,6 +433,223 @@ function processTable(table) {
 }
 
 
+async function showPreviewInModal() {
+    if (!validateSection8()) {
+        alert("Por favor, marcar todas las casillas y proporcionar una firma antes de continuar.");
+        return;
+    }
+
+    const content = generatePreviewContent();
+    document.getElementById("previewModalBody").innerHTML = content;
+
+    const modalElement = document.getElementById('previewModal');
+    const modalInstance = new bootstrap.Modal(modalElement);
+    modalInstance.show();
+}
+
+function generatePreviewContent() {
+    const styleContent = `
+        <style>
+            .header { text-align: center; margin-bottom: 20px; }
+            .profile-picture { max-width: 150px; border-radius: 10px; }
+            .section { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+            .subsection { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+            .subsection h5 { width: 100%; color: #006699; margin-bottom: 10px; }
+            .subsection p { flex: 1 1 45%; margin: 5px 0; }
+            h4 { color: #003366; }
+            h5 { color: #006699; margin-bottom: 5px; }
+            h6 { color: #003366; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f4f4f4; }
+            .signature { max-width: 200px; border: 1px solid #000; margin-top: 10px; }
+            a { color: blue; text-decoration: underline; }
+            .anexo-label { background-color: #007bff; color: white; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+            .checkbox-label { display: block; margin: 5px 0; }
+            .archivo-adjunto { color: #007bff; font-style: italic; }
+        </style>
+    `;
+
+    let content = styleContent;
+
+    const fotoPerfilInput = document.querySelector('input[name="fotoPerfil"]');
+    if (fotoPerfilInput && fotoPerfilInput.files.length > 0) {
+        const fotoPerfil = URL.createObjectURL(fotoPerfilInput.files[0]);
+        content += `
+            <div class="section">
+                <h4>Foto de Perfil</h4>
+                <img src="${fotoPerfil}" alt="Foto de Perfil" class="profile-picture">
+            </div>
+        `;
+    }
+
+    const sections = document.querySelectorAll('.form-section');
+    sections.forEach((section) => {
+        let sectionContent = `<div class="section">`;
+
+        const sectionTitleElem = section.querySelector('h2');
+        if (sectionTitleElem) {
+            sectionContent += `<h4>${sectionTitleElem.innerText.replace("*", "")}</h4>`;
+        }
+
+        sectionContent += processSubsections(section, section.id);
+
+        sectionContent += `</div>`;
+        content += sectionContent;
+    });
+
+    const canvas = document.getElementById('firmaCanvas');
+    if (canvas) {
+        const firmaURL = canvas.toDataURL();
+        if (firmaURL && firmaURL.length > 100) {
+            content += `
+                <div class="section">
+                    <h4>Firma</h4>
+                    <img src="${firmaURL}" alt="Firma del usuario" class="signature">
+                </div>
+            `;
+        }
+    }
+
+    return content;
+}
+
+function processSubsections(section, sectionId) {
+    let content = '';
+
+    const subsections = section.querySelectorAll('.section-title, .subsection-title');
+    if (subsections.length > 0) {
+        subsections.forEach(subsection => {
+            content += processSubsection(subsection, sectionId);
+        });
+    } else {
+        content += processFields(section.querySelectorAll('input, select, textarea'), sectionId);
+    }
+
+    return content;
+}
+
+function processSubsection(subsection, sectionId) {
+    let content = `<div class="subsection">`;
+
+    const subsectionTitle = subsection.querySelector('h4, h5');
+    if (subsectionTitle) {
+        content += `<h5>${subsectionTitle.innerText.replace("*", "")}</h5>`;
+    }
+
+    const fieldsContainer = subsection.nextElementSibling;
+    if (fieldsContainer) {
+        content += processFields(fieldsContainer.querySelectorAll('input, select, textarea'), sectionId);
+    }
+
+    const tableSection3 = subsection.querySelector('.row.g-3');
+    if (tableSection3) {
+        content += processFields(tableSection3.querySelectorAll('input, select, textarea'), sectionId);
+    }
+
+    let table = fieldsContainer?.nextElementSibling || tableSection3?.nextElementSibling;
+    if (table && table.tagName === 'TABLE') {
+        content += processTable(table);
+    }
+
+    // Se agrega el procesamiento de las tablas en la sección 3
+    if (sectionId === 'section3') {
+        const tables = subsection.querySelectorAll('table');
+        tables.forEach(table => {
+            content += processTable(table);
+        });
+    }
+
+    content += `</div>`;
+    return content;
+}
+
+function processFields(fields, sectionId) {
+    let content = '';
+
+    fields.forEach(field => {
+        if (['LABEL', 'button', 'submit', 'hidden', 'file'].includes(field.tagName) || field.name === 'firma' || field.type === 'file') {
+            return;
+        }
+
+        let labelText = '';
+        const parentLabel = field.parentElement.querySelector('label');
+        if (parentLabel) {
+            labelText = parentLabel.innerText.replace(":", "").replace("*", "").trim();
+        } else if (field.previousElementSibling && field.previousElementSibling.tagName === "LABEL") {
+            labelText = field.previousElementSibling.innerText.replace(":", "").replace("*", "").trim();
+        }
+
+        let value = '';
+        if (field.type === 'checkbox') {
+            value = field.checked ? "Sí" : "No";
+        } else if (field.tagName === "SELECT") {
+            const selectedOption = field.options[field.selectedIndex];
+            value = selectedOption ? selectedOption.text : '';
+            if (value.includes("--Seleccionar") || value.includes("Selecciona")) {
+                return;
+            }
+        } else {
+            value = field.value.trim();
+        }
+
+        if (field.closest('.input-group') && field.id === "basic-url" && value === "https://example.com/") {
+            return;
+        }
+
+        if (field.closest('.input-group') && field.id === "phoneNumber") {
+            const phoneCode = document.getElementById('phoneCode').value;
+            value = `${phoneCode} ${value}`;
+            labelText = "Número de Celular";
+        }
+
+        if (field.closest('.input-group') && field.id === "basic-url") {
+            labelText = "Red Profesional";
+        }
+
+        if (value) {
+            content += `<p><strong>${labelText}:</strong> ${value}</p>`;
+        }
+    });
+
+    return content;
+}
+
+function processTable(table) {
+    const clonedTable = table.cloneNode(true);
+
+    const headers = clonedTable.querySelectorAll('th');
+    let actionIndex = -1;
+    headers.forEach((header, index) => {
+        if (header.textContent.includes("Acción")) {
+            actionIndex = index;
+        }
+    });
+
+    if (actionIndex !== -1) {
+        const rows = clonedTable.querySelectorAll('tr');
+        rows.forEach(row => {
+            const actionCell = row.children[actionIndex];
+            if (actionCell) {
+                actionCell.remove();
+            }
+        });
+    }
+
+    const rows = clonedTable.querySelectorAll('tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => {
+            if (cell.querySelector('img')) {
+                cell.innerHTML = 'Adjunto';
+            }
+        });
+    });
+
+    return `<table>${clonedTable.innerHTML}</table>`;
+}
+
+
 async function readFileAsArrayBuffer(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
