@@ -1,4 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Crear un modal para mostrar alertas
+    function crearModal() {
+        const modal = document.createElement("div");
+        modal.className = "modal fade";
+        modal.id = "alertModal";
+        modal.tabIndex = -1;
+        modal.role = "dialog";
+        modal.setAttribute("aria-labelledby", "alertModalLabel");
+        modal.setAttribute("aria-hidden", "true");
+        modal.innerHTML = `
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-danger" id="alertModalLabel">Alerta</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    // Mostrar el modal con el mensaje de alerta
+    function mostrarAlerta(mensaje) {
+        const modal = document.getElementById("alertModal");
+        const modalBody = modal.querySelector(".modal-body");
+        modalBody.textContent = mensaje;
+        $(modal).modal('show');
+    }
+
+    // Crear el modal al cargar la página
+    crearModal();
+
     // Validación de campos de texto (solo letras), excluyendo el campo de número de documento
     const textInputs = document.querySelectorAll('input[type="text"]:not([name="numDoc"])');
     textInputs.forEach(input => {
@@ -14,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const fecha = new Date(this.value);
             const fechaActual = new Date();
             if (fecha > fechaActual) {
-                alert(mensajeError);
+                mostrarAlerta(mensajeError);
                 this.value = ""; // Limpiar el campo si la fecha es futura
             }
         });

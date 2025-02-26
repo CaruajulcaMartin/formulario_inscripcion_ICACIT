@@ -2,13 +2,20 @@ let tipoPregradoAgregado = false;
 let tipoPosdoctoradoAgregado = false;
 let experienciaEvaluadorAgregada = 0;
 let fechasRegistradas = [];
-let anexosTablas = []; // Arreglo para almacenar los anexos de las tablas
+let anexosTablasFormacionAcademica = [];
+let anexosTablasExperienciaLaboral = [];
+
+// Función para mostrar el modal de alerta
+function mostrarAlerta(mensaje) {
+    document.getElementById("alertModalBody").textContent = mensaje;
+    $('#alertModal').modal('show');
+}
 
 // Función genérica para validar campos
 function validarCampos(campos) {
     for (let campo of campos) {
         if (campo.value === "" || campo.value === "--Seleccionar--") {
-            alert("Por favor, completa todos los campos.");
+            mostrarAlerta("Por favor, completar todos los campos.");
             return false;
         }
     }
@@ -18,18 +25,18 @@ function validarCampos(campos) {
 // Función genérica para validar archivos PDF
 function validarPDF(pdfInput, maxSize = 5 * 1024 * 1024) {
     if (pdfInput.files.length === 0) {
-        alert("Por favor, adjunta un PDF.");
+        mostrarAlerta("Por favor, adjuntar un PDF.");
         return false;
     }
 
     let pdfFile = pdfInput.files[0];
     if (pdfFile.type !== "application/pdf") {
-        alert("Por favor, adjunta un archivo PDF válido.");
+        mostrarAlerta("Por favor, adjuntar un archivo PDF válido.");
         return false;
     }
 
     if (pdfFile.size > maxSize) {
-        alert("El archivo PDF no puede exceder los 5 MB.");
+        mostrarAlerta("El archivo PDF no puede exceder los 5 MB.");
         return false;
     }
 
@@ -47,7 +54,7 @@ function crearFila(tablaId, valores, incluirPDF = false) {
         let fechaFin = valores[3]; // Asumiendo que la fecha de fin está en la posición 3
 
         if (fechasRegistradas.includes(fechaInicio) || fechasRegistradas.includes(fechaFin)) {
-            alert("Las fechas ya han sido registradas.");
+            mostrarAlerta("Las fechas ya han sido registradas.");
             return;
         }
 
@@ -72,12 +79,17 @@ function crearFila(tablaId, valores, incluirPDF = false) {
         fila.appendChild(celdaAnexo);
 
         // Agregar el PDF al arreglo de anexos
-        let seccion = "";
-        if (tablaId === "tablaFormacion") seccion = "Formación Académica";
-        if (tablaId === "tablaExperiencia") seccion = "Experiencia laboral en su campo profesional";
-        if (tablaId === "tablaExperienciaDocente") seccion = "Experiencia Docente en Educación Superior o Formación Continua";
+        /*if (tablaId === "tablaFormacion");
+        if (tablaId === "tablaExperiencia");
+        if (tablaId === "tablaExperienciaDocente");
         
-        anexosTablas.push({file: incluirPDF});
+        anexosTablas.push({file: incluirPDF});*/
+
+        if (tablaId === "tablaFormacion") {
+            anexosTablasFormacionAcademica.push({ file: incluirPDF });
+        } else if (tablaId === "tablaExperiencia" || tablaId === "tablaExperienciaComite") {
+            anexosTablasExperienciaLaboral.push({ file: incluirPDF });
+        }
     }
 
     // Agregar la celda de acción (botón para eliminar la fila)
@@ -141,17 +153,17 @@ function agregarFormacion() {
 
     let anoCertificado = parseInt(campos[2].value);
     if (!validarAno(anoCertificado)){
-        alert("Por favor ingresa un año de graduación valido");
+        mostrarAlerta("Por favor ingresar un año de graduación válido.");
         return;
     }
 
     let tipo = campos[0].value;
     if (tipo === "Pregrado" && tipoPregradoAgregado) {
-        alert("Ya has agregado una formación de Pregrado.");
+        mostrarAlerta("Ya se ha agregado una formación de Pregrado.");
         return;
     }
     if (tipo === "Posdoctorado" && tipoPosdoctoradoAgregado) {
-        alert("Ya has agregado una formación de Posdoctorado.");
+        mostrarAlerta("Ya se ha agregado una formación de Posdoctorado.");
         return;
     }
 
@@ -192,13 +204,13 @@ function agregarCursosAmbitoProfesional(){
 
     let anoCertificado = parseInt(campos[0].value);
     if (!validarAno(anoCertificado)){
-        alert("Por favor ingresa un año valido (entre 1900 y año actual)");
+        mostrarAlerta("Por favor ingresar un año válido (entre 1900 y año actual).");
         return;
     }
 
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
-        alert("La duración mínima debe ser de 8 horas.");
+        mostrarAlerta("La duración mínima debe ser de 8 horas.");
         return;
     }
 
@@ -220,13 +232,13 @@ function agregarCursosAmbitoAcademico(){
 
     let anoCertificado = parseInt(campos[0].value);
     if (!validarAno(anoCertificado)){
-        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        mostrarAlerta("Por favor ingresar un año válido (entre 1900 y año actual).");
         return;
     }
 
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
-        alert("La duración mínima debe ser de 8 horas.");
+        mostrarAlerta("La duración mínima debe ser de 8 horas.");
         return;
     }
 
@@ -248,13 +260,13 @@ function agregarCursos() {
 
     let anoCertificado = parseInt(campos[0].value);
     if (!validarAno(anoCertificado)){
-        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        mostrarAlerta("Por favor ingresar un año válido (entre 1900 y año actual).");
         return;
     }
 
     let duracion = parseInt(campos[3].value);
     if (duracion < 8) {
-        alert("La duración mínima debe ser de 8 horas.");
+        mostrarAlerta("La duración mínima debe ser de 8 horas.");
         return;
     }
 
@@ -306,14 +318,13 @@ function agregarExperienciaDocente() {
     let tiempo = fechaFin.getFullYear() - fechaInicio.getFullYear();
 
     if (tiempo < 1) {
-        alert("El tiempo de experiencia debe ser de al menos un año.");
+        mostrarAlerta("El tiempo de experiencia debe ser de al menos un año.");
         return;
     }
 
     let valores = campos.map(campo => campo.value);
-    // valores.push(`${tiempo} años`);
     crearFila("tablaExperienciaDocente", valores, pdfInput.files[0]);
-    limpiarCampos([...campos,funcionesPrincipales, pdfInput]);
+    limpiarCampos([...campos, funcionesPrincipales, pdfInput]);
 }
 
 // Funcion para agregar experiencia comite
@@ -373,7 +384,7 @@ function agregarInvestigacion() {
         document.getElementById("revistaCongreso"),
         document.getElementById("baseDatos"),
         document.getElementById("nombreInvestigacion"),
-        document.getElementById("autores"),
+        document.getElementById("autores")
     ];
 
     if (!validarCampos(campos)) return;
@@ -396,7 +407,7 @@ function agregarPremio() {
 
     let anoCertificado = parseInt(campos[0].value);
     if (!validarAno(anoCertificado)){
-        alert("por favor ingresa un año valido (entre 1900 y año actual)");
+        mostrarAlerta("Por favor ingresar un año válido (entre 1900 y año actual).");
         return;
     }
 

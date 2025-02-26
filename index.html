@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <!-- Incluir jsPDF autoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
-
+    <!-- Incluir pdf-lib -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
     <!-- Estilos CSS -->
@@ -247,19 +247,12 @@
                     </div>
 
                     <!-- Alerta de Nota -->
-                    <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <div class="small">
-                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse"
-                                role="button">
-                                <strong>Nota:</strong> Ver detalles...
-                            </a>
-                            <div class="collapse" id="notaCollapse">
-                                En caso su país no contemple la estructura geográfica de:
+                    <div class="alert alert-info mt-3 p-2" role="alert">
+                        <ul class="list-unstyled small mb-0">
+                            <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso su país no contemple la estructura geográfica de:
                                 <strong>País / Región / Provincia / Distrito</strong>, favor de actualizar o añadir los
-                                campos de la tabla para adecuarla a su estructura geográfica.
-                            </div>
-                        </div>
+                                campos de la tabla para adecuarla a su estructura geográfica.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -296,11 +289,11 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Ciudad:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="telefonoLaboral" required>
+                        <input type="text" class="form-control" name="ciudadInformacionLaboral" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Rubro:<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="telefonoLaboral" required>
+                        <input type="text" class="form-control" name="rubroInformacionLaboral" required>
                     </div>
                 </div>
 
@@ -397,22 +390,12 @@
                     </div>
 
                     <!-- Alerta de Nota -->
-                    <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <div class="small">
-                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse1"
-                                role="button">
-                                <strong>Nota:</strong> Ver detalles...
-                            </a>
-                            <div class="collapse" id="notaCollapse1">
-                                Los grados de bachiller, maestría y/o doctorado deben ser en las
-                                áreas de Ingeniería, Ciencias de la Computación o afines, Arquitectura y/o Ciencias (de
-                                las
-                                disciplinas de: Física, Matemáticas o Química).
-                            </div>
-                        </div>
+                    <div class="alert alert-info mt-3 p-2" role="alert">
+                        <ul class="list-unstyled small mb-0">
+                            <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> Los grados de bachiller, maestría y/o doctorado deben ser en las
+                                áreas de Ingeniería, Ciencias de la Computación o afines, Arquitectura y/o Ciencias (de las disciplinas de: Física, Matemáticas o Química).</li>
+                        </ul>
                     </div>
-
                 </div>
 
                 <!-- Tabla para mostrar los registros agregados -->
@@ -517,19 +500,12 @@
                 </table>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse3" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse3">
-                            En caso de contar con más registros de idiomas, favor adicionar las filas
-                            que sean necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso de contar con más registros de idiomas, favor adicionar las filas
+                            que sean necesarias.</li>
+                    </ul>
                 </div>
-
 
                 <!-- seccion 3.3: cursos y seminarios -->
                 <div class="section-title">
@@ -706,17 +682,11 @@
                 </div>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse4" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse4">
-                            En caso de haber recibido más cursos o seminarios, favor adicionar las filas que sean
-                            necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso de haber recibido más cursos o seminarios, favor adicionar las filas que sean
+                            necesarias.</li>
+                    </ul>
                 </div>
 
                 <button type="button" class="btn btn-secondary mt-3 prev" onclick="prevSection()">Atrás</button>
@@ -819,20 +789,12 @@
                 </table>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse5" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse5">
-                            En caso contar con más registros de experiencia laboral en su campo profesional, favor
-                            adicionar las filas que sean necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso contar con más registros de experiencia laboral en su campo profesional, favor
+                            adicionar las filas que sean necesarias.</li>
+                    </ul>
                 </div>
-
-
 
                 <!-- seccion 4.2: experiencia docente en educación superior o formación continua -->
                 <div class="section-title">
@@ -928,20 +890,12 @@
                 </table>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse6" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse6">
-                            En caso de presentar más experiencias en docencia en educación superior y/o formación
-                            continua, favor adicionar las celdas que sean necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso de presentar más experiencias en docencia en educación superior y/o formación
+                            continua, favor adicionar las celdas que sean necesarias.</li>
+                    </ul>
                 </div>
-
-
 
                 <!-- seccion 4.3: experiencia como parte de comité de calidad u oficina de acreditación / calidad -->
                 <div class="section-title">
@@ -1002,19 +956,11 @@
                 </table>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse7" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse7">
-                            En caso de presentar más experiencias, favor adicionar las celdas que sean necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso de presentar más experiencias, favor adicionar las celdas que sean necesarias.</li>
+                    </ul>
                 </div>
-
-
 
                 <!-- seccion 4.4: experiencia como par evaluador -->
                 <div class="section-title">
@@ -1175,7 +1121,7 @@
                     <div class="col-md-3">
                         <label class="form-label">Base de Datos:</label>
                         <input type="text" class="form-control" name="baseDatos" id="baseDatos"
-                            placeholder="Indexado en IEEE explore, SCOPUS">
+                            placeholder="Indexado en IEEE Xplore, SCOPUS">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Nombre de la investigación:</label>
@@ -1218,17 +1164,11 @@
                 </table>
 
                 <!-- Alerta de Nota -->
-                <div class="alert alert-info mt-3 p-2 d-flex align-items-center" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <div class="small">
-                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#notaCollapse8" role="button">
-                            <strong>Nota:</strong> Ver detalles...
-                        </a>
-                        <div class="collapse" id="notaCollapse8">
-                            En caso de haber publicado más libros o escrito más artículos, favor adicionar las filas que
-                            sean necesarias.
-                        </div>
-                    </div>
+                <div class="alert alert-info mt-3 p-2" role="alert">
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-info-circle me-2"></i><strong>Nota:</strong> En caso de haber publicado más libros o escrito más artículos, favor adicionar las filas que
+                            sean necesarias..</li>
+                    </ul>
                 </div>
 
 
@@ -1377,6 +1317,24 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-info" onclick="downloadPDF()">Descargar PDF</button>
                     <button type="button" class="btn btn-success" onclick="">Enviar Formulario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- modal de alerta -->
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-danger" id="alertModalLabel"><i class="fa-solid fa-triangle-exclamation fa-fade"></i> Alerta</h4>
+                </div>
+                <div class="modal-body" id="alertModalBody">
+                    <!-- Mensaje de alerta irá aquí -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

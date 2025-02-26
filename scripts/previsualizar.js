@@ -1,6 +1,36 @@
+// Agregar el modal al documento si aún no está presente
+document.addEventListener('DOMContentLoaded', (event) => {
+    if (!document.getElementById("alertModal")) {
+        const modalHTML = `
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="alertModalLabel">Alerta</h4>
+                        </div>
+                        <div class="modal-body" id="alertModalBody">
+                            <!-- Mensaje de alerta irá aquí -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+});
+
+// Función para mostrar el modal de alerta
+function mostrarAlerta(mensaje) {
+    document.getElementById("alertModalBody").textContent = mensaje;
+    $('#alertModal').modal('show');
+}
+
 async function showPreviewInModal() {
     if (!validateSection8()) {
-        alert("Por favor, marcar todas las casillas y proporcionar una firma antes de continuar.");
+        mostrarAlerta("Por favor, marcar todas las casillas y proporcionar una firma antes de continuar.");
         return;
     }
 
@@ -379,42 +409,108 @@ async function downloadPDF() {
                 const file = fileInput.files[0];
                 const arrayBuffer = await readFileAsArrayBuffer(file);
                 const pdfDoc = await PDFDocument.load(arrayBuffer);
-
+        
                 if (titulo) {
                     const tituloPagina = await finalPdf.addPage();
-                    tituloPagina.drawText(titulo, {
-                        x: 50, // Centrar el texto horizontalmente
-                        y: 750,
-                        size: 20,
-                        font: await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold), // Usar fuente en negrita
-                        align: 'center' // Alinear el texto al centro
+                    const helveticaBoldFont = await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+                    const fontSize = 28;
+                    const pageWidth = tituloPagina.getWidth();
+                    const pageHeight = tituloPagina.getHeight();
+                    const lines = titulo.split('\n');
+                    const lineHeight = fontSize * 1.2;
+                    const totalTextHeight = lineHeight * lines.length;
+                    const yStart = (pageHeight + totalTextHeight) / 2 - lineHeight;
+        
+                    lines.forEach((line, index) => {
+                        const textWidth = helveticaBoldFont.widthOfTextAtSize(line, fontSize);
+                        const x = (pageWidth - textWidth) / 2;
+                        const y = yStart - (index * lineHeight);
+        
+                        tituloPagina.drawText(line, {
+                            x: x,
+                            y: y,
+                            size: fontSize,
+                            font: helveticaBoldFont,
+                        });
                     });
                 }
-
+        
                 const pages = await finalPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
                 pages.forEach(page => finalPdf.addPage(page));
             }
         };
 
         // Agregar los PDF adjuntos en el orden de las secciones
-        await addPDF(document.getElementById('pdfDocumentoIdentidad'), 'Archivo adjunto: Documento de Identidad');
+        await addPDF(document.getElementById('pdfDocumentoIdentidad'), 'Anexo: Documento de Identidad');
 
-        // Agregar los PDFs adjuntos en las tablas con un título general
-        let seccionesUnicas = [...new Set(anexosTablas.map(anexo => anexo.seccion))]; // Obtener secciones únicas
-        for (let seccion of seccionesUnicas) {
+        // Agregar los PDF de las tablas de formacion academica
+        let seccionesUnicasFormacion = [...new Set(anexosTablasFormacionAcademica.map(anexo => anexo.seccion))]; // Obtener secciones únicas
+        for (let seccion of seccionesUnicasFormacion) {
             // Agregar un título general para la sección
-            const tituloPagina = await finalPdf.addPage();
+            const titleAnexo = await finalPdf.addPage();
             const helveticaBoldFont = await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
-            tituloPagina.drawText(`Archivos adjuntos de la seccion 3 y seccion 4`, {
-                x: 50, // Centrar el texto horizontalmente
-                y: 750,
-                size: 18,
-                font: helveticaBoldFont, // Usar fuente en negrita
-                align: 'center' // Alinear el texto al centro
+            const titleTextFormacion = 'Anexo: Evidencias de formación\nacadémica';
+            const lines = titleTextFormacion.split('\n');
+            const fontSize = 28;
+            const lineHeight = fontSize * 1.2; // Ajustar el espaciado entre líneas
+            const pageWidth = titleAnexo.getWidth();
+            const pageHeight = titleAnexo.getHeight();
+            const totalTextHeight = lineHeight * lines.length;
+            const yStart = (pageHeight + totalTextHeight) / 2 - lineHeight;
+
+            lines.forEach((line, index) => {
+                const textWidth = helveticaBoldFont.widthOfTextAtSize(line, fontSize);
+                const x = (pageWidth - textWidth) / 2;
+                const y = yStart - (index * lineHeight);
+
+                titleAnexo.drawText(line, {
+                    x: x,
+                    y: y,
+                    size: fontSize,
+                    font: helveticaBoldFont,
+                });
             });
 
             // Agregar los PDFs de la sección actual
-            const anexosSeccion = anexosTablas.filter(anexo => anexo.seccion === seccion);
+            const anexosSeccion = anexosTablasFormacionAcademica.filter(anexo => anexo.seccion === seccion);
+            for (let anexo of anexosSeccion) {
+                const arrayBuffer = await readFileAsArrayBuffer(anexo.file);
+                const pdfDoc = await PDFDocument.load(arrayBuffer);
+                const pages = await finalPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                pages.forEach(page => finalPdf.addPage(page));
+            }
+        }
+
+        // Agregar los PDF de las tablas de experiencia laboral
+        let seccionesUnicasExperiencia = [...new Set(anexosTablasExperienciaLaboral.map(anexo => anexo.seccion))]; // Obtener secciones únicas
+        for (let seccion of seccionesUnicasExperiencia) {
+            // Agregar un título general para la sección
+            const titleAnexo = await finalPdf.addPage();
+            const helveticaBoldFont = await finalPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+            const titleText = 'Anexo: Evidencias de 10 años de\nexperiencia profesional';
+            const lines = titleText.split('\n');
+            const fontSize = 28;
+            const lineHeight = fontSize * 1.2; // Ajustar el espaciado entre líneas
+            const pageWidth = titleAnexo.getWidth();
+            const pageHeight = titleAnexo.getHeight();
+            const totalTextHeight = lineHeight * lines.length;
+            const yStart = (pageHeight + totalTextHeight) / 2 - lineHeight;
+
+            lines.forEach((line, index) => {
+                const textWidth = helveticaBoldFont.widthOfTextAtSize(line, fontSize);
+                const x = (pageWidth - textWidth) / 2;
+                const y = yStart - (index * lineHeight);
+
+                titleAnexo.drawText(line, {
+                    x: x,
+                    y: y,
+                    size: fontSize,
+                    font: helveticaBoldFont,
+                });
+            });
+
+            // Agregar los PDFs de la sección actual
+            const anexosSeccion = anexosTablasExperienciaLaboral.filter(anexo => anexo.seccion === seccion);
             for (let anexo of anexosSeccion) {
                 const arrayBuffer = await readFileAsArrayBuffer(anexo.file);
                 const pdfDoc = await PDFDocument.load(arrayBuffer);
